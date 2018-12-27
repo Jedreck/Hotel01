@@ -1,14 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -16,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>Dashio - Bootstrap Admin Template</title>
+    <title>员工详细信息</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -81,17 +72,17 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a class="active" href="javascript:;">
+                    <a href="javascript:;">
                         <i class="glyphicon glyphicon-pencil"></i>
                         <span>客户管理</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="general.html">客户列表</a></li>
+                        <li><a href="m_clist.html">客户列表</a></li>
                     </ul>
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a class="active" href="javascript:;">
                         <i class="glyphicon glyphicon-pencil"></i>
                         <span>员工管理</span>
                     </a>
@@ -130,53 +121,90 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 用户详细信息</h3>
+            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 员工详细信息</h3>
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
                     <div class="form-panel">
                         <form action="#" class="form-horizontal style-form">
                             <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">姓名</label>
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">工号：</label>
                                 <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="name" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                    <input id="E_num" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="" disabled="disabled">
                                 </div>
                             </div>
-                            <!--<div class="form-group">-->
-                                <!--<label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">性别</label>-->
-                                <!--<div class="col-md-3 col-xs-11" style="margin-top: 5px">-->
-                                    <!--<input id="sex" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">-->
-                                <!--</div>-->
-                            <!--</div>-->
+                            <div class="form-group">
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">姓名：</label>
+                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
+                                    <input id="E_name" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                </div>
+                            </div>
                             <div class="form-group layui-form" style="text-align: center">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">性别</label>
-                                <div class="col-md-3 col-xs-11 layui-input-block" style="margin-top: 5px;margin-left: -80px">
-                                    <input type="radio" name="sex" value="男" title="男">
-                                    <input type="radio" name="sex" value="女" title="女" checked="checked">
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">性别：</label>
+                                <div class="col-md-3 col-xs-11 layui-input-inline" style="margin-top: 5px;margin-left: -80px">
+                                    <input type="radio" name="E_sex" value="男" title="男">
+                                    <input type="radio" name="E_sex" value="女" title="女" checked="checked">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">手机号</label>
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">手机号：</label>
                                 <div class="col-md-3 col-xs-11">
-                                    <input id="tel" class="form-control form-control-inline input-medium default-date-picker" size="16" type="tel" value="">
+                                    <input id="E_tel" class="form-control form-control-inline input-medium default-date-picker" size="16" type="tel" value="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">身份证</label>
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">身份证：</label>
                                 <div class="col-md-3 col-xs-11">
-                                    <input id="idnum" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                    <input id="E_id" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">密码</label>
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">密码：</label>
                                 <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="passwd" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                    <input id="E_passwd" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                </div>
+                            </div>
+
+                            <div class="layui-form form-group">
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">职位：</label>
+                                <div class="layui-input-inline col-md-3 col-xs-11">
+                                    <select id="E_position" lay-filter="aihao">
+                                        <option value=""></option>
+                                        <option value="酒店前台">酒店前台</option>
+                                        <option value="管理员" selected="">管理员</option>
+                                        <option value="超级管理员">超级管理员</option>
+                                        <option value="经理">经理</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">住址：</label>
+                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
+                                    <input id="E_address" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                </div>
+                            </div>
+                            <div class="layui-form form-group">
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">在职状态：</label>
+                                <div class="layui-input-inline col-md-3 col-xs-11">
+                                    <select id="E_status" lay-filter="aihao">
+                                        <option value=""></option>
+                                        <option value="在职">在职</option>
+                                        <option value="已离职" selected="">已离职</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">薪资/月(元)：</label>
+                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
+                                    <input oninput = "value=value.replace(/[^\d]/g,'')" id="E_salary" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
                                 </div>
                             </div>
                             <div class="showback" style="text-align: center">
-                                <button type="button" class="btn btn-theme" id="submit"><i class="fa fa-check-square"></i> 提交</button>
-                                <button type="button" class="btn btn-theme02" id="delete"><i class="fa fa-trash"></i> 删除</button>
-                                <button type="button" class="btn btn-theme04" id="goback"><i class="fa fa-chevron-circle-left"></i> 返回</button>
+                                <button type="button" class="btn btn-primary" id="submit"><i class="fa fa-check-square"></i> 提交</button>
+                                <button type="button" class="btn btn-danger" id="delete"><i class="fa fa-trash"></i> 删除</button>
+                                <button type="button" class="btn btn-warning" id="reset"><i class="fa fa-undo"></i> 重置</button>
+                                <button type="button" class="btn btn-warning" id="clearAll"><i class="fa fa-eraser"></i> 清空</button>
+                                <button type="button" class="btn btn-info" id="goback"><i class="fa fa-chevron-circle-left"></i> 返回</button>
                             </div>
                         </form>
                     </div>
@@ -235,32 +263,45 @@
     });
 </script>
 <script>
+    var obj;
     window.onload = initialData;
     function initialData() {
-        var obj = {
-            name:"张三",
-                sex:"女",
-            idnum:'123',
-            tel:'123',
-            passwd:'123'
+         obj = {
+            E_num:"123",
+            E_name:"张三",
+            E_sex:"男",
+            E_tel:"123",
+            E_id:"123",
+            E_passwd:"213",
+            E_position:"经理",
+            E_address:"dfsd",
+            E_status:"在职",
+            E_salary:"20000"
+
         };
-        $("#name").val(obj.name);
-        if(obj.sex == '男') {
-            $("input[type='radio'][name='sex'][value='男']").prop("checked",true);
+        $("#E_num").val(obj.E_num);
+        $("#E_name").val(obj.E_name);
+        if(obj.E_sex == '男') {
+            $("input[type='radio'][name='E_sex'][value='男']").prop("checked",true);
             layui.form.render();
         } else {
-            $("input[type='radio'][name='sex'][value='女']").prop("checked",true);
+            $("input[type='radio'][name='E_sex'][value='女']").prop("checked",true);
         }
-        $("#idnum").val(obj.idnum);
-        $("#tel").val(obj.tel);
-        $("#passwd").val(obj.passwd);
+        $("#E_tel").val(obj.E_tel);
+        $("#E_id").val(obj.E_id);
+        $("#E_passwd").val(obj.E_passwd);
+        $("#E_position").val(obj.E_position);
+        $("#E_address").val(obj.E_address);
+        $("#E_status").val(obj.E_status);
+        $("#E_salary").val(obj.E_salary);
+        layui.form.render();
     }
     ;!function(){
         var layer = layui.layer,form = layui.form;
     }();
     // 返回
     $("#goback").click(function () {
-         // window.open('./m_clist.html','_self');
+        // window.open('./m_clist.html','_self');
         // window.history.back();
         window.history.back(-1);
     });
@@ -286,29 +327,39 @@
     });
     // 提交
     $("#submit").click(function () {
-        var name = $("#name").val();
-        var tel = $("#tel").val();
-        var sex = $("#sex").val();
-        var passwd = $("#passwd").val();
-        var idnum = $("#idnum").val();
+        var E_num = $("#E_num").val();
+        var E_name = $("#E_name").val();
+        var E_sex = $("#E_sex").val();
+        var E_tel = $("#E_tel").val();
+        var E_id = $("#E_id").val();
+        var E_passwd = $("#E_passwd").val();
+        var E_position = $("#E_position").val();
+        var E_address = $("#E_address").val();
+        var E_status = $("#E_status").val();
+        var E_salary = $("#E_salary").val();
         layer.open({
             content: '确定提交吗？'
             ,btn: ['提交', '取消']
             ,yes: function(index, layero){
-                var obj = validateInfo(name, tel, sex, passwd, idnum);
+                // 向后台传递的json数据
+                var json = {
+                    E_num:E_num,
+                    E_name:E_name,
+                    E_sex:E_sex,
+                    E_tel:E_tel,
+                    E_id:E_id,
+                    E_passwd:E_passwd,
+                    E_position:E_position,
+                    E_address:E_address,
+                    E_status:E_status,
+                    E_salary:E_salary
+                }
+                var obj = validateInfo(json);
                 if(!obj.rw){// 信息有误
                     layer.closeAll();
                     layer.open({
                         content:obj.hintInfo
                     });
-                }
-                // 向后台传递的json数据
-                var json = {
-                    name:name,
-                    tel:tel,
-                    sex:sex,
-                    passwd:passwd,
-                    idnum:idnum
                 }
             }
             ,btn2: function(index, layero){
@@ -323,40 +374,69 @@
             }
         });
     });
+    // 清空表单
+    $("#clearAll").click(function () {
+        $("form input").val("");
+        $("form select").find("option[text='']").prop("selected",true);
+    });
+    // 重置表单为默认状态
+    $("#reset").click(function () {
+        initialData();
+    });
     // 验证信息是否正确
-    function validateInfo(name, tel, sex, passwd, idnum) {
+    function validateInfo(json) {
         var hintInfo = "";
         var tel_regexp="^((/(/d{3}/))|(/d{3}/-))?13[0-9]/d{8}|15[89]/d{8}";
         var idnum_regexp="/(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)/";
         var rw = true;
-        if(name.length == ''){
+        if(json.E_name.length == ''){
             hintInfo += '姓名不能为空<br>';
             rw = false;
         }
-        if(tel.length == ''){
+
+        if(json.E_tel.length == ''){
             hintInfo += '手机号不能为空<br>';
             rw = false;
-        } else if(!tel.match(tel_regexp)){
+        } else if(!json.E_tel.match(tel_regexp)){
             hintInfo += '手机号格式不正确<br>';
             rw = false;
         }
-        if(passwd.length == ''){
+
+        if(json.E_passwd.length == ''){
             hintInfo += '密码不能为空<br>';
             rw = false;
         }
-        if(idnum.length == ''){
+
+        if(json.E_id.length == ''){
             hintInfo += '身份证不能为空<br>';
             rw = false;
-        } else if(!idnum.match(idnum_regexp)){
+        } else if(!json.E_id.match(idnum_regexp)){
             hintInfo += '身份证格式不正确';
             rw = false;
         }
+
+        if(json.E_salary.length == ''){
+            hintInfo += '薪资不能为空<br>';
+            rw = false;
+        }
+
+        if(json.E_position.length == ''){
+            hintInfo += '薪资不能为空<br>';
+            rw = false;
+        }
+
+        if(json.E_status.length == ''){
+            hintInfo += '薪资不能为空<br>';
+            rw = false;
+        }
+
         console.log(hintInfo);
         return {
             rw:rw,
             hintInfo:hintInfo
         };
     }
+
 </script>
 
 
