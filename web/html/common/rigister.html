@@ -140,7 +140,7 @@
     layui.use('layer', function () {
         var layer = layui.layer;
         $("#name").blur(function () {
-            var regName = /^.{2,20}$/;
+            var regName = /^[\S]{6,12}$/;
             var con = $(this).val();
             var result = regName.test(con);
             if (result) {
@@ -212,7 +212,7 @@
                 });
             }
         })
-        $("#pwd02").blur(function () {
+            $("#pwd02").blur(function () {
             var pwd1 = document.getElementById("pwd01").value;
             var pwd2 = document.getElementById("pwd02").value;
             if (pwd1 == pwd2) {
