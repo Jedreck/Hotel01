@@ -136,8 +136,10 @@
     <section id="main-content">
         <section class="wrapper">
             <hr/>
-            <h3><i class="fa fa-th-list"></i>预订详细信息</h3>
+            <h3><i class="fa fa-user"></i>办理结算</h3>
             <hr style="height:10px;border:none;border-top:2px groove skyblue;"/>
+
+            <!--房间列表-->
             <div class="row mt">
                 <div class="col-md-12">
                     <div class="content-panel">
@@ -146,6 +148,21 @@
                         <div>
                             <div style="width: 700px;margin: 0px auto">
 
+                                <!--表单-->
+                                <form class="layui-form layui-form-pane" action="">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label" style="margin-left: 150px">手机号</label>
+                                        <div class="layui-input-inline">
+                                            <input name="title" class="layui-input" required="" type="text"
+                                                   placeholder="请输入手机号" autocomplete="off" lay-verify="required"
+                                                   id="phonenumber">
+                                        </div>
+                                        <button class="layui-btn layui-btn-primary" style="text-align: left"
+                                                id="search_order_online">查询
+                                        </button>
+                                    </div>
+                                </form>
+                                <!--表单-->
 
                                 <table class="table table-striped table-advance table-hover">
                                     <tbody>
@@ -249,6 +266,11 @@
 
                                 </table>
 
+                                <div style="text-align: center">
+                                    <button class="layui-btn layui-btn-primary" style="margin: auto auto"
+                                            id="commit_order_online">确定结算
+                                    </button>
+                                </div>
 
                             </div>
                         </div>
@@ -257,13 +279,13 @@
                 </div>
                 <!-- /col-md-12 -->
             </div>
+            <!--房间列表-->
 
 
             <!-- /row -->
         </section>
     </section>
     <!--main content end-->
-
 
     <!--footer start-->
     <footer class="site-footer">
@@ -287,6 +309,46 @@
     </footer>
     <!--footer end-->
 </section>
+
+<!--时间空间-->
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#check_in_time' //指定元素
+        });
+    });
+</script>
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#check_out_time' //指定元素
+        });
+    });
+</script>
+<!--时间空间-->
+
+<!--日期选择器-->
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#inDate'
+            , range: true
+            , calendar: true
+            , min: 0
+            , max: 60
+        });
+    })
+    console.log("123123");
+</script>
+<!--日期选择器-->
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
