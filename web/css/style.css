@@ -3775,3 +3775,14 @@ ul.chat-available-user li a:hover {
     height: auto;
     background: rgba(0, 0, 0, 0.5);
 }
+
+.labelFont {
+    margin: auto;
+    font-size: 20px;
+    color: #000000;
+}
+
+.roomresult_panel{
+    min-width: 200px;
+    max-width: 350px;
+}
