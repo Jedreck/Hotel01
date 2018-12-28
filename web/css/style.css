@@ -3760,6 +3760,8 @@ ul.chat-available-user li a:hover {
 /*jedreck style*/
 
 .main_picturecycle{
+    width:100%;
+    heigth:100%;
     z-index: 2;
     position:absolute;
 }

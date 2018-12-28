@@ -277,7 +277,7 @@
             E_sex:"女",
             E_position:"酒店前台"
         }];
-        window.onload = initialTable;
+        window.onload = initialTable();
         // 初始化表格
         function initialTable(){
             pageNum = obj.length;
@@ -310,9 +310,10 @@
         // 设置分页数量
         function setPage(pageNum) {
             console.log(pageNum);
-            layui.use(['laypage','form'], function(){
+            layui.use(['laypage','form','layer'], function(){
                 var form = layui.form;
                 var laypage = layui.laypage;
+                var layer = layui.layer;
                 //执行一个laypage实例
                 laypage.render({
                     elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号

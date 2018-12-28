@@ -311,7 +311,7 @@
 <script>
     window.onload = initialData;
     var room = {
-        R_num:"123",
+        R_num:sessionStorage["R_num"],
         R_roomtype:"单人间",
         R_bedtype:"大床房",
         R_price:100,
@@ -340,7 +340,7 @@
             ,"R_story": room.R_story
             ,"R_wifi": room.R_wifi? "有" : "无"
             ,"R_wind": room.R_wind? "有" : "无"
-            ,"R_smoke": room.R_somke? "允许" : "禁止"
+            ,"R_smoke": room.R_smoke? "允许" : "禁止"
             ,"R_bathroom": room.R_bathroom? "有" : "无"
             ,"R_facilities": room.R_facilities
             ,"R_media": room.R_media
