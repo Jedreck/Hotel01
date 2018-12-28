@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>添加员工</title>
+    <title>员工详细信息</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -72,43 +72,14 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="glyphicon glyphicon-pencil"></i>
-                        <span>客户管理</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="m_clist.html">客户列表</a></li>
-                    </ul>
-                </li>
-
-                <li class="sub-menu">
                     <a class="active" href="javascript:;">
                         <i class="glyphicon glyphicon-pencil"></i>
-                        <span>员工管理</span>
+                        <span>管理员管理</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="m_stalist.html">员工列表</a></li>
-                        <li><a href="m_addsta.html">添加员工</a></li>
+                        <li><a href="sm_managerlist.html">管理员列表</a></li>
+                        <li><a href="sm_addManager.html">添加管理员</a></li>
                     </ul>
-                </li>
-
-                <li class="sub-menu">
-                    <a href="javascript:;">
-                        <i class="glyphicon glyphicon-pencil"></i>
-                        <span>客房管理</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="general.html">客房类型列表</a></li>
-                        <li><a href="m_addRoomType.html">添加客房类型</a></li>
-                    </ul>
-                </li>
-
-
-                <li class="sub-menu">
-                    <a class="" href="#">
-                        <i class="glyphicon glyphicon-time"></i>
-                        <span>预订客房管理</span>
-                    </a>
                 </li>
             </ul>
             <!-- sidebar menu end-->
@@ -121,7 +92,7 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 添加员工</h3>
+            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 管理员详细信息</h3>
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
@@ -130,7 +101,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">工号：</label>
                                 <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="E_num" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="" disabled="disabled" placeholder="自动分配">
+                                    <input id="E_num" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="" disabled="disabled">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -168,7 +139,7 @@
                             <div class="layui-form form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">职位：</label>
                                 <div class="layui-input-inline col-md-3 col-xs-11">
-                                    <select id="E_position" lay-filter="aihao">
+                                    <select id="E_position" lay-filter="aihao" disabled="disabled">
                                         <option value=""></option>
                                         <option value="酒店前台">酒店前台</option>
                                         <option value="管理员" selected="">管理员</option>
@@ -186,7 +157,7 @@
                             <div class="layui-form form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">在职状态：</label>
                                 <div class="layui-input-inline col-md-3 col-xs-11">
-                                    <select id="E_status" lay-filter="aihao">
+                                    <select id="E_status" lay-filter="aihao" disabled="disabled">
                                         <option value=""></option>
                                         <option value="在职">在职</option>
                                         <option value="已离职" selected="">已离职</option>
@@ -201,6 +172,7 @@
                             </div>
                             <div class="showback" style="text-align: center">
                                 <button type="button" class="btn btn-primary" id="submit"><i class="fa fa-check-square"></i> 提交</button>
+                                <button type="button" class="btn btn-danger" id="delete"><i class="fa fa-trash"></i> 删除</button>
                                 <button type="button" class="btn btn-warning" id="reset"><i class="fa fa-undo"></i> 重置</button>
                                 <button type="button" class="btn btn-warning" id="clearAll"><i class="fa fa-eraser"></i> 清空</button>
                                 <button type="button" class="btn btn-info" id="goback"><i class="fa fa-chevron-circle-left"></i> 返回</button>
@@ -278,7 +250,7 @@
             E_salary:"20000"
 
         };
-        //$("#E_num").val(obj.E_num);
+        $("#E_num").val(obj.E_num);
         $("#E_name").val(obj.E_name);
         if(obj.E_sex == '男') {
             $("input[type='radio'][name='E_sex'][value='男']").prop("checked",true);
