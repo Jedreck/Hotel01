@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>Dashio - Bootstrap Admin Template</title>
+    <title>订单记录</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -16,15 +16,16 @@
     <!-- Bootstrap core CSS -->
     <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
-    <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../../css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="../../lib/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/gritter/css/jquery.gritter.css"/>
     <!-- Custom styles for this template -->
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../css/style-responsive.css" rel="stylesheet">
     <script src="../../lib/chart-master/Chart.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <script src="../../lib/jquery/jquery.js"></script>
 
     <!-- =======================================================
       Template Name: Dashio
@@ -78,8 +79,6 @@
     <!--header end-->
 
 
-
-
     <!-- **********************************************************************************************************************************************************
         MAIN SIDEBAR MENU
         *********************************************************************************************************************************************************** -->
@@ -88,7 +87,8 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="../../img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+                <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
+                                                                  width="80"></a></p>
                 <h5 class="centered">Sam Soffes</h5>
 
                 <li class="mt">
@@ -99,115 +99,27 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="#">
+                    <a class="" href="c_bookRoom.html">
                         <i class="glyphicon glyphicon-edit"></i>
                         <span>预订房间</span>
                     </a>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="#">
-                        <i class="glyphicon glyphicon-time"></i>
-                        <span>历史订单</span>
+                    <a href="javascript:;" class="active">
+                        <i class="fa fa-cogs"></i>
+                        <span>订单管理</span>
                     </a>
+                    <ul class="sub" >
+                        <li><a href="order_management.html">取消订单</a></li>
+                        <li><a href="order_management.html">历史记录</a></li>
+                    </ul>
                 </li>
-                <!--<li class="sub-menu">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-cogs"></i>-->
-                <!--<span>Components</span>-->
-                <!--</a>-->
-                <!--<ul class="sub">-->
-                <!--<li><a href="grids.html">Grids</a></li>-->
-                <!--<li><a href="calendar.html">Calendar</a></li>-->
-                <!--<li><a href="gallery.html">Gallery</a></li>-->
-                <!--<li><a href="todo_list.html">Todo List</a></li>-->
-                <!--<li><a href="dropzone.html">Dropzone File Upload</a></li>-->
-                <!--<li><a href="inline_editor.html">Inline Editor</a></li>-->
-                <!--<li><a href="file_upload.html">Multiple File Upload</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
-                <!--<li class="sub-menu">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-book"></i>-->
-                <!--<span>Extra Pages</span>-->
-                <!--</a>-->
-                <!--<ul class="sub">-->
-                <!--<li><a href="blank.html">Blank Page</a></li>-->
-                <!--<li><a href="login.html">Login</a></li>-->
-                <!--<li><a href="lock_screen.html">Lock Screen</a></li>-->
-                <!--<li><a href="profile.html">Profile</a></li>-->
-                <!--<li><a href="invoice.html">Invoice</a></li>-->
-                <!--<li><a href="pricing_table.html">Pricing Table</a></li>-->
-                <!--<li><a href="faq.html">FAQ</a></li>-->
-                <!--<li><a href="404.html">404 Error</a></li>-->
-                <!--<li><a href="500.html">500 Error</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
-                <!--<li class="sub-menu">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-tasks"></i>-->
-                <!--<span>Forms</span>-->
-                <!--</a>-->
-                <!--<ul class="sub">-->
-                <!--<li><a href="form_component.html">Form Components</a></li>-->
-                <!--<li><a href="advanced_form_components.html">Advanced Components</a></li>-->
-                <!--<li><a href="form_validation.html">Form Validation</a></li>-->
-                <!--<li><a href="contactform.html">Contact Form</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
-                <!--<li class="sub-menu">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-th"></i>-->
-                <!--<span>Data Tables</span>-->
-                <!--</a>-->
-                <!--<ul class="sub">-->
-                <!--<li><a href="basic_table.html">Basic Table</a></li>-->
-                <!--<li><a href="responsive_table.html">Responsive Table</a></li>-->
-                <!--<li><a href="advanced_table.html">Advanced Table</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a href="inbox.html">-->
-                <!--<i class="fa fa-envelope"></i>-->
-                <!--<span>Mail </span>-->
-                <!--<span class="label label-theme pull-right mail-info">2</span>-->
-                <!--</a>-->
-                <!--</li>-->
-                <!--<li class="sub-menu">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class=" fa fa-bar-chart-o"></i>-->
-                <!--<span>Charts</span>-->
-                <!--</a>-->
-                <!--<ul class="sub">-->
-                <!--<li><a href="morris.html">Morris</a></li>-->
-                <!--<li><a href="chartjs.html">Chartjs</a></li>-->
-                <!--<li><a href="flot_chart.html">Flot Charts</a></li>-->
-                <!--<li><a href="xchart.html">xChart</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
-                <!--<li class="sub-menu">-->
-                <!--<a href="javascript:;">-->
-                <!--<i class="fa fa-comments-o"></i>-->
-                <!--<span>Chat Room</span>-->
-                <!--</a>-->
-                <!--<ul class="sub">-->
-                <!--<li><a href="lobby.html">Lobby</a></li>-->
-                <!--<li><a href="chat_room.html"> Chat Room</a></li>-->
-                <!--</ul>-->
-                <!--</li>-->
-                <!--<li>-->
-                <!--<a href="google_maps.html">-->
-                <!--<i class="fa fa-map-marker"></i>-->
-                <!--<span>Google Maps </span>-->
-                <!--</a>-->
-                <!--</li>-->
             </ul>
             <!-- sidebar menu end-->
         </div>
     </aside>
     <!--sidebar end-->
-
-
 
 
     <!-- **********************************************************************************************************************************************************
@@ -216,7 +128,7 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row mt">
+            <div class="row mt" style="height:600px;">
                 <div class="col-md-12">
                     <div class="content-panel">
                         <table class="table table-striped table-advance table-hover">
@@ -224,7 +136,8 @@
                             <hr>
                             <thead>
                             <tr>
-                                <th><i class="fa fa-bullhorn"></i>宾馆</th>
+                                <th><i class="fa fa-calendar-o">订单号</i></th>
+                                <th><i class="fa fa-bullhorn"></i>预定人</th>
                                 <th class="hidden-phone"><i class="fa fa-calendar"></i> 入住日期</th>
                                 <th><i class="fa fa-bookmark"></i> 订单总价</th>
                                 <th><i class=" fa fa-edit"></i> 订单状态</th>
@@ -235,149 +148,30 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
+                                    <a href="basic_table.html#">001</a>
                                 </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
+                                <td class="hidden-phone">李涛</td>
+                                <td>2018-12-31</td>
+                                <td>12000.00$</td>
                                 <td><span class="label label-info label-mini">Due</span></td>
                                 <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-check"></i></button>
+                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <a href="basic_table.html#">
-                                        Dashio co
-                                    </a>
+                                    <a href="basic_table.html#">002</a>
                                 </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>17900.00$ </td>
+                                <td class="hidden-phone">兰军</td>
+                                <td>17900.00$</td>
+                                <td>2018-13-30</td>
                                 <td><span class="label label-warning label-mini">Due</span></td>
                                 <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">
-                                        Another Co
-                                    </a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>14400.00$ </td>
-                                <td><span class="label label-success label-mini">Paid</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Dashio ext</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>22000.50$ </td>
-                                <td><span class="label label-success label-mini">Paid</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Total Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12120.00$ </td>
-                                <td><span class="label label-warning label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td>12000.00$ </td>
-                                <td><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-check"></i></button>
+                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -394,7 +188,10 @@
         </section>
     </section>
     <!--main content end-->
-    <div id="order_page" style="text-align: center"> </div>
+
+    <!--分页-->
+    <div id="order_page" style="text-align: center"></div>
+    <!--分页-->
 
     <!--footer start-->
     <footer class="site-footer">
@@ -420,19 +217,52 @@
 </section>
 
 <script>
-    layui.use('laypage',function(){
-        var laypage = layui.laypage;
+    // 详细信息和修改
+    $("button[name='detail']").click(function () {
 
+        window.open('./detail_booking_orders.html','_self');
+    });
+
+    // 删除某一行
+    $("button[name='delete']").click(function () {
+        var temp = this;
+        layer.open({
+            content: '确定删除吗？'
+            ,btn: ['删除', '取消']
+            ,yes: function(index, layero){//删除
+                temp.closest('tr').remove();
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+        console.log("111");
+        setPage(--pageNum);//调整分页数量
+    });
+</script>
+
+<!--分页的代码-->
+<script>
+    layui.use('laypage', function () {
+        var laypage = layui.laypage;
         //执行一个laypage实例
         laypage.render({
             elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
-            ,count: 1000 //数据总数，从服务端得到
-            ,jump:function (obj,first) {
+            , count: 1000 //数据总数，从服务端得到
+            , jump: function (obj, first) {
                 //obj包含了当前分页的所有参数
                 console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
                 console.log(obj.limit); //得到每页显示的条数
                 //首次不执行
-                if(!first){
+                if (!first) {
                     //do something
                 }
             }
@@ -443,6 +273,7 @@
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
+<script src="../../lib/jquery-ui-1.9.2.custom.min.js"></script>
 
 <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 <script class="include" type="text/javascript" src="../../lib/jquery.dcjqaccordion.2.7.js"></script>
@@ -460,14 +291,14 @@
 
 <script src="../../lib/layui/layui.all.js"></script>
 <script>
-    ;!function(){
-        var layer = layui.layer,form = layui.form;
+    ;!function () {
+        var layer = layui.layer, form = layui.form;
     }();
 </script>
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         var unique_id = $.gritter.add({
             // (string | mandatory) the heading of the notification
             title: 'Welcome to Dashio!',
@@ -487,21 +318,21 @@
     });
 </script>
 <script type="application/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#date-popover").popover({
             html: true,
             trigger: "manual"
         });
         $("#date-popover").hide();
-        $("#date-popover").click(function(e) {
+        $("#date-popover").click(function (e) {
             $(this).hide();
         });
 
         $("#my-calendar").zabuto_calendar({
-            action: function() {
+            action: function () {
                 return myDateFunction(this.id, false);
             },
-            action_nav: function() {
+            action_nav: function () {
                 return myNavFunction(this.id);
             },
             ajax: {

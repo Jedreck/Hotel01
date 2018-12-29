@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>已接收订单</title>
+    <title>详细预订订单</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -16,16 +16,15 @@
     <!-- Bootstrap core CSS -->
     <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
-    <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../../css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="../../lib/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/gritter/css/jquery.gritter.css"/>
     <!-- Custom styles for this template -->
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../css/style-responsive.css" rel="stylesheet">
     <script src="../../lib/chart-master/Chart.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
-    <script src="../../lib/jquery/jquery.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -72,7 +71,7 @@
         </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="login.html">登出</a></li>
+                <li><a class="logout" href="login.html">Logout</a></li>
             </ul>
         </div>
     </header>
@@ -85,7 +84,8 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="../../img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+                <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
+                                                                  width="80"></a></p>
                 <h5 class="centered">Sam Soffes</h5>
 
                 <li class="mt">
@@ -96,33 +96,21 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;" class="active">
-                        <i class="glyphicon glyphicon-pencil"></i>
-                        <span>预定订单管理</span>
+                    <a class="" href="c_bookRoom.html">
+                        <i class="glyphicon glyphicon-edit"></i>
+                        <span>预订房间</span>
                     </a>
-                    <ul class="sub">
-                        <li><a href="unaccept_booking_orders.html">待接受的订单</a></li>
-                        <li><a href="accept_booking_orders.html">已接收的订单</a></li>
-                    </ul>
-                </li>
-
-
-                <li class="sub-menu">
-                    <a class="" href="#">
-                        <i class="glyphicon glyphicon-time"></i>
-                        <span>办理入住</span>
-                    </a>
-                    <ul class="sub">
-                        <li><a href="check_in_now.html">网上未预定入住</a></li>
-                        <li><a href="check_in_net.html">网上预定入住</a></li>
-                    </ul>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="close_account.html">
-                        <i class="glyphicon glyphicon-time"></i>
-                        <span>结算</span>
+                    <a href="javascript:;">
+                        <i class="fa fa-cogs"></i>
+                        <span>订单管理</span>
                     </a>
+                    <ul class="sub">
+                        <li><a href="order_management.html">取消订单</a></li>
+                        <li><a href="order_management.html">历史记录</a></li>
+                    </ul>
                 </li>
             </ul>
             <!-- sidebar menu end-->
@@ -135,56 +123,135 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row mt" style="height: 600px">
+            <hr/>
+            <h3><i class="fa fa-th-list"></i>预订详细信息</h3>
+            <hr style="height:10px;border:none;border-top:2px groove skyblue;"/>
+            <div class="row mt">
                 <div class="col-md-12">
                     <div class="content-panel">
-                        <table class="table table-striped table-advance table-hover">
-                            <h4><i class="fa fa-align-left"></i>预订订单记录</h4>
-                            <hr>
-                            <thead>
-                            <tr>
-                                <th><i class="fa fa-bars"></i>订单号</th>
-                                <th class="hidden-phone"><i class="fa fa-male"></i>预定人</th>
-                                <th><i class="fa fa-home"></i>房间类型</th>
-                                <th><i class=" fa fa-calendar"></i>入住日期</th>
-                                <th><i class=" fa fa-phone"></i>手机号码</th>
-                                <th><i class=" fa fa-edit"></i>订单状态</th>
-                                <th></th>
-                            </tr>
-                            </thead>
+                        <h4><i class="fa fa-home"></i>详细订单</h4>
+                        <hr/>
+                        <div>
+                            <div style="width: 700px;margin: 0px auto">
 
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">001</a>
-                                </td>
-                                <td class="hidden-phone">李涛</td>
-                                <td>单人间</td>
-                                <td>2018-12-31</td>
-                                <td>12345678901</td>
-                                <td><span class="label label-info label-mini">Accept</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            </tbody>
 
-                        </table>
+                                <table class="table table-striped table-advance table-hover">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">订单号</a>
+                                        </td>
+                                        <td class="hidden-phone" id="order_number">001</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">预订人</a>
+                                        </td>
+                                        <td class="hidden-phone" id="order_people">李涛</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">人数</a>
+                                        </td>
+                                        <td class="hidden-phone" id="people_number">2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">预订酒店</a>
+                                        </td>
+                                        <td class="hidden-phone" id="hotel">334酒店</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">预订日期</a>
+                                        </td>
+                                        <td class="hidden-phone" id="data">2018-12-31</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">预定天数</a>
+                                        </td>
+                                        <td class="hidden-phone" id="last_number">2天</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">联系电话</a>
+                                        </td>
+                                        <td class="hidden-phone" id="phone_number">12345678901</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">房型</a>
+                                        </td>
+                                        <td class="hidden-phone" id="bed">标准双人房</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">建筑面积</a>
+                                        </td>
+                                        <td class="hidden-phone" id="area">18平米</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">楼层</a>
+                                        </td>
+                                        <td class="hidden-phone" id="floor">一层</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">早餐</a>
+                                        </td>
+                                        <td class="hidden-phone" id="breakfast">不含早餐</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">有无无线网络</a>
+                                        </td>
+                                        <td class="hidden-phone" id="net">免费WIFI</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">窗户</a>
+                                        </td>
+                                        <td class="hidden-phone" id="window">有窗</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">吸烟</a>
+                                        </td>
+                                        <td class="hidden-phone" id="somke">不可吸烟</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">订单价格</a>
+                                        </td>
+                                        <td class="hidden-phone" id="money">220元</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">支付方式</a>
+                                        </td>
+                                        <td class="hidden-phone" id="pay_method">在线预付</td>
+                                    </tr>
+                                    </tbody>
 
+                                </table>
+
+
+                            </div>
+                        </div>
                     </div>
                     <!-- /content-panel -->
                 </div>
                 <!-- /col-md-12 -->
             </div>
+
+
             <!-- /row -->
         </section>
     </section>
     <!--main content end-->
 
-    <!--分页-->
-    <div id="order_page" style="text-align: center"> </div>
-    <!--分页-->
 
     <!--footer start-->
     <footer class="site-footer">
@@ -209,37 +276,6 @@
     <!--footer end-->
 </section>
 
-<script>
-    // 详细的预订信息
-    $("button[name='detail']").click(function () {
-
-        window.open('./detail_booking_orders.html','_self');
-    });
-</script>
-
-<!--分页-->
-<script>
-    layui.use('laypage',function(){
-        var laypage = layui.laypage;
-
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
-            ,count: 11 //数据总数，从服务端得到
-            ,jump:function (obj,first) {
-                //obj包含了当前分页的所有参数
-                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                console.log(obj.limit); //得到每页显示的条数
-                //首次不执行
-                if(!first){
-                    //do something
-                }
-            }
-        });
-    });
-</script>
-<!--分页的代码-->
-
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
 
@@ -259,14 +295,14 @@
 
 <script src="../../lib/layui/layui.all.js"></script>
 <script>
-    ;!function(){
-        var layer = layui.layer,form = layui.form;
+    ;!function () {
+        var layer = layui.layer, form = layui.form;
     }();
 </script>
 
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         var unique_id = $.gritter.add({
             // (string | mandatory) the heading of the notification
             title: 'Welcome to Dashio!',
@@ -286,21 +322,21 @@
     });
 </script>
 <script type="application/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $("#date-popover").popover({
             html: true,
             trigger: "manual"
         });
         $("#date-popover").hide();
-        $("#date-popover").click(function(e) {
+        $("#date-popover").click(function (e) {
             $(this).hide();
         });
 
         $("#my-calendar").zabuto_calendar({
-            action: function() {
+            action: function () {
                 return myDateFunction(this.id, false);
             },
-            action_nav: function() {
+            action_nav: function () {
                 return myNavFunction(this.id);
             },
             ajax: {

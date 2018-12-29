@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>Dashio - Bootstrap Admin Template</title>
+    <title>待接受订单</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -25,6 +25,7 @@
     <script src="../../lib/chart-master/Chart.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <script src="../../lib/jquery/jquery.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -71,7 +72,7 @@
         </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="login.html">Logout</a></li>
+                <li><a class="logout" href="login.html">登出</a></li>
             </ul>
         </div>
     </header>
@@ -95,13 +96,13 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a class="active" href="javascript:;">
+                    <a href="javascript:;" class="active">
                         <i class="glyphicon glyphicon-pencil"></i>
                         <span>预定订单管理</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="general.html">待接受的订单</a></li>
-                        <li><a href="general.html">已接收的订单</a></li>
+                        <li><a href="unaccept_booking_orders.html">待接受的订单</a></li>
+                        <li><a href="accept_booking_orders.html">已接收的订单</a></li>
                     </ul>
                 </li>
 
@@ -112,13 +113,13 @@
                         <span>办理入住</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="general.html">网上未预定入住</a></li>
-                        <li><a href="general.html">网上预定入住</a></li>
+                        <li><a href="check_in_now.html">网上未预定入住</a></li>
+                        <li><a href="check_in_net.html">网上预定入住</a></li>
                     </ul>
                 </li>
 
                 <li class="sub-menu">
-                    <a class="" href="#">
+                    <a class="" href="close_account.html">
                         <i class="glyphicon glyphicon-time"></i>
                         <span>结算</span>
                     </a>
@@ -134,7 +135,7 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <div class="row mt">
+            <div class="row mt" style="height: 600px">
                 <div class="col-md-12">
                     <div class="content-panel">
                         <table class="table table-striped table-advance table-hover">
@@ -166,158 +167,8 @@
                                 <td>200</td>
                                 <td><span class="label label-info label-mini">Unaccepted</span></td>
                                 <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                    <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+                                    <button class="btn btn-success btn-xs" name="accept"><i class="fa fa-check"></i></button>
+                                    <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
                                 </td>
                             </tr>
                             </tbody>
@@ -360,6 +211,62 @@
     </footer>
     <!--footer end-->
 </section>
+
+<!--接受预订-->
+<script>
+    // 接受预订并删除该行
+    $("button[name='accept']").click(function () {
+        var temp = this;
+        layer.open({
+            content: '确定接受预订？'
+            ,btn: ['接受', '取消']
+            ,yes: function(index, layero){//删除
+                temp.closest('tr').remove();
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+        console.log("111");
+        setPage(--pageNum);//调整分页数量
+    });
+
+    //删除指定的预订
+    $("button[name='delete']").click(function () {
+        var temp = this;
+        layer.open({
+            content: '确定删除该预订？'
+            ,btn: ['删除', '取消']
+            ,yes: function(index, layero){//删除
+                temp.closest('tr').remove();
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+        console.log("111");
+        setPage(--pageNum);//调整分页数量
+    });
+
+
+</script>
+<!--接受预订-->
 
 <!--分页-->
 <script>
