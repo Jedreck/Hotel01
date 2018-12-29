@@ -155,17 +155,15 @@
                             </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="table_content">
                             <tr>
-                                <td>
-                                    <a href="basic_table.html#">李涛</a>
-                                </td>
-                                <td class="hidden-phone">单人间</td>
-                                <td>2018-12-31</td>
-                                <td>2</td>
-                                <td>12345678901</td>
-                                <td>200</td>
-                                <td><span class="label label-info label-mini">Unaccepted</span></td>
+                                <td id="C_name">李涛</td>
+                                <td class="hidden-phone" id="Room_type">单人间</td>
+                                <td id="check_in_date">2018-12-31</td>
+                                <td id="living_number">2</td>
+                                <td id="phonenumber">12345678901</td>
+                                <td id="earnest">200</td>
+                                <td id="order_status"><span class="label label-info label-mini">Unaccepted</span></td>
                                 <td>
                                     <button class="btn btn-success btn-xs" name="accept"><i class="fa fa-check"></i></button>
                                     <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
@@ -212,85 +210,6 @@
     <!--footer end-->
 </section>
 
-<!--接受预订-->
-<script>
-    // 接受预订并删除该行
-    $("button[name='accept']").click(function () {
-        var temp = this;
-        layer.open({
-            content: '确定接受预订？'
-            ,btn: ['接受', '取消']
-            ,yes: function(index, layero){//删除
-                temp.closest('tr').remove();
-                layer.closeAll();
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-        });
-        console.log("111");
-        setPage(--pageNum);//调整分页数量
-    });
-
-    //删除指定的预订
-    $("button[name='delete']").click(function () {
-        var temp = this;
-        layer.open({
-            content: '确定删除该预订？'
-            ,btn: ['删除', '取消']
-            ,yes: function(index, layero){//删除
-                temp.closest('tr').remove();
-                layer.closeAll();
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-        });
-        console.log("111");
-        setPage(--pageNum);//调整分页数量
-    });
-
-
-</script>
-<!--接受预订-->
-
-<!--分页-->
-<script>
-    layui.use('laypage',function(){
-        var laypage = layui.laypage;
-
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
-            ,count: 11 //数据总数，从服务端得到
-            ,jump:function (obj,first) {
-                //obj包含了当前分页的所有参数
-                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                console.log(obj.limit); //得到每页显示的条数
-                //首次不执行
-                if(!first){
-                    //do something
-                }
-            }
-        });
-    });
-</script>
-<!--分页的代码-->
-
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
 
@@ -308,76 +227,139 @@
 <script src="../../lib/zabuto_calendar.js"></script>
 
 
-<script src="../../lib/layui/layui.all.js"></script>
-<script>
-    ;!function(){
-        var layer = layui.layer,form = layui.form;
-    }();
-</script>
+<script src="../../lib/layui/layui.js"></script>
 
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        var unique_id = $.gritter.add({
-            // (string | mandatory) the heading of the notification
-            title: 'Welcome to Dashio!',
-            // (string | mandatory) the text inside the notification
-            text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',
-            // (string | optional) the image to display on the left
-            image: 'img/ui-sam.jpg',
-            // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: false,
-            // (int | optional) the time you want it to be alive for before fading out
-            time: 8000,
-            // (string | optional) the class name you want to apply to that specific message
-            class_name: 'my-sticky-class'
-        });
-
-        return false;
-    });
-</script>
+<!--接受预订-->
 <script type="application/javascript">
     $(document).ready(function() {
-        $("#date-popover").popover({
-            html: true,
-            trigger: "manual"
-        });
-        $("#date-popover").hide();
-        $("#date-popover").click(function(e) {
-            $(this).hide();
+        var pageNum = 0;
+        var obj = [{
+            E_name:"张三",
+            E_room_type:"单人间",
+            E_check_in_date:"2011-11-8",
+            E_living_number:"2",
+            E_phonenumber:"12345678901",
+            E_earnest:"200",
+            E_order_status:"Unaccepted"
+        },{
+            E_name:"李涛",
+            E_room_type:"单人间",
+            E_check_in_date:"2011-11-8",
+            E_living_number:"2",
+            E_phonenumber:"12345678901",
+            E_earnest:"200",
+            E_order_status:"Unaccepted"
+        }];
+        window.onload = initialTable();
+        // 初始化表格
+        function initialTable(){
+            pageNum = obj.length;
+            setPage(pageNum);
+            var html = "";
+            for(var i = 0; i < obj.length; i++){
+                // 拼接内容
+                html += "        <tr>\n" +
+                    "            <td id=\"C_name\">";
+                html += obj[i].E_name;
+                html += "</td>\n" +
+                    "            <td class=\"hidden-phone\" id=\"Room_type\">";
+                html += obj[i].E_room_type;
+                html += "</td>\n" +
+                    "            <td id=\"check_in_date\">";
+                html += obj[i].E_check_in_date;
+                html += "</td>\n" +
+                    "            <td id=\"living_number\">";
+                html += obj[i].E_living_number;
+                html += "</td>\n" +
+                    "            <td id=\"phonenumber\">";
+                html += obj[i].E_phonenumber;
+                html += "</td>\n" +
+                    "             <td id=\"earnest\">";
+                html += obj[i].E_earnest;
+                html += "</td>\n" +
+                    "             <td id=\"order_status\"><span class=\"label label-info label-mini\">";
+                html += obj[i].E_order_status;
+                html += "</span></td>\n" +
+                    "            <td>\n" +
+                    "            <button class=\"btn btn-success btn-xs\" name=\"accept\"><i class=\"fa fa-check\"></i></button>\n" +
+                    "            <button class=\"btn btn-danger btn-xs\" name=\"delete\"><i class=\"fa fa-trash-o \"></i></button>\n" +
+                    "            </td>\n" +
+                    "            </tr>";
+            }
+            console.log(html);
+            $("#table_content").html(html);
+        }
+        // 设置分页数量
+        function setPage(pageNum) {
+            console.log(pageNum);
+            layui.use(['laypage','form','layer'], function(){
+                var form = layui.form;
+                var laypage = layui.laypage;
+                var layer = layui.layer;
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
+                    ,count: pageNum //数据总数，从服务端得到
+                });
+                //监听指定开关
+            });
+        }
+
+        // 接受预订并删除该行
+        $("button[name='accept']").click(function () {
+            console.log("fdasdf");
+            var temp = this;
+            layer.open({
+                content: '确定接受预订？'
+                ,btn: ['接受', '取消']
+                ,yes: function(index, layero){//删除
+                    temp.closest('tr').remove();
+                    layer.closeAll();
+                }
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                ,cancel: function(){
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+            console.log("111");
+            setPage(--pageNum);//调整分页数量
         });
 
-        $("#my-calendar").zabuto_calendar({
-            action: function() {
-                return myDateFunction(this.id, false);
-            },
-            action_nav: function() {
-                return myNavFunction(this.id);
-            },
-            ajax: {
-                url: "show_data.php?action=1",
-                modal: true
-            },
-            legend: [{
-                type: "text",
-                label: "Special event",
-                badge: "00"
-            },
-                {
-                    type: "block",
-                    label: "Regular event",
+        //删除指定的预订
+        $("button[name='delete']").click(function () {
+            console.log("qqq");
+            var temp = this;
+            layer.open({
+                content: '确定删除该预订？'
+                ,btn: ['删除', '取消']
+                ,yes: function(index, layero){//删除
+                    temp.closest('tr').remove();
+                    layer.closeAll();
                 }
-            ]
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                ,cancel: function(){
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+            console.log("111");
+            setPage(--pageNum);//调整分页数量
         });
     });
-
-    function myNavFunction(id) {
-        $("#date-popover").hide();
-        var nav = $("#" + id).data("navigation");
-        var to = $("#" + id).data("to");
-        console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
-    }
 </script>
+<!--接受预订-->
+
 </body>
 
 </html>

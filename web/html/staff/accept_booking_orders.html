@@ -153,16 +153,14 @@
                             </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody id="table_content">
                             <tr>
-                                <td>
-                                    <a href="basic_table.html#">001</a>
-                                </td>
-                                <td class="hidden-phone">李涛</td>
-                                <td>单人间</td>
-                                <td>2018-12-31</td>
-                                <td>12345678901</td>
-                                <td><span class="label label-info label-mini">Accept</span></td>
+                                <td id="order_number">001</td>
+                                <td class="hidden-phone" id="order_name">李涛</td>
+                                <td id="room_type">单人间</td>
+                                <td id="check_in_date">2018-12-31</td>
+                                <td id="phonenumber">12345678901</td>
+                                <td id="order_status"><span class="label label-info label-mini">Accept</span></td>
                                 <td>
                                     <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
                                     <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
@@ -209,36 +207,109 @@
     <!--footer end-->
 </section>
 
-<script>
-    // 详细的预订信息
-    $("button[name='detail']").click(function () {
-
-        window.open('./detail_booking_orders.html','_self');
-    });
-</script>
-
-<!--分页-->
-<script>
-    layui.use('laypage',function(){
-        var laypage = layui.laypage;
-
-        //执行一个laypage实例
-        laypage.render({
-            elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
-            ,count: 11 //数据总数，从服务端得到
-            ,jump:function (obj,first) {
-                //obj包含了当前分页的所有参数
-                console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-                console.log(obj.limit); //得到每页显示的条数
-                //首次不执行
-                if(!first){
-                    //do something
-                }
+<script type="application/javascript">
+    $(document).ready(function() {
+        var pageNum = 0;
+        var obj = [{
+            E_order_number:"001",
+            E_order_name:"张三",
+            E_room_type:"单人间",
+            E_check_in_date:"2011-11-8",
+            E_phonenumber:"12345678901",
+            E_order_status:"Unaccepted"
+        },{
+            E_order_number:"002",
+            E_order_name:"李涛",
+            E_room_type:"单人间",
+            E_check_in_date:"2011-11-8",
+            E_phonenumber:"12345678901",
+            E_order_status:"Unaccepted"
+        }];
+        window.onload = initialTable();
+        // 初始化表格
+        function initialTable(){
+            pageNum = obj.length;
+            setPage(pageNum);
+            var html = "";
+            for(var i = 0; i < obj.length; i++){
+                // 拼接内容
+                html += "        <tr>\n" +
+                    "            <td id=\"order_number\">";
+                html += obj[i].E_order_number;
+                html += "</td>\n" +
+                    "            <td class=\"hidden-phone\" id=\"order_name\">";
+                html += obj[i].E_order_name;
+                html += "</td>\n" +
+                    "            <td id=\"room_type\">";
+                html += obj[i].E_room_type;
+                html += "</td>\n" +
+                    "            <td id=\"check_in_date\">";
+                html += obj[i].E_check_in_date;
+                html += "</td>\n" +
+                    "            <td id=\"phonenumber\">";
+                html += obj[i].E_phonenumber;
+                html += "</td>\n" +
+                    "             <td id=\"order_status\"><span class=\"label label-info label-mini\">";
+                html += obj[i].E_order_status;
+                html += "</span></td>\n" +
+                    "            <td>\n" +
+                    "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-pencil\"></i></button>\n" +
+                    "            <button class=\"btn btn-danger btn-xs\" name=\"delete\"><i class=\"fa fa-trash-o \"></i></button>\n" +
+                    "            </td>\n" +
+                    "            </tr>";
             }
+            console.log(html);
+            $("#table_content").html(html);
+        }
+        // 设置分页数量
+        function setPage(pageNum) {
+            console.log(pageNum);
+            layui.use(['laypage','form','layer'], function(){
+                var form = layui.form;
+                var laypage = layui.laypage;
+                var layer = layui.layer;
+                //执行一个laypage实例
+                laypage.render({
+                    elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
+                    ,count: pageNum //数据总数，从服务端得到
+                });
+                //监听指定开关
+            });
+        }
+
+        // 查看详细预订信息
+        $("button[name='detail']").click(function () {
+
+            window.open('./detail_booking_orders.html','_self');
+        });
+
+        //删除指定的预订
+        $("button[name='delete']").click(function () {
+            console.log("qqq");
+            var temp = this;
+            layer.open({
+                content: '确定删除该预订？'
+                ,btn: ['删除', '取消']
+                ,yes: function(index, layero){//删除
+                    temp.closest('tr').remove();
+                    layer.closeAll();
+                }
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                ,cancel: function(){
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+            console.log("111");
+            setPage(--pageNum);//调整分页数量
         });
     });
 </script>
-<!--分页的代码-->
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
