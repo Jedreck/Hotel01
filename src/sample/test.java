@@ -1,39 +1,41 @@
 package sample;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Test;
+import sample.mapper.Customer;
+import sample.tools.getSqlSession;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 public class test {
 
     @Test
-    public void test01() {
-        try {
-            System.out.println("test");
-            String resource = "sample/SqlMapConfig.xml";
-            InputStream inputStream = Resources.getResourceAsStream(resource);
-            SqlSessionFactory sqlSessionFactory =
-                    new SqlSessionFactoryBuilder().build(inputStream);
-            SqlSession session = sqlSessionFactory.openSession();
-            //根据ID查询
-            sample.mapper.Customer customer = session.selectOne("selectCustomerByID", "145154199909093333");
+    public void test01() throws IOException {
+        System.out.println("test");
 
-            System.out.println(customer);
+        //开启
+        SqlSession session = getSqlSession.getSession();
 
-            customer.setC_ID("145154199909093334");
-            customer.setC_phone("13846533358");
-            System.out.println("插入：\n"+customer);
-            session.insert("insertCustomer",customer);
 
-            session.commit();
+        //根据ID查询
+        Customer customer = session.selectOne("selectCustomerByID", "145154199909093333");
+        System.out.println(customer);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //插入
+        /*customer.setC_ID("145154199909093385");
+        customer.setC_phone("13846535684");
+        System.out.println("插入：\n" + customer);
+        int success = session.insert("insertCustomer", customer);
+        session.commit();
+        System.out.println(success);*/
+
+        //模糊查询
+        List<Customer> list = session.selectList("selectCustomerByFuzzyName","涛");
+        System.out.println(list);
+
+        //关闭
+        session.close();
+
     }
 }

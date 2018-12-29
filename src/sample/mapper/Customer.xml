@@ -3,11 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="sample/mapper">
-    <select id="selectCustomerByID" parameterType="string" resultType="sample.mapper.Customer">
-        SELECT * from customer where C_ID = #{test}
+
+    <select id="selectCustomerByID" parameterType="java.lang.String" resultType="sample.mapper.Customer">
+        SELECT *
+        from customer
+        where C_ID = #{test};
     </select>
-    <insert id="insertCustomer" parameterType="sample.mapper.Customer" >
+
+    <!--${}表示拼接字符串-->
+    <select id="selectCustomerByFuzzyName" parameterType="java.lang.String" resultType="sample.mapper.Customer">
+        select *
+        from customer
+        where C_name like '%${value}%';
+    </select>
+
+    <insert id="insertCustomer" parameterType="sample.mapper.Customer">
         insert into customer (C_ID, C_phone, C_password, C_name, C_sex)
-        values (#{C_ID},#{C_phone},#{C_password},#{C_name},#{C_sex})
+        values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex});
     </insert>
 </mapper>
