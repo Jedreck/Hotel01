@@ -24,6 +24,11 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="sample/mapper/Customer.xml"/>
+        <mapper resource="Mapper/XML/Customer.xml"/>
+        <mapper resource="Mapper/XML/Employee.xml"/>
+        <mapper resource="Mapper/XML/Orderform.xml"/>
+        <mapper resource="Mapper/XML/Pictures.xml"/>
+        <mapper resource="Mapper/XML/Roominfo.xml"/>
+        <mapper resource="Mapper/XML/Roomtypeordercheck.xml"/>
     </mappers>
 </configuration>

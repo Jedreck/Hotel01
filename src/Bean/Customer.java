@@ -1,4 +1,4 @@
-package sample.mapper;
+package Bean;
 
 
 public class Customer {
@@ -9,50 +9,55 @@ public class Customer {
   private String C_name;
   private String C_sex;
 
-  public String getC_ID() {
+
+  public String getCId() {
     return C_ID;
   }
 
-  public void setC_ID(String C_id) {
-    C_ID = C_id;
+  public void setCId(String cId) {
+    this.C_ID = cId;
   }
 
-  public String getC_phone() {
+
+  public String getCPhone() {
     return C_phone;
   }
 
-  public void setC_phone(String c_phone) {
-    C_phone = c_phone;
+  public void setCPhone(String cPhone) {
+    this.C_phone = cPhone;
   }
 
-  public String getC_password() {
+
+  public String getCPassword() {
     return C_password;
   }
 
-  public void setC_password(String c_password) {
-    C_password = c_password;
+  public void setCPassword(String cPassword) {
+    this.C_password = cPassword;
   }
 
-  public String getC_name() {
+
+  public String getCName() {
     return C_name;
   }
 
-  public void setC_name(String c_name) {
-    C_name = c_name;
+  public void setCName(String cName) {
+    this.C_name = cName;
   }
 
-  public String getC_sex() {
+
+  public String getCSex() {
     return C_sex;
   }
 
-  public void setC_sex(String c_sex) {
-    C_sex = c_sex;
+  public void setCSex(String cSex) {
+    this.C_sex = cSex;
   }
 
   @Override
   public String toString() {
     return "Customer{" +
-            "C_id='" + C_ID + '\'' +
+            "C_ID='" + C_ID + '\'' +
             ", C_phone='" + C_phone + '\'' +
             ", C_password='" + C_password + '\'' +
             ", C_name='" + C_name + '\'' +

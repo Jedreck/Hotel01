@@ -1,4 +1,4 @@
-package sample.tools;
+package Dao.Tools;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
