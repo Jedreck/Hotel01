@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <properties resource="config/db.properties" />
     <settings>
         <setting name="logImpl" value="LOG4J"/>
     </settings>
@@ -10,11 +11,15 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <!--<property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url"
                           value="jdbc:mysql://192.168.99.222:3306/hotel?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8"/>
                 <property name="username" value="root"/>
-                <property name="password" value=""/>
+                <property name="password" value=""/>-->
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
     </environments>

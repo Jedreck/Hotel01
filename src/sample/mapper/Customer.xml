@@ -7,18 +7,18 @@
     <select id="selectCustomerByID" parameterType="java.lang.String" resultType="sample.mapper.Customer">
         SELECT *
         from customer
-        where C_ID = #{test};
+        where C_ID = #{test}
     </select>
 
     <!--${}表示拼接字符串-->
     <select id="selectCustomerByFuzzyName" parameterType="java.lang.String" resultType="sample.mapper.Customer">
         select *
         from customer
-        where C_name like '%${value}%';
+        where C_name like '%${value}%'
     </select>
 
     <insert id="insertCustomer" parameterType="sample.mapper.Customer" keyProperty="C_ID">
         insert into customer (C_ID, C_phone, C_password, C_name, C_sex)
-        values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex});
+        values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex})
     </insert>
 </mapper>
