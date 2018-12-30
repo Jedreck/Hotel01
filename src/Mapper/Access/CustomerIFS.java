@@ -1,4 +1,6 @@
-package sample.mapper;
+package Mapper.Access;
+
+import Bean.Customer;
 
 import java.io.IOException;
 import java.util.List;

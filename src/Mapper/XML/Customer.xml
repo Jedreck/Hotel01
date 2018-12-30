@@ -2,22 +2,22 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="sample.mapper.CustomerIFS">
+<mapper namespace="Mapper.Access.CustomerIFS">
 
-    <select id="selectCustomerByID" parameterType="java.lang.String" resultType="sample.mapper.Customer">
+    <select id="selectCustomerByID" parameterType="java.lang.String" resultType="Bean.Customer">
         SELECT *
         from customer
         where C_ID = #{test}
     </select>
 
     <!--${}表示拼接字符串-->
-    <select id="selectCustomerByFuzzyName" parameterType="java.lang.String" resultType="sample.mapper.Customer">
+    <select id="selectCustomerByFuzzyName" parameterType="java.lang.String" resultType="Bean.Customer">
         select *
         from customer
         where C_name like '%${value}%'
     </select>
 
-    <insert id="insertCustomer" parameterType="sample.mapper.Customer" keyProperty="C_ID">
+    <insert id="insertCustomer" parameterType="Bean.Customer" keyProperty="C_ID">
         insert into customer (C_ID, C_phone, C_password, C_name, C_sex)
         values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex})
     </insert>
