@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>客房类型详细信息</title>
+    <title>添加客房类型</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -16,13 +16,13 @@
     <!-- Bootstrap core CSS -->
     <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
-    <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../../lib/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="../../css/zabuto_calendar.css">
-    <link rel="stylesheet" type="text/css" href="../../lib/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/gritter/css/jquery.gritter.css"/>
     <!-- Custom styles for this template -->
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../css/style-responsive.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../lib/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
     <script src="../../lib/chart-master/Chart.js"></script>
 
     <!-- =======================================================
@@ -66,7 +66,7 @@
                 <h5 class="centered">Sam Soffes</h5>
 
                 <li class="mt">
-                    <a href="#">
+                    <a href="/AddRoomTypeServlet">
                         <i class="fa fa-home"></i>
                         <span>首页</span>
                     </a>
@@ -132,7 +132,7 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 客房类型详细信息</h3>
+            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 添加房间</h3>
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
@@ -142,117 +142,35 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">房间编号</label>
                                 <div class="layui-input-block">
-                                    <input disabled="disabled" type="text" name="R_num" autocomplete="off" placeholder="自动生成" class="layui-input">
+                                    <input disabled="disabled" type="text" name="R_num" autocomplete="off"
+                                           placeholder="请填写房间号" class="layui-input">
                                 </div>
                             </div>
 
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">客房类型*</label>
+                            <div class="layui-form form-group">
+                                <label class="layui-form-label">所属房间类型*：</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="R_roomtype" lay-verify="required" placeholder="请输入客房类型" autocomplete="off" class="layui-input">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">床型*</label>
-                                <div class="layui-input-block">
-                                    <input type="text"  name="R_bedtype" autocomplete="off" class="layui-input" lay-verify="required" placeholder="请输入床型">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">价格*</label>
-                                <div class="layui-input-block">
-                                    <input type="text"  name="R_price" autocomplete="off" class="layui-input" placeholder="￥" lay-verify="required|number">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">人数*</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="R_people" placeholder="请输入人数" autocomplete="off" class="layui-input" lay-verify="required|number">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item">
-                                <label class="layui-form-label">建筑面积*</label>
-                                <div class="layui-input-block">
-                                    <input type="text" name="R_area" placeholder="请输入面积" autocomplete="off" class="layui-input" lay-verify="required|number">
+                                    <select id="typename" lay-filter="R_roomtype">
+                                        <option value=""></option>
+                                        <option value="酒店前台">酒店前台</option>
+                                        <option value="管理员" selected="">管理员</option>
+                                        <option value="超级管理员">超级管理员</option>
+                                        <option value="经理">经理</option>
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="layui-form-item">
                                 <label class="layui-form-label">楼层*</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="R_story" placeholder="请填写楼层" autocomplete="off" class="layui-input" lay-verify="required|number">
-                                </div>
-                            </div>
-
-
-                            <div class="layui-form-item" pane="">
-                                <label class="layui-form-label">无限网络*</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="R_wifi" value="有" title="有" checked="">
-                                    <input type="radio" name="R_wifi" value="无" title="无">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item" pane="">
-                                <label class="layui-form-label">窗户*</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="R_wind" value="有" title="有" checked="">
-                                    <input type="radio" name="R_wind" value="无" title="无">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item" pane="">
-                                <label class="layui-form-label">浴室*</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="R_bathroom" value="有" title="有" checked="">
-                                    <input type="radio" name="R_bathroom" value="无" title="无">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item" pane="">
-                                <label class="layui-form-label">吸烟*</label>
-                                <div class="layui-input-block">
-                                    <input type="radio" name="R_smoke" value="允许" title="允许" checked="">
-                                    <input type="radio" name="R_smoke" value="禁止" title="禁止">
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">便利设施*</label>
-                                <div class="layui-input-block">
-                                    <textarea placeholder="请输入便利设施内容" class="layui-textarea" name="R_facilities" lay-verify="required"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">媒体设备*</label>
-                                <div class="layui-input-block">
-                                    <textarea name="R_media" placeholder="请输入媒体设备" class="layui-textarea" lay-verify="required"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">景观*</label>
-                                <div class="layui-input-block">
-                                    <textarea name="R_view" placeholder="请输入景观" class="layui-textarea" lay-verify="required"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="layui-form-item layui-form-text">
-                                <label class="layui-form-label">其他*</label>
-                                <div class="layui-input-block">
-                                    <textarea name="R_other" placeholder="其他" class="layui-textarea" lay-verify="required"></textarea>
+                                    <input type="text" name="R_floor" autocomplete="off" class="layui-input"
+                                           lay-verify="required" placeholder="请输入楼层">
                                 </div>
                             </div>
 
                             <div class="layui-form-item">
                                 <button class="layui-btn" lay-submit="" lay-filter="submit">提交</button>
-                                <button class="layui-btn layui-btn-danger" id="clearAll" type="reset" >清空</button>
-                                <button class="layui-btn layui-btn-danger" id="delete" type="button" >删除</button>
+                                <button class="layui-btn layui-btn-danger" id="clearAll" type="reset">清空</button>
                             </div>
                         </form>
                     </div>
@@ -306,89 +224,71 @@
 
 <script src="../../lib/layui/layui.js"></script>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function(){
+    layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form;
-        form.on('submit(submit)',function (data) {//提交表单
+        form.on('submit(submit)', function (data) {//提交表单
+            data.field.R_smoke = data.field.smoke == "禁止" ? false : true;
+            data.field.R_bathroom = data.field.bathroom == "无" ? false : true;
+            data.field.R_wifi = data.field.wifi == "无" ? false : true;
+            data.field.R_wind = data.field.windows == "无" ? false : true;
             console.log(data.field);
-            data.field.R_smoke = data.field.R_smoke == "禁止" ? false : true;
-            data.field.R_bathroom = data.field.R_bathroom == "无" ? false : true;
-            data.field.R_wifi = data.field.R_wifi == "无" ? false : true;
-            data.field.R_wind = data.field.R_wind == "无" ? false : true;
-            console.log(data.field);
-            postData();
+            var json = JSON.stringify(data.field);
+            alert(json);
+            $.ajax({
+                url: "/AddRoomTypeServlet",
+                type:'post',
+                data:{roomType:json},
+                dataType:'text',
+                success: function(data){
+                    alert(data);
+                }});
             return false;
         });
     });
 
-    function postData() {
-        console.log("124141241");
-        $.post("/AddRoomTypeServlet");
-        console.log("4343434343");
-    }
 </script>
 <script>
-    window.onload = initialData;
     var room = {
-        R_num:sessionStorage["R_num"],
-        R_roomtype:"单人间",
-        R_bedtype:"大床房",
-        R_price:100,
-        R_people:3,
-        R_area:50,
-        R_story:5,
-        R_wifi:false,
-        R_wind:false,
-        R_smoke:false,
-        R_bathroom:false,
-        R_facilities:"1111",
-        R_media:"sss",
-        R_view:"sdfsdf",
-        R_other:"22222"
+        R_num: "123",
+        R_roomtype: "单人间",
+        R_bedtype: "大床房",
+        R_price: 100,
+        R_people: 3,
+        R_area: 50,
+        R_story: 5,
+        R_wifi: false,
+        R_wind: false,
+        R_smoke: false,
+        R_bathroom: false,
+        R_facilities: "1111",
+        R_media: "sss",
+        R_view: "sdfsdf",
+        R_other: "22222"
     };
+    window.onload = initialData;
 
     // 表单初始化
     function initialData() {
         layui.form.val("RoomInfo", { //表单初始化
             "R_num": room.R_num // "name": "value"
-            ,"R_roomtype": room.R_roomtype
-            ,"R_bedtype": room.R_bedtype
-            ,"R_price":room.R_price
-            ,"R_people": room.R_people
-            ,"R_area": room.R_area
-            ,"R_story": room.R_story
-            ,"R_wifi": room.R_wifi? "有" : "无"
-            ,"R_wind": room.R_wind? "有" : "无"
-            ,"R_smoke": room.R_smoke? "允许" : "禁止"
-            ,"R_bathroom": room.R_bathroom? "有" : "无"
-            ,"R_facilities": room.R_facilities
-            ,"R_media": room.R_media
-            ,"R_view": room.R_view
-            ,"R_other": room.R_other
+            , "R_roomtype": room.R_roomtype
+            , "R_bedtype": room.R_bedtype
+            , "R_price": room.R_price
+            , "R_people": room.R_people
+            , "R_area": room.R_area
+            , "R_story": room.R_story
+            , "R_wifi": room.R_wifi ? "有" : "无"
+            , "R_wind": room.R_wind ? "有" : "无"
+            , "R_smoke": room.R_somke ? "允许" : "禁止"
+            , "R_bathroom": room.R_bathroom ? "有" : "无"
+            , "R_facilities": room.R_facilities
+            , "R_media": room.R_media
+            , "R_view": room.R_view
+            , "R_other": room.R_other
         });
         layui.form.render();
     }
 
-    // 删除房间类型
-    $("button[id='delete']").click(function () {
-        layer.open({
-            content: '确定删除吗？'
-            ,btn: ['删除', '取消']
-            ,yes: function(index, layero){ //删除
-                layer.closeAll(); //关闭所有窗口
-                window.history.back(-1); //返回上一个界面
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-        });
-    });
 
 </script>
 

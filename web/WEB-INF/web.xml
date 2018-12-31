@@ -3,4 +3,22 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <!--<servlet>-->
+        <!--<servlet-name>AddRoomTypeServlet</servlet-name>-->
+        <!--<servlet-class>servlet.AddRoomTypeServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>AddRoomTypeServlet</servlet-name>-->
+        <!--<url-pattern>/AddRoomTypeServlet</url-pattern>-->
+    <!--</servlet-mapping>-->
+
+    <!--<servlet>-->
+    <!--<servlet-name>SelectAllRoomTypeServlet</servlet-name>-->
+    <!--<servlet-class>servlet.SelectAllRoomTypeServlet</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+    <!--<servlet-name>SelectAllRoomTypeServlet</servlet-name>-->
+    <!--<url-pattern>/SelectAllRoomTypeServlet</url-pattern>-->
+    <!--</servlet-mapping>-->
 </web-app>

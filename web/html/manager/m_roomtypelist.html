@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>员工列表</title>
+    <title>房间类型列表</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -181,43 +181,43 @@
                             </tr>
                             </thead>
                             <tbody id="table_content">
-                            <tr>
-                                <td id="E_num">123</td>
-                                <td id="E_ID">Company Ltd</td>
-                                <td class="hidden-phone" id="E_name">Lorem Ipsum dolor</td>
-                                <td class="hidden-phone" id="E_sex">Lorem Ipsum dolor</td>
-                                <td id="E_position">3</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>
-                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td><i class="fa fa-male"></i>男</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>
-                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">张三</a>
-                                </td>
-                                <td class="hidden-phone">123</td>
-                                <td><i class="fa fa-male"></i>男</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>
-                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            </tbody>
+                            <!--<tr>-->
+                                <!--<td id="E_num">123</td>-->
+                                <!--<td id="E_ID">Company Ltd</td>-->
+                                <!--<td class="hidden-phone" id="E_name">Lorem Ipsum dolor</td>-->
+                                <!--<td class="hidden-phone" id="E_sex">Lorem Ipsum dolor</td>-->
+                                <!--<td id="E_position">3</td>-->
+                                <!--<td>-->
+                                    <!--<button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>-->
+                                    <!--<button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>-->
+                                    <!--<button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<a href="#">Company Ltd</a>-->
+                                <!--</td>-->
+                                <!--<td class="hidden-phone">Lorem Ipsum dolor</td>-->
+                                <!--<td><i class="fa fa-male"></i>男</td>-->
+                                <!--<td>-->
+                                    <!--<button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>-->
+                                    <!--<button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>-->
+                                    <!--<button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<a href="basic_table.html#">张三</a>-->
+                                <!--</td>-->
+                                <!--<td class="hidden-phone">123</td>-->
+                                <!--<td><i class="fa fa-male"></i>男</td>-->
+                                <!--<td>-->
+                                    <!--<button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>-->
+                                    <!--<button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>-->
+                                    <!--<button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
                         </table>
                     </div>
                     <!-- /content-panel -->
@@ -285,48 +285,61 @@
 <script type="application/javascript">
     $(document).ready(function() {
         var pageNum = 0;
-        var obj = [{
-            R_num:126,
-            R_roomtype:"单人间",
-            R_bedtype:"大床房",
-            R_price:100,
-            R_people:1
-        },{
-            R_num:124,
-            R_roomtype:"双人间",
-            R_bedtype:"大床房",
-            R_price:150,
-            R_people:2
-        },{
-            R_num:125,
-            R_roomtype:"双人间",
-            R_bedtype:"大床房",
-            R_price:150,
-            R_people:2
-        }];
-        window.onload = initialTable();
+        var obj;
+        initialData();
+        function initialData() {
+            console.log("222222222222");
+            getData(0);  //初始化获取第0页数据
+        }
+        // 根据页号获取数据
+        function getData(page) {
+            $.ajax({
+                url: "/SelectAllRoomTypeServlet",
+                type:'post',
+                data:{page:page},
+                dataType:'text',
+                success: function(data){
+                    // 后台查询失败
+                    if(data == "Error") {
+                        $("#table_content").html("1加载数据失败，请稍后重试!");
+                        return;
+                    }
+                    obj = JSON.parse(data);
+                    // 后台没有数据
+                    if(obj.length == 0) {
+                        $("#table_content").html("没有房间类型!");
+                        return
+                    }
+                    // 后台有>=1条数据
+                    initialTable(obj);
+                },
+                error: function () {
+                    $("#table_content").html("2加载数据失败，请稍后重试!");
+                }
+            });
+        }
         // 初始化表格
-        function initialTable(){
+        function initialTable(obj){
             pageNum = obj.length;
             setPage(pageNum);
             var html = "";
             for(var i = 0; i < obj.length; i++){
                 // 拼接内容
                 html += "<tr>\n" +
-                    "                                <td name=\"R_num\">";
-                html += obj[i].R_num;
+                    "                                <td name=\"roomnum\">";
+                html += obj[i].R_roomtype;
                 html += "        </td>\n" +
                     "            <td name=\"R_roomtype\">";
-                html += obj[i].R_roomtype;
+                html += obj[i].typename;
                 html += "</td>\n" +
-                    "            <td class=\"hidden-phone\" name=\"R_bedtype\">";
-                html += obj[i].R_bedtype;
+                    "            <td class=\"hidden-phone\" name=\"bedtype\">";
+                html += obj[i].bedtype;
                 html += "</td>\n" +
-                    "            <td class=\"hidden-phone\" name=\"R_price\">";
-                html += obj[i].R_price;
+                    "            <td class=\"hidden-phone\" name=\"price\">";
+                html += obj[i].price;
                 html += "</td>\n" +
-                    "            <td name=\"R_people\">";
-                html += obj[i].R_people;
+                    "            <td name=\"people\">";
+                html += obj[i].people;
                 html += "</td>\n" +
                     "                                <td>\n" +
                     "                                    <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-exclamation-circle\"></i></button>\n" +
@@ -334,7 +347,6 @@
                     "                                    <button class=\"btn btn-danger btn-xs\"  name=\"delete\"><i class=\"fa fa-trash-o \"></i></button>\n" +
                     "                                </td>";
             }
-            console.log(html);
             $("#table_content").html(html);
         }
         // 设置分页数量
@@ -347,48 +359,50 @@
                 laypage.render({
                     elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
                     ,count: pageNum //数据总数，从服务端得到
+                    ,jump: function (obj,first) { // 分页获取数据
+                        if(!first){
+                            getData(obj.curr);
+                        }
+                    }
                 });
                 //监听指定开关
             });
         }
-        // 搜索
+        // 搜索(本地查找，没有重新请求数据库)
         $("#search").click(function () {
             var name = $("#search_name").val();
             var result = [];
-            var temp = [];
             var j = 0;
             // 寻找匹配的数据
             for(var i = 0; i < obj.length; i++) {
-                if(name == obj[i].R_roomtype) {
+                if(name == obj[i].typename) {
                     result[j] = obj[i];
                     j++;
                 }
             }
-            temp = obj;
-            obj = result;
-            initialTable();
-            obj = temp;
+            initialTable(result);
         });
 
         // 详细信息和修改
         $("button[name='detail']").click(function () {
-            var R_num = $(this).closest("tr").find("td[name='R_num']").text();
-            sessionStorage.setItem("R_num",R_num.trim());//页面之间传递数据
-            console.log(sessionStorage.getItem("R_num") + "dsfasdf");
+            alert("dfasdfsaefse");
+            // 获取该类型的编号
+            var R_roomtype = $(this).closest("tr").find("td[name='roomtype']").text();
+            sessionStorage.setItem("R_roomtype",R_roomtype.trim());//页面之间传递数据
             window.open('./m_roomDetail.html','_self');
         });
 
         // 删除某一行
         $("button[name='delete']").click(function () {
-            console.log("执行：删除");
             var temp = this;
             layer.open({
                 content: '确定删除吗？'
                 ,btn: ['删除', '取消']
                 ,yes: function(index, layero){//删除
-                    temp.closest('tr').remove();
-                    setPage(--pageNum);//调整分页数量
+                    // temp.closest('tr').remove();
                     layer.closeAll();
+                    var R_typename = temp.closest('tr').find("td[name='R_roomtype']").val().trim();
+                    deleteData(R_typename,this)
                 }
                 ,btn2: function(index, layero){
                     //按钮【按钮二】的回调
@@ -401,9 +415,43 @@
                     //return false 开启该代码可禁止点击该按钮关闭
                 }
             });
-            console.log("111");
         });
 
+        // 根据房间编号删除相应的类型
+        function deleteData(R_roomtype,temp) {
+            alert(R_roomtype);
+            // $.ajax({
+            //     url: "/DeleteRoomTypeServlet",
+            //     type:'post',
+            //     data:{R_roomtype:R_roomtype},
+            //     dataType:'text',
+            //     success: function(data){
+            //         // 后台删除失败
+            //         if(data != 1) {
+            //             showInsertResult("1删除失败！");
+            //         } else {
+            //             showInsertResult("删除成功！");
+            //             temp.closest('tr').remove();// 移除某一行
+            //         }
+            //     },
+            //     error: function () {
+            //         showInsertResult("2删除失败！");
+            //     }
+            // });
+        }
+
+        // 现实插入的结果
+        function showInsertResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
         // 多选框
         // $('#multiopt').change(function () {
         //     if(this.checked){
