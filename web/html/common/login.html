@@ -35,21 +35,21 @@
     *********************************************************************************************************************************************************** -->
 <div id="login-page">
     <div class="container">
-        <form class="form-login" action="index.html">
+        <form class="form-login" action="" id="login-form">
             <h2 class="form-login-heading">登录</h2>
             <div class="login-wrap">
-                <input type="text" class="form-control" placeholder="User ID" autofocus>
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="输入手机号" autofocus>
                 <br>
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" name="password" class="form-control" placeholder="输入密码">
                 <label class="checkbox" style="margin-left: 20px">
                     <span>
-                        <input type="checkbox" value="remember-me"/> 记住这次登录
+                        <input id="remenberMe" type="checkbox" value="remember-me"/> 记住这次登录
                     </span>
                     <span class="pull-right">
                         <a data-toggle="modal" href="login.html#myModal"> 忘记密码?</a>
                     </span>
                 </label>
-                <button class="btn btn-theme btn-block" onclick="login()" type="submit"><i class="fa fa-lock"></i>
+                <button class="btn btn-theme btn-block" onclick="login()" type="button"><i class="fa fa-lock"></i>
                     登录
                 </button>
                 <hr>
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <!-- Modal -->
-            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
+            <!--<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
                  class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!-- modal -->
         </form>
     </div>
@@ -96,18 +96,73 @@
 <!--BACKSTRETCH-->
 <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
 <script type="text/javascript" src="../../lib/jquery.backstretch.min.js"></script>
+<script src="../../lib/easyCookie.js"></script>
 <script>
-    $.backstretch("img/login-bg.jpg", {
+    $.backstretch("../../img/login-bg.jpg", {
         speed: 500
     });
+    window.onload = function () {
+        var cookies_phone = cookie.get("phone");
+        console.log("check cookies--" + cookies_phone);
+        $('#phone').val(cookies_phone);
+    };
+
 
     function login() {
-        top.location.href="index.html";
+        var formData = $("#login-form").serializeArray();
+        var formjson = transformToJson(formData);
+        console.log(JSON.stringify(formjson));
+        $.ajax({
+            url: "/LoginServlet",
+            data: {jsondata: JSON.stringify(formjson)},
+            type: "post",
+            success: function (flag) {
+                console.log(flag);
+                if (flag == 0) {
+                    alert("登录失败。。。");
+                } else {
+                    loginSuccess(flag);
+                }
+            },
+            error: function () {
+                alert("网络错误。。。");
+            }
+        })
     }
 
     function rigister() {
-        top.location.href="rigister.html";
+        top.location.href = "rigister.html";
     }
+
+    // 转为json数据格式
+    function transformToJson(formData) {
+        var obj = {}
+        for (var i in formData) {
+            /*[{"name":"user","value":"hpc"},{"name":"pwd","value":"123"},{"name":"sex","value":"M"},{"name":"age","value":"100"},{"name":"phone","value":"13011112222"},{"name":"email","value":"xxx@xxx.com"}]
+            */
+            //下标为的i的name做为json对象的key，下标为的i的value做为json对象的value
+            obj[formData[i].name] = formData[i]['value'];
+        }
+        return obj;
+    }
+
+    //登录成功
+    function loginSuccess(flag) {
+        if ($('#remenberMe').attr('checked')) {
+            //记住
+            console.log("remenberMark");
+            cookie.set("phone", flag, 3);
+            console.log("check cookies--" + cookie.get("phone"));
+        } else {
+            //不记住
+            console.log("remenberMark");
+            cookie.set("phone", flag, 0);
+            var cookies_phone = cookie.get("phone");
+            console.log("check cookies--" + cookies_phone);
+        }
+        top.location.href = "/html/client/c_main.html";
+    }
+
 </script>
 </body>
 

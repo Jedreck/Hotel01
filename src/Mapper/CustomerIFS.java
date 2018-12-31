@@ -8,7 +8,12 @@ import java.util.List;
 public interface CustomerIFS {
     public Customer selectCustomerByID(String id)throws IOException;
 
+    public Customer selectCustomerByIDPwd(Customer customer)throws IOException;
+
     public List<Customer> selectCustomerByFuzzyName(String name)throws IOException;
 
     public int insertCustomer(Customer customer)throws IOException;
+
+    public List<Customer> selectCustomerByMultiple(Customer customer)throws IOException;
+
 }

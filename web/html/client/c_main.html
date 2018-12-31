@@ -40,6 +40,8 @@
         }
     </style>
 
+
+
 </head>
 
 <body>
@@ -94,7 +96,7 @@
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
                                                                   width="80"></a></p>
-                <h5 class="centered">Sam Soffes</h5>
+                <h5 id="phone" class="centered"></h5>
 
                 <li class="mt">
                     <a class="active" href="#">
@@ -204,7 +206,7 @@
                 -->
                 Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
             </div>
-            <a href="index.html#" class="go-top">
+            <a href="#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>
         </div>
@@ -223,9 +225,17 @@
 <!--common script for all pages-->
 <script src="../../lib/common-scripts.js"></script>
 
+//load
+<script src="../../lib/easyCookie.js"></script>
+
 <!--图片轮播script-->
 <script src="../../lib/layui/layui.js"></script>
 <script>
+    window.onload = function () {
+        var cookies_phone = cookie.get("phone");
+        console.log("check cookies--" + cookies_phone);
+        $('#phone').val(cookies_phone);
+    };
     layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
             , form = layui.form;
@@ -270,7 +280,6 @@
             options[this.name] = value;
             ins3.reload(options);
         });
-
     });
 </script>
 
@@ -286,8 +295,7 @@
             , min: 0
             , max: 60
         });
-    })
-    console.log("123123");
+    });
 </script>
 
 <!--map-->
