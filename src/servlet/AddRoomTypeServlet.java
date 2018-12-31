@@ -19,19 +19,17 @@ public class AddRoomTypeServlet extends javax.servlet.http.HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         String json = request.getParameter("roomType");
-        System.out.println("获得的json字符串：" + json);
-        int result = 0;
+        int result = 0;// 插入结果
         try {
             Gson gson = new GsonBuilder().create();
             RoomType roomType = gson.fromJson(json, RoomType.class);
-            new RoomTypeDao().insertRoomType(roomType);
+            result = new RoomTypeDao().insertRoomType(roomType);
         }catch (Exception e) {
-            System.out.println("出生动风景奥尔夫阿萨德金佛山df");
-            e.printStackTrace();
+            System.out.println("插入数据出现异常--AddRoomTypeServlet");
+            //e.printStackTrace();
         }
-        System.out.print("插入的结果：" + result);
         PrintWriter out = response.getWriter();
-        out.print("插入的结果：" + result);
+        out.print(result);  //返回插入结果
         out.flush();
         out.close();
     }
