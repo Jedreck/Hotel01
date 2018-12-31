@@ -4,7 +4,7 @@ import Dao.Tools.getSqlSession;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import Mapper.Access.CustomerIFS;
+import Mapper.CustomerIFS;
 import Bean.Customer;
 
 import java.io.IOException;
