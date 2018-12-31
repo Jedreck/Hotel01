@@ -1,4 +1,4 @@
-package Mapper.Access;
+package Mapper;
 
 import Bean.Customer;
 

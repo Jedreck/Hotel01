@@ -11,11 +11,6 @@
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <!--<property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url"
-                          value="jdbc:mysql://192.168.99.222:3306/hotel?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf8"/>
-                <property name="username" value="root"/>
-                <property name="password" value=""/>-->
                 <property name="driver" value="${jdbc.driver}"/>
                 <property name="url" value="${jdbc.url}"/>
                 <property name="username" value="${jdbc.username}"/>
@@ -24,11 +19,6 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="Mapper/XML/Customer.xml"/>
-        <mapper resource="Mapper/XML/Employee.xml"/>
-        <mapper resource="Mapper/XML/Orderform.xml"/>
-        <mapper resource="Mapper/XML/Pictures.xml"/>
-        <mapper resource="Mapper/XML/Roominfo.xml"/>
-        <mapper resource="Mapper/XML/Roomtypeordercheck.xml"/>
+        <package name="Mapper"/>
     </mappers>
 </configuration>
