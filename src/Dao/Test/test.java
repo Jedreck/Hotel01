@@ -90,4 +90,30 @@ public class test {
         session.close();
 
     }
+
+    @Test
+    public void tesstUpdate() throws IOException {
+        //准备数据
+        Customer  customer = new Customer();
+        customer.setCPhone("15888888888");
+        customer.setCId("145154199909093333");
+        customer.setCSex("女");
+        customer.setCName("litao");
+        customer.setCPassword("456456");
+        int success=0,sum=0;
+
+        //建立连接映射
+        SqlSession session = getSqlSession.getSession().openSession();
+        CustomerIFS customerIFS = session.getMapper(CustomerIFS.class);
+
+        //计数
+        sum = customerIFS.updateCustomerByID(customer);
+        LogOut.Info("sum",sum);
+
+        session.commit();
+
+        //关闭
+        session.close();
+
+    }
 }

@@ -5,7 +5,6 @@ import Dao.CustomerDao;
 import Dao.Tools.LogOut;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +23,7 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         String jsonStr = request.getParameter("jsondata");
-        System.out.println("jsonStr" + jsonStr);
+        LogOut.Info("jsonStr" + jsonStr);
 
         JsonElement jsonElement = new JsonParser().parse(jsonStr);
         String phone = jsonElement.getAsJsonObject().get("phone").toString();
@@ -34,24 +33,24 @@ public class LoginServlet extends HttpServlet {
         LogOut.Info(phone, password);
         LogOut.Info("idLenth", String.valueOf(phone.length()));
 
-        if (phone.length() == 11) {
+        if (phone.length() == 11&&password.length()!=0) {
             //Customer登录
             //创建customer用于查询
             Customer customer = new Customer();
             customer.setCPhone(phone);
             customer.setCPassword(password);
             //访问数据库
-            customer = CustomerDao.Login(customer);
+            customer = CustomerDao.getProfile(customer);
             LogOut.Info("Result--", customer);
 
             if (customer == null) {
                 LogOut.Info("Login Fail");
-                out.print(0);  //返回插入结果
+                out.print(0);  //返回结果
             } else {
                 LogOut.Info("Login Success");
                 out.print(customer.getCPhone());
             }
-        } else if (phone.length() == 7) {
+        } else if (phone.length() == 7&&password.length()!=0) {
             //employee登录
         } else
             out.print(0);
