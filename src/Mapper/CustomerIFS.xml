@@ -47,6 +47,19 @@
         </where>
     </select>
 
+    <select id="selectCustomerSumByIDPhone" parameterType="Bean.Customer" resultType="int">
+        select COUNT(*)
+        from customer
+        <where>
+            <if test = "C_ID != null and C_ID != ''">
+                or C_ID = #{C_ID}
+            </if>
+            <if test = "C_phone != null and C_phone != ''">
+                or C_phone = #{C_phone}
+            </if>
+        </where>
+    </select>
+
     <insert id="insertCustomer" parameterType="Bean.Customer" keyProperty="C_ID">
         insert into customer (C_ID, C_phone, C_password, C_name, C_sex)
         values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex})

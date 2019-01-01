@@ -16,4 +16,5 @@ public interface CustomerIFS {
 
     public List<Customer> selectCustomerByMultiple(Customer customer)throws IOException;
 
+    public int selectCustomerSumByIDPhone(Customer customer)throws IOException;
 }

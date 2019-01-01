@@ -1,5 +1,6 @@
 package Dao.Test;
 
+import Dao.Tools.LogOut;
 import Dao.Tools.getSqlSession;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -60,5 +61,33 @@ public class test {
         String phone = jsonElement.getAsJsonObject().get("phone").toString();
         String password = jsonElement.getAsJsonObject().get("password").toString();
         Logger.getRootLogger().info("phone:"+phone+"--pwd:"+password);
+    }
+
+    @Test
+    public void testinsert() throws IOException {
+        //准备数据
+        Customer  customer = new Customer();
+        customer.setCPhone("13888888888");
+        customer.setCId("145154199909093333");
+        int success=0,sum=0;
+
+        //建立连接映射
+        SqlSession session = getSqlSession.getSession().openSession();
+        CustomerIFS customerIFS = session.getMapper(CustomerIFS.class);
+
+        //计数
+        sum = customerIFS.selectCustomerSumByIDPhone(customer);
+        LogOut.Info("sum",sum);
+
+        //插入
+        if(sum==0){
+            LogOut.Info("ready to insert customer !");
+            success = customerIFS.insertCustomer(customer);
+        }
+        session.commit();
+
+        //关闭
+        session.close();
+
     }
 }

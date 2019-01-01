@@ -2,6 +2,7 @@ package servlet;
 
 import Bean.Customer;
 import Dao.CustomerDao;
+import Dao.Tools.LogOut;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.apache.log4j.Logger;
@@ -14,26 +15,26 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "LoginServlet",urlPatterns = "/LoginServlet")
+@WebServlet(name = "LoginServlet", urlPatterns = "/LoginServlet")
 public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("in LoginServlet!!!!");
+        LogOut.Info("in LoginServlet!!!!");
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
 
         String jsonStr = request.getParameter("jsondata");
-        System.out.println("jsonStr"+jsonStr);
+        System.out.println("jsonStr" + jsonStr);
 
         JsonElement jsonElement = new JsonParser().parse(jsonStr);
         String phone = jsonElement.getAsJsonObject().get("phone").toString();
-        phone = phone.substring(1,phone.length()-1);
+        phone = phone.substring(1, phone.length() - 1);
         String password = jsonElement.getAsJsonObject().get("password").toString();
-        password = password.substring(1,password.length()-1);
-        Logger.getRootLogger().info("phone:"+phone+"--pwd:"+password);
-        Logger.getRootLogger().info("phone:"+phone.length());
+        password = password.substring(1, password.length() - 1);
+        LogOut.Info(phone, password);
+        LogOut.Info("idLenth", String.valueOf(phone.length()));
 
-        if(phone.length()==11){
+        if (phone.length() == 11) {
             //Customer登录
             //创建customer用于查询
             Customer customer = new Customer();
@@ -41,23 +42,22 @@ public class LoginServlet extends HttpServlet {
             customer.setCPassword(password);
             //访问数据库
             customer = CustomerDao.Login(customer);
-            Logger.getRootLogger().info("Result--"+customer);
-            System.out.println(customer);
+            LogOut.Info("Result--", customer);
 
-            if(customer==null){
-                Logger.getRootLogger().info("Login Fail");
+            if (customer == null) {
+                LogOut.Info("Login Fail");
                 out.print(0);  //返回插入结果
-            }else{
-                Logger.getRootLogger().info("Login Success");
+            } else {
+                LogOut.Info("Login Success");
                 out.print(customer.getCPhone());
             }
-        }else if(phone.length()==7){
+        } else if (phone.length() == 7) {
             //employee登录
-        }else
+        } else
             out.print(0);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
+        doPost(request, response);
     }
 }

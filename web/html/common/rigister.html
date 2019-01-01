@@ -117,6 +117,7 @@
 <script src="../../lib/jquery/jquery.min.js"></script>
 <!--图片轮播script-->
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../../lib/easyCookie.js"></script>
 
 <script>
     // var STname = true;
@@ -297,26 +298,40 @@
         }
 
         var pwd02 = $("#pwd02").val();
-        if (pwd01 != pwd02) {
+        if (pwd01 !== pwd02) {
             layer.tips('请输入相同密码', '#pwd02', {
                 tips: [2, '#cd2235'],
                 time: 2000
             });
             return false;
         }
+
+        var sex = $('input:radio[name="sex"]:checked').val();
+
         // 向后台传递的注册信息
-        var json = {
-            name:name,
-            idcard:idcard,
-            phone:phone,
-            pwd:pwd01
-        };
+        var formjson = "{\"C_ID\":\"+" + idcard + "\",\"C_phone\":\"+" + phone + "\",\"C_password\":\"+" + pwd01 + "\",\"C_name\":\"+" + name + "\",\"C_sex\":\"+" + sex + "\"}";
+        console.log("json--" + formjson);
 
+        $.ajax({
+            url: "/RigisterServlet",
+            data: {jsondata: formjson},
+            type: "post",
+            success: function (flag) {
+                console.log(flag);
+                if (flag==="0") {
+                    alert("注册失败。。。");
+                } else {
+                    alert("注册成功。。。");
+                    cookie.setTemp("phone",phone);
+                    //top.location.href = "/html/common/login.html";
+                }
+            },
+            error: function () {
+                alert("网络错误。。。");
+            }
+        })
     }
 
-    function cleanup() {
-
-    }
 </script>
 </body>
 

@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>Dashio - Bootstrap Admin Template</title>
+    <title>Login</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -65,8 +65,10 @@
                     </a>
                 </div>
             </div>
-            <!-- Modal -->
-            <!--<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
+        </form>
+        <form>
+             <!--Modal-->
+            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
                  class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -85,8 +87,8 @@
                         </div>
                     </div>
                 </div>
-            </div>-->
-            <!-- modal -->
+            </div>
+             <!--modal-->
         </form>
     </div>
 </div>
@@ -118,7 +120,7 @@
             type: "post",
             success: function (flag) {
                 console.log(flag);
-                if (flag == 0) {
+                if (flag==='0') {
                     alert("登录失败。。。");
                 } else {
                     loginSuccess(flag);
@@ -136,7 +138,7 @@
 
     // 转为json数据格式
     function transformToJson(formData) {
-        var obj = {}
+        var obj = {};
         for (var i in formData) {
             /*[{"name":"user","value":"hpc"},{"name":"pwd","value":"123"},{"name":"sex","value":"M"},{"name":"age","value":"100"},{"name":"phone","value":"13011112222"},{"name":"email","value":"xxx@xxx.com"}]
             */
@@ -148,17 +150,16 @@
 
     //登录成功
     function loginSuccess(flag) {
-        if ($('#remenberMe').attr('checked')) {
+        if ($('#remenberMe').get(0).checked) {
             //记住
-            console.log("remenberMark");
+            console.log("remenberMark c");
             cookie.set("phone", flag, 3);
-            console.log("check cookies--" + cookie.get("phone"));
+            console.log("check cookies1--" + cookie.get("phone"));
         } else {
             //不记住
-            console.log("remenberMark");
-            cookie.set("phone", flag, 0);
-            var cookies_phone = cookie.get("phone");
-            console.log("check cookies--" + cookies_phone);
+            console.log("remenberMark uc");
+            cookie.setTemp("phone",flag);
+            console.log("check cookies2--" + cookie.get("phone"));
         }
         top.location.href = "/html/client/c_main.html";
     }

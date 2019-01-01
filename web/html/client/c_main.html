@@ -2,11 +2,21 @@
 <html lang="en">
 
 <head>
+    <!--load-->
+    <script src="../../lib/easyCookie.js"></script>
+    <script>
+        var cookies_phone = cookie.get("phone");
+        if (cookies_phone == null) {
+            top.location.href = "/html/common/login.html";
+        }
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+
+
     <title>Customer</title>
 
     <!-- Favicons -->
@@ -39,7 +49,6 @@
             height: 34px;
         }
     </style>
-
 
 
 </head>
@@ -225,17 +234,12 @@
 <!--common script for all pages-->
 <script src="../../lib/common-scripts.js"></script>
 
-//load
-<script src="../../lib/easyCookie.js"></script>
-
 <!--图片轮播script-->
 <script src="../../lib/layui/layui.js"></script>
 <script>
-    window.onload = function () {
-        var cookies_phone = cookie.get("phone");
-        console.log("check cookies--" + cookies_phone);
-        $('#phone').val(cookies_phone);
-    };
+    console.log("check cookies--" + cookies_phone);
+    $('#phone').text(cookies_phone);
+
     layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
             , form = layui.form;
