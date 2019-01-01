@@ -42,4 +42,9 @@ public class test {
         session.close();
         System.out.println("123123");
     }
+
+    void test3(){
+
+    }
+
 }
