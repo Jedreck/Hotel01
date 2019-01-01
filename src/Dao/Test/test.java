@@ -1,6 +1,8 @@
 package Dao.Test;
 
 import Dao.Tools.getSqlSession;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -36,10 +38,27 @@ public class test {
 
         //模糊查询
         List<Customer> list = customerIFS.selectCustomerByFuzzyName("涛");
-        Logger.getRootLogger().info("RESULT--"+list);
+        Logger.getRootLogger().info("模糊查询--" + list);
+
+        //综合动态查询
+        Customer customer1 = new Customer();
+//        customer1.setCName(customer.getCName());
+        customer1.setCSex(customer.getCSex());
+
+        list = customerIFS.selectCustomerByMultiple(customer1);
+        Logger.getRootLogger().info("综合动态查询--" + list);
 
         //关闭资源
         session.close();
         System.out.println("123123");
+    }
+
+    @Test
+    public void testJson2obj() {
+        String string = "{\"phone\":\"13846533359\",\"password\":\"123123\"}";
+        JsonElement jsonElement = new JsonParser().parse(string);
+        String phone = jsonElement.getAsJsonObject().get("phone").toString();
+        String password = jsonElement.getAsJsonObject().get("password").toString();
+        Logger.getRootLogger().info("phone:"+phone+"--pwd:"+password);
     }
 }

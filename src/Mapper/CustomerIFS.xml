@@ -2,7 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress SqlDialectInspection -->
 <mapper namespace="Mapper.CustomerIFS">
+
+    <select id="selectCustomerByIDPwd" parameterType="Bean.Customer" resultType="Bean.Customer">
+        SELECT *
+        from customer
+        where C_phone = #{C_phone} and C_password = #{C_password}
+    </select>
 
     <select id="selectCustomerByID" parameterType="java.lang.String" resultType="Bean.Customer">
         SELECT *
@@ -15,6 +22,29 @@
         select *
         from customer
         where C_name like '%${value}%'
+    </select>
+    
+    <!--多参数查询-->
+    <select id="selectCustomerByMultiple" parameterType="Bean.Customer" resultType="Bean.Customer">
+        select *
+        from customer
+        <where>
+            <if test = "C_ID != null and C_ID != ''">
+                and C_ID = #{C_ID}
+            </if>
+            <if test = "C_phone != null and C_phone != ''">
+                and C_phone = #{C_phone}
+            </if>
+            <if test = "C_password != null and C_password != ''">
+                and C_password = #{C_password}
+            </if>
+            <if test = "C_name != null and C_name != ''">
+                and C_name like '%${C_name}%'
+            </if>
+            <if test = "C_sex != null and C_sex != ''">
+                and C_sex like '%${C_sex}%'
+            </if>
+        </where>
     </select>
 
     <insert id="insertCustomer" parameterType="Bean.Customer" keyProperty="C_ID">
