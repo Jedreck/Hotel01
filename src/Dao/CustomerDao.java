@@ -20,7 +20,7 @@ public class CustomerDao {
     public static int Register(Customer customer) throws IOException {
         //传入customer
         //检索phone或ID有没有重复的
-        //有则返回0，没有则返回1
+        //返回0表示插入失败，1表示成功，2表示重复
         int success = 0;
         SqlSession session = getSqlSession.getSession().openSession();
         CustomerIFS customerIFS = session.getMapper(CustomerIFS.class);
@@ -34,9 +34,10 @@ public class CustomerDao {
             LogOut.Info("ready to insert customer !");
             success = customerIFS.insertCustomer(customer);
             session.commit();
+            return success;
         }
         session.close();
-        return success;
+        return 2;
 
     }
 }
