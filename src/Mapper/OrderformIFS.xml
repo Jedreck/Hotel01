@@ -4,4 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Mapper.OrderformIFS">
 
+    <!--通过身份证号查询客户订单-->
+    <select id="selectOrderformByCID" resultType="map">
+        select orderform.*,customer.C_name
+        from orderform,customer
+        where orderform.C_ID = #{C_ID} and customer.C_ID = #{C_ID}
+        limit #{offset},10
+    </select>
+
+    <!--通过订单号查询某个客户订单-->
+    <select id="selectOrderformByOnumber" parameterType="java.lang.String" resultType="map">
+        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,r.price
+        from orderform o,customer c,roomtype r
+        where o.O_num = #{O_num} and
+        c.C_ID in (select cu.C_ID from customer cu,orderform ord where cu.C_ID = ord.C_ID and ord.O_num = #{O_num}) and
+        r.R_roomtype in (select ro.R_roomtype from roomtype ro,orderform ord where ro.R_roomtype = ord.R_type and ord.O_num = #{O_num})
+    </select>
+
+    <select id="GetTotalDatas" parameterType="java.lang.String" resultType="int">
+       select count(*)
+       from orderform
+       where C_ID = #{C_ID}
+    </select>
 </mapper>
