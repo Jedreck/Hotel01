@@ -9,6 +9,7 @@
 <html>
   <head>
     <title>$Title$</title>
+    <a href="/SelectRoomTypeByTBServlet">点击</a>
   </head>
   <body>
   hello

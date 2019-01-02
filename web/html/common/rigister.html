@@ -117,23 +117,9 @@
 <script src="../../lib/jquery/jquery.min.js"></script>
 <!--图片轮播script-->
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../../lib/easyCookie.js"></script>
 
 <script>
-    // var STname = true;
-    // var STIDcard = true;
-    // var STphone = true;
-    // var STpwd1 = false;
-    // var STpwd2 = false;
-
-    // function btmCheck() {
-    //     if (STname && STIDcard && STphone && STpwd1 && STpwd2) {
-    //         $("#rigistBtm").attr("disabled", false);
-    //         console.log("info can change!!")
-    //     } else {
-    //         $("#rigistBtm").attr("disabled", true);
-    //         console.log("info can not change!!")
-    //     }
-    // }
 
     layui.use('form', function () {
         var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
@@ -141,93 +127,6 @@
     });
     layui.use('layer', function () {
         var layer = layui.layer;
-        // $("#name").blur(function () {
-        //     var regName = /^[\S]{2,12}$/;
-        //     var con = $(this).val();
-        //     var result = regName.test(con);
-        //     if (result) {
-        //         STname = true;
-        //     } else {
-        //         STname = false;
-        //         layer.tips('请输入正确姓名，2~12个字符', '#name', {
-        //             tips: [2, '#cd2235'],
-        //             time: 2000
-        //         });
-        //     }
-        //     btmCheck();
-        // });
-        //
-        // $("#idcard").blur(function () {
-        //     var regIDcard = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
-        //     var con = $(this).val();
-        //     var result = regIDcard.test(con);
-        //     if (result) {
-        //         // layer.tips('输入正确', '#idcard', {
-        //         //     tips: [2, '#9ecdca'],
-        //         //     time: 2000
-        //         // });
-        //         STIDcard = true;
-        //     } else {
-        //         STIDcard = false;
-        //         layer.tips('输入18位身份证号', '#idcard', {
-        //             tips: [2, '#cd2235'],
-        //             time: 2000
-        //         });
-        //     }
-        //     btmCheck();
-        // });
-        //
-        // $("#phone").blur(function () {
-        //     var regPhone = /^1(3|4|5|7|8)\d{9}$/;
-        //     var con = $(this).val();
-        //     var result = regPhone.test(con);
-        //     if (result) {
-        //         // layer.tips('输入正确', '#phone', {
-        //         //     tips: [2, '#9ecdca'],
-        //         //     time: 2000
-        //         // });
-        //         STphone = true;
-        //
-        //     } else {
-        //         STphone = false;
-        //         layer.tips('请正确输入11位手机号', '#phone', {
-        //             tips: [2, '#cd2235'],
-        //             time: 2000
-        //         });
-        //     }
-        //     btmCheck();
-        // });
-        //
-        // $("#pwd01").blur(function () {
-        //     var regpwd01 = /^.{6,20}$/;
-        //     var con = $(this).val();
-        //     var result = regpwd01.test(con);
-        //     if (result) {
-        //         STpwd1 = true;
-        //         $("#pwd02").attr("disabled", false);
-        //     } else {
-        //         STpwd1 = false;
-        //         $("#pwd02").attr("disabled", true);
-        //         layer.tips('输入6~20位密码', '#pwd01', {
-        //             tips: [2, '#cd2235'],
-        //             time: 2000
-        //         });
-        //     }
-        // });
-        // $("#pwd02").blur(function () {
-        //     var pwd1 = document.getElementById("pwd01").value;
-        //     var pwd2 = document.getElementById("pwd02").value;
-        //     if (pwd1 == pwd2) {
-        //         STpwd2 = true;
-        //     } else {
-        //         STpwd2 = false;
-        //         layer.tips('请输入相同密码', '#pwd02', {
-        //             tips: [2, '#cd2235'],
-        //             time: 2000
-        //         });
-        //     }
-        //     btmCheck();
-        // });
     });
 
 </script>
@@ -297,26 +196,42 @@
         }
 
         var pwd02 = $("#pwd02").val();
-        if (pwd01 != pwd02) {
+        if (pwd01 !== pwd02) {
             layer.tips('请输入相同密码', '#pwd02', {
                 tips: [2, '#cd2235'],
                 time: 2000
             });
             return false;
         }
+
+        var sex = $('input:radio[name="sex"]:checked').val();
+
         // 向后台传递的注册信息
-        var json = {
-            name:name,
-            idcard:idcard,
-            phone:phone,
-            pwd:pwd01
-        };
+        var formjson = "{\"C_ID\":\"" + idcard + "\",\"C_phone\":\"" + phone + "\",\"C_password\":\"" + pwd01 + "\",\"C_name\":\"" + name + "\",\"C_sex\":\"" + sex + "\"}";
+        console.log("json--" + formjson);
 
+        $.ajax({
+            url: "/RigisterServlet",
+            data: {jsondata: formjson},
+            type: "post",
+            success: function (flag) {
+                console.log(flag);
+                if (flag==="0") {
+                    alert("注册失败。。。");
+                }else if(flag==="2"){
+                    alert("用户已注册。。。请检查输入信息。。。");
+                }else {
+                    alert("注册成功。。。");
+                    cookie.setTemp("phone",phone);
+                    top.location.href = "/html/common/index.html";
+                }
+            },
+            error: function () {
+                alert("网络错误。。。");
+            }
+        })
     }
 
-    function cleanup() {
-
-    }
 </script>
 </body>
 

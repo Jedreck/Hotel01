@@ -2,12 +2,20 @@
 <html lang="en">
 
 <head>
+    <!--load-->
+    <script src="../../lib/easyCookie.js"></script>
+    <script>
+        var cookies_phone = cookie.get("phone");
+        if (cookies_phone == null) {
+            top.location.href = "/html/common/login.html";
+        }
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>Dashio - Bootstrap Admin Template</title>
+    <title>Profile</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -19,7 +27,7 @@
     <!-- Custom styles for this template -->
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../css/style-responsive.css" rel="stylesheet">
-    <!--<script src="../../lib/chart-master/Chart.js"></script>-->
+    <script src="../../lib/chart-master/Chart.js"></script>
 
     <!--layUI 图片轮播-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
@@ -84,7 +92,7 @@
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
                                                                   width="80"></a></p>
-                <h5 class="centered">Sam Soffes</h5>
+                <h5 id="phoneHead" class="centered"></h5>
 
                 <li class="mt">
                     <a class="active" href="#">
@@ -126,19 +134,17 @@
                 <div class="login-wrap">
                     <div style="width: 300px;margin:0 auto;">
                         <form class="layui-form" action="">
-                            <input type="text" class="form-control" placeholder="姓名" id="name" value="李涛" disabled>
+                            <input type="text" class="form-control" placeholder="姓名" id="name" disabled>
                             <br>
-                            <input type="text" class="form-control" placeholder="身份证号码" id="idcard"
-                                   value="150265196603033568" disabled>
+                            <input type="text" class="form-control" placeholder="身份证号码" id="idcard" disabled>
                             <br>
-                            <input type="text" class="form-control" placeholder="手机号码" id="phone" value="15845621548"
-                                   disabled>
+                            <input type="text" class="form-control" placeholder="手机号码" id="phone" disabled>
                             <br>
                             <div class="layui-form-item">
                                 <label class="layui-form-label">性别：</label>
                                 <div class="layui-input-block">
-                                    <input type="radio" id="sexM" name="sex" value="男" title="男" checked disabled>
-                                    <input type="radio" id="sexW" name="sex" value="女" title="女" disabled>
+                                    <input type="radio" id="sexM" name="sex" value="男" title="男" >
+                                    <input type="radio" id="sexW" name="sex" value="女" title="女" >
                                 </div>
                             </div>
                             <input type="password" class="form-control" placeholder="修改密码" id="pwd01" disabled>
@@ -174,7 +180,7 @@
                   Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
                   Licensing information: https://templatemag.com/license/
                 -->
-                Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+                Created with Dashio template by <a href="">TemplateMag</a>
             </div>
             <a href="#" class="go-top">
                 <i class="fa fa-angle-up"></i>
@@ -191,10 +197,56 @@
 <script src="../../lib/jquery.nicescroll.js" type="text/javascript"></script>
 <!--common script for all pages-->
 <script src="../../lib/common-scripts.js"></script>
-<!--script for this page-->
 
 <!--图片轮播script-->
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../../lib/easyCookie.js"></script>
+
+<script>
+    console.log("check cookies--" + cookies_phone);
+    $('#phoneHead').text(cookies_phone);
+    $('#phone').text("123123");
+    var flag = "";
+    $.ajax({
+        url: "/GetProfileServlet",
+        data: {jsondata: cookies_phone},
+        type: "post",
+        success: function (flag) {
+            fillForm(flag)
+        },
+        error: function () {
+            alert("网络错误。。。");
+        }
+    });
+
+    function fillForm(flag) {
+        console.log(flag);
+        if (flag === "0") {
+            alert("获取失败。。。");
+            top.location.href = "/html/client/c_main.html";
+        } else {
+            enableAll();
+            console.log("123123");
+            var info = JSON.parse(flag);
+            console.log(info.C_name.toString());
+            $('#name').val(info.C_name);
+            $('#idcard').val(info.C_ID);
+            $('#phone').val(info.C_phone);
+            if (info.C_sex.toString() === "男") {
+                $("input[name='sex']").get(0).checked = true;
+            } else {
+                $("input[name='sex']").get(1).checked = true;
+                // }
+                layui.use('form', function () {
+                    var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+                    form.render();
+                });
+
+                disableAll();
+            }
+        }
+    }
+</script>
 
 <script>
     var STname = true;
@@ -224,10 +276,6 @@
             var con = $(this).val();
             var result = regName.test(con);
             if (result) {
-                // layer.tips('输入正确', '#name', {
-                //     tips: [2, '#9ecdca'],
-                //     time: 2000
-                // });
                 STname = true;
             } else {
                 STname = false;
@@ -237,17 +285,13 @@
                 });
             }
             btmCheck();
-        })
+        });
 
         $("#idcard").blur(function () {
             var regIDcard = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
             var con = $(this).val();
             var result = regIDcard.test(con);
             if (result) {
-                // layer.tips('输入正确', '#idcard', {
-                //     tips: [2, '#9ecdca'],
-                //     time: 2000
-                // });
                 STIDcard = true;
             } else {
                 STIDcard = false;
@@ -257,19 +301,14 @@
                 });
             }
             btmCheck();
-        })
+        });
 
         $("#phone").change(function () {
             var regPhone = /^1(3|4|5|7|8)\d{9}$/;
             var con = $(this).val();
             var result = regPhone.test(con);
             if (result) {
-                // layer.tips('输入正确', '#phone', {
-                //     tips: [2, '#9ecdca'],
-                //     time: 2000
-                // });
                 STphone = true;
-
             } else {
                 STphone = false;
                 layer.tips('请正确输入11位手机号', '#phone', {
@@ -278,7 +317,7 @@
                 });
             }
             btmCheck();
-        })
+        });
 
         $("#pwd01").change(function () {
             var regpwd01 = /^.{6,20}$/;
@@ -286,16 +325,16 @@
             var result = regpwd01.test(con);
             if (result) {
                 STpwd1 = true;
-                $("#pwd02").attr("disabled",false);
+                $("#pwd02").attr("disabled", false);
             } else {
                 STpwd1 = false;
-                $("#pwd02").attr("disabled",true);
+                $("#pwd02").attr("disabled", true);
                 layer.tips('输入6~20位密码', '#pwd01', {
                     tips: [2, '#cd2235'],
                     time: 2000
                 });
             }
-        })
+        });
         $("#pwd02").change(function () {
             var pwd1 = document.getElementById("pwd01").value;
             var pwd2 = document.getElementById("pwd02").value;
@@ -315,34 +354,14 @@
 </script>
 
 <script>
-    function showlogin() {
-        layui.use('layer', function () {
-            layer.open({
-                type: 2,
-                shadeClose: true,
-                offset: '100px',
-                shade: 0.8,
-                area: ['400px', '500px'],
-                content: './login.html' //iframe的url
-            });
-        });
-    }
-</script>
-
-<script>
     <!--修改模式开与关-->
     var modifyMod = false;
 
     function modify() {
         if (!modifyMod) {
+            console.log("turn modify to true");
             modifyMod = true;
-            $("#name").removeAttr("disabled");
-            $("#idcard").removeAttr("disabled");
-            $("#phone").removeAttr("disabled");
-            $("#pwd01").removeAttr("disabled");
-            //$("#pwd02").removeAttr("disabled");
-            $("#sexM").removeAttr("disabled");
-            $("#sexW").removeAttr("disabled");
+            enableAll();
             layui.use('form', function () {
                 var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
                 form.render();
@@ -351,33 +370,128 @@
             $("#modBtm").text("确认修改");
             $("#modBtm").attr("disabled", true);
         } else {//修改模式下
-
+            console.log("ready to change!!");
+            rigist();
         }
     }
 
     function cansel() {
         if (!modifyMod) {
-            history.go(-1);
+            top.location.href = "/html/client/c_main.html";
         } else {
             modifyMod = false;
-            $("#name").attr("disabled", true);
-            $("#idcard").attr("disabled", true);
-            $("#phone").attr("disabled", true);
-            $("#pwd01").attr("disabled", true);
-            $("#pwd02").attr("disabled", true);
-            $("#sexM").attr("disabled", true);
-            $("#sexW").attr("disabled", true);
-            layui.use('form', function () {
-                var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
-                form.render();
-            });
+            fillForm(flag);
             $("#reset").text("返回");
             $("#modBtm").text("修改");
+            $("#modBtm").removeAttr("disabled");
         }
     }
 
-</script>
+    function enableAll() {
+        $("#name").removeAttr("disabled");
+        //$("#idcard").removeAttr("disabled");
+        $("#phone").removeAttr("disabled");
+        $("#pwd01").removeAttr("disabled");
+        $("#sexM").removeAttr("disabled");
+        $("#sexW").removeAttr("disabled");
+    }
 
+    function disableAll() {
+        $("#name").attr("disabled", true);
+        $("#idcard").attr("disabled", true);
+        $("#phone").attr("disabled", true);
+        $("#pwd01").attr("disabled", true);
+        $("#pwd02").attr("disabled", true);
+        $("#sexM").attr("disabled", true);
+        $("#sexW").attr("disabled", true);
+    }
+
+</script>
+<script>
+    function rigist() {
+        var result = true;
+        var con;
+        // 验证姓名
+        var regName = /^[\S]{2,12}$/;
+        var name = $("#name").val();
+        result = regName.test(name);
+        if (!result) {
+            layer.tips('请输入正确姓名，2~12个字符', '#name', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return result;
+        }
+        // 验证身份证
+        var regIDcard = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
+        var idcard = $("#idcard").val();
+        result = regIDcard.test(idcard);
+        if (!result) {
+            layer.tips('输入18位身份证号', '#idcard', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return result;
+        }
+        // 验证手机号
+        var regPhone = /^1(3|4|5|7|8)\d{9}$/;
+        phone = $("#phone").val();
+        result = regPhone.test(phone);
+        if (!result) {
+            layer.tips('请正确输入11位手机号', '#phone', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return result;
+        }
+        //验证密码
+        var regpwd01 = /^.{6,20}$/;
+        var pwd01 = $("#pwd01").val();
+        result = regpwd01.test(pwd01);
+        if (!result) {
+            layer.tips('输入6~20位密码', '#pwd01', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return result;
+        }
+
+        var pwd02 = $("#pwd02").val();
+        if (pwd01 !== pwd02) {
+            layer.tips('请输入相同密码', '#pwd02', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return false;
+        }
+
+        var sex = $('input:radio[name="sex"]:checked').val();
+
+        // 向后台传递的注册信息
+        var formjson = "{\"C_ID\":\"" + idcard + "\",\"C_phone\":\"" + phone + "\",\"C_password\":\"" + pwd01 + "\",\"C_name\":\"" + name + "\",\"C_sex\":\"" + sex + "\"}";
+        console.log("json--" + formjson);
+
+        $.ajax({
+            url: "/ModifyCustomerServlet",
+            data: {jsondata: formjson},
+            type: "post",
+            success: function (flag) {
+                console.log(flag);
+                if (flag==="0") {
+                    alert("修改失败。。。");
+                }else {
+                    alert("修改成功。。。");
+                    cookie.setTemp("phone",phone);
+                    top.location.href = "/html/client/c_main.html";
+                }
+            },
+            error: function () {
+                alert("网络错误。。。");
+            }
+        })
+    }
+
+</script>
 </body>
 
 </html>

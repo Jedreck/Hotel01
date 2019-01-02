@@ -5,11 +5,11 @@
 <!--suppress SqlDialectInspection -->
 <mapper namespace="Mapper.CustomerIFS">
 
-    <select id="selectCustomerByIDPwd" parameterType="Bean.Customer" resultType="Bean.Customer">
+    <!--<select id="selectCustomerByIDPwd" parameterType="Bean.Customer" resultType="Bean.Customer">
         SELECT *
         from customer
         where C_phone = #{C_phone} and C_password = #{C_password}
-    </select>
+    </select>-->
 
     <select id="selectCustomerByID" parameterType="java.lang.String" resultType="Bean.Customer">
         SELECT *
@@ -23,26 +23,39 @@
         from customer
         where C_name like '%${value}%'
     </select>
-    
+
     <!--多参数查询-->
     <select id="selectCustomerByMultiple" parameterType="Bean.Customer" resultType="Bean.Customer">
         select *
         from customer
         <where>
-            <if test = "C_ID != null and C_ID != ''">
+            <if test="C_ID != null and C_ID != ''">
                 and C_ID = #{C_ID}
             </if>
-            <if test = "C_phone != null and C_phone != ''">
+            <if test="C_phone != null and C_phone != ''">
                 and C_phone = #{C_phone}
             </if>
-            <if test = "C_password != null and C_password != ''">
+            <if test="C_password != null and C_password != ''">
                 and C_password = #{C_password}
             </if>
-            <if test = "C_name != null and C_name != ''">
+            <if test="C_name != null and C_name != ''">
                 and C_name like '%${C_name}%'
             </if>
-            <if test = "C_sex != null and C_sex != ''">
+            <if test="C_sex != null and C_sex != ''">
                 and C_sex like '%${C_sex}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectCustomerSumByIDPhone" parameterType="Bean.Customer" resultType="int">
+        select COUNT(*)
+        from customer
+        <where>
+            <if test="C_ID != null and C_ID != ''">
+                or C_ID = #{C_ID}
+            </if>
+            <if test="C_phone != null and C_phone != ''">
+                or C_phone = #{C_phone}
             </if>
         </where>
     </select>
@@ -51,4 +64,10 @@
         insert into customer (C_ID, C_phone, C_password, C_name, C_sex)
         values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex})
     </insert>
+
+    <update id="updateCustomerByID" parameterType="Bean.Customer">
+        update customer
+        set C_phone = '${C_phone}', C_name = '${C_name}', C_sex = '${C_sex}', C_password = '${C_password}'
+        where C_ID='${C_ID}'
+    </update>
 </mapper>

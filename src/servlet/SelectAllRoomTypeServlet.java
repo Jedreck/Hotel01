@@ -20,20 +20,24 @@ public class SelectAllRoomTypeServlet extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         int page = Integer.valueOf(request.getParameter("page"));// 获取要查找的页号
+        String typename = request.getParameter("typename");
         PrintWriter out = response.getWriter();
         List<RoomType> roomTypeList = null;
         Gson gson = new GsonBuilder().create();
+        int total = 0;
         try {
             RoomTypeDao rtd = new RoomTypeDao();
-            roomTypeList = rtd.selectAllRoomType(page * 10);
+            System.out.println("typename" + typename);
+            roomTypeList = rtd.selectAllRoomType(page * 10, typename);
+            total = rtd.GetTotalDatas(typename);
         }catch (Exception e) {
             System.out.println("查询数据出现异常--SelectAllRoomTypeServlet");
             //e.printStackTrace();
         }
         if(roomTypeList == null) {
-            out.print("Error"); // 查询数据库出错
+            out.print("Error" + "!" + total); // 查询数据库出错
         } else {
-            out.print(gson.toJson(roomTypeList).toString()); // 返回查询到的json数组
+            out.print(gson.toJson(roomTypeList).toString() + "!" + total); // 返回查询到的json数组
         }
     }
 

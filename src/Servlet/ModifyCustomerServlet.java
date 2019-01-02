@@ -5,7 +5,6 @@ import Dao.CustomerDao;
 import Dao.Tools.LogOut;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import sun.rmi.runtime.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,11 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "RigisterServlet", urlPatterns = "/RigisterServlet")
-public class RigisterServlet extends HttpServlet {
+@WebServlet(name = "ModifyCustomerServlet",urlPatterns ="/ModifyCustomerServlet" )
+public class ModifyCustomerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //返回0表示插入失败，用户电话表示成功，2表示重复
-        LogOut.Info("in RigisterServlet!!!!");
+        LogOut.Info("in ModifyCustomerServlet!!!!");
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
@@ -29,25 +27,15 @@ public class RigisterServlet extends HttpServlet {
         LogOut.Info("JsonStr", jsonStr);
         Gson gson = new GsonBuilder().create();
         Customer customer = gson.fromJson(jsonStr, Customer.class);
-        int flag = 0;
-        if (customer.getCPhone().length() != 11 || customer.getCId().length() != 18) {
-            out.print(flag);
-        }else {
-            LogOut.Info("got customer from json", customer);
+        LogOut.Info("customer",customer);
 
-            //插入
-            flag = CustomerDao.Register(customer);
-            LogOut.Info("flag", flag);
+        int flag = CustomerDao.ModifyInfo(customer);
 
-            if (flag == 1) {
-                out.print(customer.getCPhone());
-            } else {
-                out.print(flag);
-            }
-        }
+        LogOut.Info("flag",flag);
+        out.print(flag);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        doPost(request,response);
     }
 }
