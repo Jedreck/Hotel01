@@ -237,6 +237,7 @@
 <script src="../../lib/bootstrap-switch.js"></script>
 
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/my_common.js"></script>
 
 <script>
     layui.use(['laypage','form','layer'], function(){
@@ -264,6 +265,9 @@
          * @param typename 房间类型名
          */
         function getData(page,typename) {
+            $(document).ajaxStart(function () {
+                showProcess("table_content", 6);
+            });
             $.ajax({
                 url: "/SelectAllRoomTypeServlet",
                 type:'post',
@@ -418,13 +422,13 @@
                         showInsertResult("1删除失败！");
                     } else {
                         showInsertResult("删除成功！");
-                        getData(pageNow-1,typenameNow);// 重新获取数据
                     }
                 },
                 error: function () {
                     showInsertResult("2删除失败！");
                 }
             });
+            getData(pageNow-1,typenameNow);// 重新获取数据
         }
 
         // 显示插入的结果

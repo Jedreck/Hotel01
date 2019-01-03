@@ -53,7 +53,7 @@ public class RoomInfoDao {
         try {
             roomTypeList =  roominfoIFS.SelectAllRooms(offset,typename);
         } catch (Exception e){
-            System.out.println("选择房间类型出错-->SelectAllRooms-->RoomInfoDao");
+            System.out.println("选择房间出错-->SelectAllRooms-->RoomInfoDao");
             e.printStackTrace();
         }
         session.close();
@@ -66,14 +66,14 @@ public class RoomInfoDao {
      * @return
      * @throws IOException
      */
-    public int DeleteRoom(String R_num)throws IOException{
+    public int DeleteRoomByNum(String R_num)throws IOException{
         //获取sqlSession对象
         session = getSqlSession.getSession().openSession();
         //创建UserMapper对象，MyBatis自动生成mapper代理
         roominfoIFS = session.getMapper(RoominfoIFS.class);
         int result = 0;
         try {
-            result =  roominfoIFS.DeleteRoom(R_num);
+            result =  roominfoIFS.DeleteRoomByNum(R_num);
             session.commit();
         } catch (Exception e){
             System.out.println("删除出错--DeleteRoom--RoomInfoDao");
@@ -97,7 +97,7 @@ public class RoomInfoDao {
         try {
             roominfo =  roominfoIFS.SelectRoomByNum(R_num);
         } catch (Exception e){
-            System.out.println("选择房间类型出错-->SelectRoomByNum-->RoomInfoDao");
+            System.out.println("选择房间出错-->SelectRoomByNum-->RoomInfoDao");
             e.printStackTrace();
         }
         session.close();
@@ -110,7 +110,7 @@ public class RoomInfoDao {
      * @return 更新结果
      * @throws IOException
      */
-    public int UpdateRoomType(Roominfo roominfo) throws IOException {
+    public int UpdateRoom(Roominfo roominfo) throws IOException {
         //获取sqlSession对象
         session = getSqlSession.getSession().openSession();
         //创建UserMapper对象，MyBatis自动生成mapper代理
@@ -143,6 +143,8 @@ public class RoomInfoDao {
         session.close();
         return total;
     }
+
+
     public static void main(String[] args) {
         try {
 //            Roominfo roominfo = new Roominfo();

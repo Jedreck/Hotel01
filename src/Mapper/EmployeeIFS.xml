@@ -3,5 +3,82 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Mapper.EmployeeIFS">
+    <!--获取该职位有多少的员工(包括已离职和在职的员工)-->
+    <select id="GetTotalByPosition" resultType="int">
+        select count(*) from employee where E_position = #{E_position}
+    </select>
 
+    <!--(在职)根据员工的名字模糊选择员工（管理员）-->
+    <select id="SelectEmployeesByName" parameterType="String" resultType="Bean.Employee">
+        select *
+        from employee where E_status = 1 and (E_position = '经理' or E_position = '酒店前台')
+        <choose>
+            <when test="name == ''"></when>
+            <otherwise>
+                and E_name like '%${name}%'
+            </otherwise>
+        </choose>
+        order by E_num limit #{offset},10
+    </select>
+
+    <!--(在职)获取数据总数，便于分页（管理员）-->
+    <select id="GetTotalDatas" resultType="int">
+        select count(*) from employee where E_status = 1 and (E_position = '经理' or E_position = '酒店前台')
+        <choose>
+            <when test="name == ''"></when>
+            <otherwise>
+                and E_name like '%${name}%'
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--根据员工号选择对应员工的信息-->
+    <select id="SelectEmployeeByEN" resultType="Bean.Employee">
+        select * from employee where E_num = #{E_num}
+    </select>
+
+    <!--增加一个员工-->
+    <insert id="InsertEmployee" parameterType="Bean.Employee">
+        insert into employee(E_num, E_ID, E_phone, E_name, E_password, E_position, E_address, E_hiredate, E_status, E_salary, E_sex)
+        values(#{E_num}, #{E_ID}, #{E_phone}, #{E_name}, #{E_password}, #{E_position}, #{E_address}, #{E_hiredate}, #{E_status}, #{E_salary}, #{E_sex});
+    </insert>
+
+    <!--删除一个员工：将员工的在职状态改为0-->
+    <update id="UpdateEmployeeStatusByEN">
+        update employee set E_status = #{E_status} where E_num = #{E_num}
+    </update>
+
+    <!--更新员工的信息-->
+    <update id="UpdateEmployeeInfo" parameterType="Bean.Employee">
+        update employee set E_ID = #{E_ID},E_phone = #{E_phone}, E_name = #{E_name},
+                            E_password = #{E_password}, E_position = #{E_position},
+                            E_address = #{E_address}, E_hiredate = #{E_hiredate},
+                            E_status = #{E_status}, E_salary = #{E_salary},
+                            E_sex = #{E_sex} where E_num = #{E_num};
+    </update>
+
+    <!--超级管理员-->
+    <!--(在职)根据员工的名字模糊选管理员或者超级管理员（超级管理员）-->
+    <select id="SelectSOM" parameterType="String" resultType="Bean.Employee">
+        select *
+        from employee where E_status = 1 and E_position != '经理' and E_position != '酒店前台'
+        <choose>
+            <when test="name == ''"></when>
+            <otherwise>
+                and E_name like '%${name}%'
+            </otherwise>
+        </choose>
+        order by E_num limit #{offset},10
+    </select>
+
+    <!--(在职)获取数据总数，便于分页（超级管理员）-->
+    <select id="GetTotalSOMDatas" resultType="int">
+        select count(*) from employee where E_status = 1 and E_position != '经理' and E_position != '酒店前台'
+        <choose>
+            <when test="name == ''"></when>
+            <otherwise>
+                and E_name like '%${name}%'
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

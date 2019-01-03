@@ -150,7 +150,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">姓名</label>
                                 <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="name" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                    <input disabled id="C_name" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
                                 </div>
                             </div>
                             <!--<div class="form-group">-->
@@ -162,33 +162,33 @@
                             <div class="form-group layui-form" style="text-align: center">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">性别</label>
                                 <div class="col-md-3 col-xs-11 layui-input-block" style="margin-top: 5px;margin-left: -80px">
-                                    <input type="radio" name="sex" value="男" title="男">
-                                    <input type="radio" name="sex" value="女" title="女" checked="checked">
+                                    <input type="radio" name="C_sex" value="男" title="男" disabled>
+                                    <input type="radio" name="C_sex" value="女" title="女" checked="checked" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">手机号</label>
                                 <div class="col-md-3 col-xs-11">
-                                    <input id="tel" class="form-control form-control-inline input-medium default-date-picker" size="16" type="tel" value="">
+                                    <input disabled id="C_phone" class="form-control form-control-inline input-medium default-date-picker" size="16" type="tel" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">身份证</label>
                                 <div class="col-md-3 col-xs-11">
-                                    <input id="idnum" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                    <input disabled id="C_ID" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">密码</label>
                                 <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="passwd" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                                    <input disabled id="C_password" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
                                 </div>
                             </div>
-                            <div class="showback" style="text-align: center">
-                                <button type="button" class="btn btn-theme" id="submit"><i class="fa fa-check-square"></i> 提交</button>
-                                <button type="button" class="btn btn-theme02" id="delete"><i class="fa fa-trash"></i> 删除</button>
-                                <button type="button" class="btn btn-theme04" id="goback"><i class="fa fa-chevron-circle-left"></i> 返回</button>
-                            </div>
+                            <!--<div class="showback" style="text-align: center">-->
+                                <!--<button type="button" class="btn btn-theme" id="submit"><i class="fa fa-check-square"></i> 提交</button>-->
+                                <!--<button type="button" class="btn btn-theme02" id="delete"><i class="fa fa-trash"></i> 删除</button>-->
+                                <!--<button type="button" class="btn btn-theme04" id="goback"><i class="fa fa-chevron-circle-left"></i> 返回</button>-->
+                            <!--</div>-->
                         </form>
                     </div>
                     <!-- /form-panel -->
@@ -240,134 +240,147 @@
 
 
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/my_common.js"></script>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form;
     });
 </script>
 <script>
-    window.onload = initialData;
-    function initialData() {
-        var obj = {
-            name:"张三",
-                sex:"女",
-            idnum:'123',
-            tel:'123',
-            passwd:'123'
-        };
-        $("#name").val(obj.name);
-        if(obj.sex == '男') {
-            $("input[type='radio'][name='sex'][value='男']").prop("checked",true);
-            layui.form.render();
-        } else {
-            $("input[type='radio'][name='sex'][value='女']").prop("checked",true);
+    $(function () {
+        initialData();
+        function initialData() {
+            var C_ID = sessionStorage.getItem("C_ID");
+            // var obj = {
+            //     name:"张三",
+            //     sex:"女",
+            //     idnum:'123',
+            //     tel:'123',
+            //     passwd:'123'
+            // };
+            $.ajax({
+                url: "/SelectCustomerByIDServlet",
+                type:'post',
+                data:{C_ID:C_ID},
+                dataType:'text',
+                success: function(data){
+                    if(data == "Error") {
+                        showResult("数据查询出错！");
+                    } else {
+                        var obj = JSON.parse(data);
+                        $("#C_name").val(obj.C_name);
+                        if(obj.C_sex == '男') {
+                            $("input[type='radio'][name='C_sex'][value='男']").prop("checked",true);
+                            layui.form.render();
+                        } else {
+                            $("input[type='radio'][name='C_sex'][value='女']").prop("checked",true);
+                        }
+                        $("#C_ID").val(obj.C_ID);
+                        $("#C_phone").val(obj.C_phone);
+                        $("#C_password").val(obj.C_password);
+                    }
+                }});
         }
-        $("#idnum").val(obj.idnum);
-        $("#tel").val(obj.tel);
-        $("#passwd").val(obj.passwd);
-    }
-    ;!function(){
-        var layer = layui.layer,form = layui.form;
-    }();
-    // 返回
-    $("#goback").click(function () {
-         // window.open('./m_clist.html','_self');
-        // window.history.back();
-        window.history.back(-1);
-    });
-    // 删除
-    $("#delete").click(function () {
-        layer.open({
-            content: '确定删除吗？'
-            ,btn: ['删除', '取消']
-            ,yes: function(index, layero){
-                //按钮【按钮一】的回调
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
+        // 返回
+        $("#goback").click(function () {
+            // window.open('./m_clist.html','_self');
+            // window.history.back();
+            window.history.back(-1);
         });
-    });
-    // 提交
-    $("#submit").click(function () {
-        var name = $("#name").val();
-        var tel = $("#tel").val();
-        var sex = $("#sex").val();
-        var passwd = $("#passwd").val();
-        var idnum = $("#idnum").val();
-        layer.open({
-            content: '确定提交吗？'
-            ,btn: ['提交', '取消']
-            ,yes: function(index, layero){
-                var obj = validateInfo(name, tel, sex, passwd, idnum);
-                if(!obj.rw){// 信息有误
-                    layer.closeAll();
-                    layer.open({
-                        content:obj.hintInfo
-                    });
+        // 删除
+        $("#delete").click(function () {
+            layer.open({
+                content: '确定删除吗？'
+                ,btn: ['删除', '取消']
+                ,yes: function(index, layero){
+                    //按钮【按钮一】的回调
                 }
-                // 向后台传递的json数据
-                var json = {
-                    name:name,
-                    tel:tel,
-                    sex:sex,
-                    passwd:passwd,
-                    idnum:idnum
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
                 }
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
+                ,cancel: function(){
+                    //右上角关闭回调
 
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
         });
+        // 提交
+        $("#submit").click(function () {
+            var name = $("#name").val();
+            var tel = $("#tel").val();
+            var sex = $("#sex").val();
+            var passwd = $("#passwd").val();
+            var idnum = $("#idnum").val();
+            layer.open({
+                content: '确定提交吗？'
+                ,btn: ['提交', '取消']
+                ,yes: function(index, layero){
+                    var obj = validateInfo(name, tel, sex, passwd, idnum);
+                    if(!obj.rw){// 信息有误
+                        layer.closeAll();
+                        layer.open({
+                            content:obj.hintInfo
+                        });
+                    }
+                    // 向后台传递的json数据
+                    var json = {
+                        name:name,
+                        tel:tel,
+                        sex:sex,
+                        passwd:passwd,
+                        idnum:idnum
+                    }
+                }
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                ,cancel: function(){
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        });
+        // 验证信息是否正确
+        function validateInfo(name, tel, sex, passwd, idnum) {
+            var hintInfo = "";
+            var tel_regexp="^((/(/d{3}/))|(/d{3}/-))?13[0-9]/d{8}|15[89]/d{8}";
+            var idnum_regexp="/(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)/";
+            var rw = true;
+            if(name.length == ''){
+                hintInfo += '姓名不能为空<br>';
+                rw = false;
+            }
+            if(tel.length == ''){
+                hintInfo += '手机号不能为空<br>';
+                rw = false;
+            } else if(!tel.match(tel_regexp)){
+                hintInfo += '手机号格式不正确<br>';
+                rw = false;
+            }
+            if(passwd.length == ''){
+                hintInfo += '密码不能为空<br>';
+                rw = false;
+            }
+            if(idnum.length == ''){
+                hintInfo += '身份证不能为空<br>';
+                rw = false;
+            } else if(!idnum.match(idnum_regexp)){
+                hintInfo += '身份证格式不正确';
+                rw = false;
+            }
+            console.log(hintInfo);
+            return {
+                rw:rw,
+                hintInfo:hintInfo
+            };
+        }
     });
-    // 验证信息是否正确
-    function validateInfo(name, tel, sex, passwd, idnum) {
-        var hintInfo = "";
-        var tel_regexp="^((/(/d{3}/))|(/d{3}/-))?13[0-9]/d{8}|15[89]/d{8}";
-        var idnum_regexp="/(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)/";
-        var rw = true;
-        if(name.length == ''){
-            hintInfo += '姓名不能为空<br>';
-            rw = false;
-        }
-        if(tel.length == ''){
-            hintInfo += '手机号不能为空<br>';
-            rw = false;
-        } else if(!tel.match(tel_regexp)){
-            hintInfo += '手机号格式不正确<br>';
-            rw = false;
-        }
-        if(passwd.length == ''){
-            hintInfo += '密码不能为空<br>';
-            rw = false;
-        }
-        if(idnum.length == ''){
-            hintInfo += '身份证不能为空<br>';
-            rw = false;
-        } else if(!idnum.match(idnum_regexp)){
-            hintInfo += '身份证格式不正确';
-            rw = false;
-        }
-        console.log(hintInfo);
-        return {
-            rw:rw,
-            hintInfo:hintInfo
-        };
-    }
 </script>
 
 

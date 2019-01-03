@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>员工列表</title>
+    <title>管理员列表</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -111,7 +111,7 @@
                             <hr>
                             <thead>
                             <tr>
-                                <th colspan="5">
+                                <th colspan="6">
                                     <div style="width: 100%;height: 100%">
                                         <div class="form-panel" style="text-align: center">
                                             <form class="form-inline" role="form">
@@ -119,6 +119,7 @@
                                                     <input type="text" class="form-control" id="search_name" placeholder="姓名">
                                                 </div>
                                                 <button type="button" class="btn btn-theme" id="search" name="search"><i class="fa fa-search"></i>>搜索</button>
+                                                <button type="button" class="btn btn-theme" id="refresh" name="refresh"><i class="fa fa-rotate-right"></i>刷新</button>
                                                 <!--多删除-->
                                                 <!--<div style="float: right;">-->
                                                 <!--<div style="float: left;text-align: center;padding: 5px"><label>多选</label></div>-->
@@ -138,6 +139,7 @@
                                 <th class="hidden-phone"><i class="fa fa-user"></i> 姓名</th>
                                 <th class="hidden-phone"><i class="fa fa-genderless"></i> 性别</th>
                                 <th><i class="fa fa-tag"></i> 职位</th>
+                                <th><i class="fa fa-info"></i> 状态</th>
                                 <th><i class="fa fa-pencil-square"></i> 操作</th>
                             </tr>
                             </thead>
@@ -233,41 +235,89 @@
 <script src="../../lib/bootstrap-switch.js"></script>
 
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/my_common.js"></script>
 
 <script type="application/javascript">
-    $(document).ready(function() {
+    $(function() {
         var pageNum = 0;
-        var obj = [{
-            E_num:123,
-            E_name:"张三",
-            E_sex:"男",
-            E_position:"经理"
-        },{
-            E_num:123,
-            E_name:"小红",
-            E_sex:"女",
-            E_position:"酒店前台"
-        }];
-        window.onload = initialTable();
-        // 初始化表格
-        function initialTable(){
+        var obj;
+        var pageNow = 1;// 当前的页
+        var E_nameNow = '';// 当前搜索所用的类型名
+        initialData();
+        // 初始化数据
+        function initialData() {
+            getData(0,"");  //初始化获取第0页数据
+        }
+
+        /**
+         *
+         * @param page 当前的页号
+         * @param E_name 员工的名字 可模糊匹配
+         */
+        function getData(page,E_name) {
+            $(document).ajaxStart(function () {
+                showProcess("table_content",6);
+            });
+            $.ajax({
+                url: "/SelectSOMServlet",
+                type:'post',
+                data:{page:page,E_name:E_name},
+                dataType:'text',
+                timeout : 1000, //超时时间设置，单位毫秒
+                success: function(data){
+                    var str = data.split("!");
+                    var total = parseInt(str[1]);
+                    // 后台查询失败
+                    if(str[0] == "Error") {
+                        $("#table_content").html("没有相应数据！");
+                        setPage(page+1,total,E_name);
+                        return;
+                    }
+                    obj = JSON.parse(str[0]);
+                    // 后台没有数据
+                    if(obj.length == 0) {
+                        $("#table_content").html("没有员工!");
+                        return
+                    }
+                    // 后台有>=1条数据
+                    initialTable(page+1,obj,total,E_name);
+                },
+                error: function () {
+                    $("#table_content").html("2加载数据失败，请稍后重试!");
+                }
+
+            });
+        }
+
+
+        /**
+         *
+         * @param page 当前的页号
+         * @param obj 获取当前页的数据
+         * @param total 数据总量，用于设置分页
+         * @param E_name 员工名
+         */
+        function initialTable(page,obj,total,E_name){
             pageNum = obj.length;
-            setPage(pageNum);
+            setPage(page,total,E_name);
             var html = "";
             for(var i = 0; i < obj.length; i++){
                 // 拼接内容
                 html += "        <tr>\n" +
-                    "            <td id=\"E_ID\">";
+                    "            <td name=\"E_num\">";
                 html += obj[i].E_num;
                 html += "</td>\n" +
-                    "            <td class=\"hidden-phone\" id=\"E_name\">";
+                    "            <td class=\"hidden-phone\" name=\"E_name\">";
                 html += obj[i].E_name;
                 html += "</td>\n" +
-                    "            <td class=\"hidden-phone\" id=\"E_sex\">";
+                    "            <td class=\"hidden-phone\" name=\"E_sex\">";
                 html += obj[i].E_sex;
                 html += "</td>\n" +
-                    "            <td id=\"E_position\"><span style='font-size: 12px' class=\"label label-info label-primary\">";
+                    "            <td name=\"E_position\"><span style='font-size: 12px' class=\"label label-info label-primary\">";
                 html += obj[i].E_position;
+                html += "</td>\n" +
+                    "            <td name=\"E_status\"><span style='font-size: 12px' class=\"label label-success\">";
+                html += obj[i].E_status == 1 ? "在职" : "已离职";
                 html += "</span></td>\n" +
                     "            <td>\n" +
                     "            <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-exclamation-circle\"></i></button>\n" +
@@ -277,80 +327,113 @@
                     "            </tr>";
             }
             $("#table_content").html(html);
+            setAction();// 为动态添加的元素添加事件
         }
-        // 设置分页数量
-        function setPage(pageNum) {
-            console.log(pageNum);
-            layui.use(['laypage','form','layer'], function(){
+
+        /**
+         *
+         * @param page 当前的页号
+         * @param total 数据总量，用于设置分页
+         * @param E_name 员工名
+         */
+        function setPage(page,total,E_name) {
+            layui.use(['laypage','form'], function(){
                 var form = layui.form;
                 var laypage = layui.laypage;
-                var layer = layui.layer;
                 //执行一个laypage实例
                 laypage.render({
                     elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
-                    ,count: pageNum //数据总数，从服务端得到
+                    ,count: total //数据总数，从服务端得到
+                    ,curr:page
+                    ,jump: function (obj,first) { // 分页获取数据
+                        if(!first){
+                            pageNow = obj.curr;
+                            getData(obj.curr-1,E_name);
+                        }
+                    }
                 });
                 //监听指定开关
             });
         }
-        // 搜索
+        // 搜索(本地查找，没有重新请求数据库)
         $("#search").click(function () {
-            var name = $("#search_name").val();
-            var result = [];
-            var temp = [];
-            var j = 0;
-            // 寻找匹配的数据
-            for(var i = 0; i < obj.length; i++) {
-                if(name == obj[i].E_name) {
-                    result[j] = obj[i];
-                    j++;
-                }
-            }
-            var temp = obj;
-            obj = result;
-            initialTable();
-            obj = temp;
+            E_nameNow = $("#search_name").val().trim();
+            getData(0,E_nameNow == '' ? '-1' : E_nameNow);
         });
 
-        // 详细信息和修改
-        $("button[name='detail']").click(function () {
-
-            window.open('./sm_managerDetail.html','_self');
+        // 刷新数据
+        $("#refresh").click(function () {
+            initialData();
         });
 
-        // 删除某一行
-        $("button[name='delete']").click(function () {
-            var temp = this;
-            layer.open({
-                content: '确定删除吗？'
-                ,btn: ['删除', '取消']
-                ,yes: function(index, layero){//删除
-                    temp.closest('tr').remove();
-                    layer.closeAll();
-                }
-                ,btn2: function(index, layero){
-                    //按钮【按钮二】的回调
+        // 动态生成html需要同时为元素添加事件才能响应
+        function setAction(){
+            // // 详细信息和修改
+            $("button[name='detail']").click(function () {
+                var E_num = $($(this).parent().parent()).find("td[name='E_num']").html();
+                sessionStorage.setItem("E_num",E_num.trim());//页面之间传递数据
+                window.open('./sm_managerDetail.html','_self');
+            });
 
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-                ,cancel: function(){
-                    //右上角关闭回调
+            // 删除某一行
+            $("button[name='delete']").click(function () {
+                var E_num = $($(this).parent().parent()).find("td[name='E_num']").html().trim();
+                var temp = this;
+                layer.open({
+                    content: '确定删除吗？'
+                    ,btn: ['删除', '取消']
+                    ,yes: function(index, layero){//删除
+                        layer.closeAll();
+                        deleteData(E_num,temp);
+                    }
+                    ,btn2: function(index, layero){
+                        //按钮【按钮二】的回调
 
-                    //return false 开启该代码可禁止点击该按钮关闭
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    ,cancel: function(){
+                        //右上角关闭回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            });
+        }
+
+        // 根据员工号删除员工
+        function deleteData(E_num) {
+            $.ajax({
+                url: "/DeleteEmployeeServlet",
+                type:'post',
+                data:{E_num:E_num},
+                dataType:'text',
+                success: function(data){
+                    // 后台删除失败
+                    if(data != 1) {
+                        showResult("1删除失败！");
+                    } else {
+                        showResult("删除成功！");
+                    }
+                },
+                error: function () {
+                    showResult("2删除失败！");
                 }
             });
-            console.log("111");
-            setPage(--pageNum);//调整分页数量
-        });
+            getData(pageNow-1,E_nameNow);// 重新获取数据
+        }
 
-        // 多选框
-        // $('#multiopt').change(function () {
-        //     if(this.checked){
-        //         $("div[name='choose']").css('visibility','visible');
-        //     } else {
-        //         $("div[name='choose']").css('visibility','hidden');
-        //     }
-        // });
+        // 显示插入的结果
+        function showResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
     });
 
 

@@ -1,35 +1,48 @@
 package Bean;
 
-
-import java.sql.Date;
-
-
 public class Employee {
+    private int E_status;
+    private double E_salary;
+    private String E_ID;
+    private String E_sex;
     private String E_num;
-    private int E_ID;
     private String E_phone;
     private String E_name;
     private String E_password;
     private String E_position;
     private String E_address;
-    private Date E_hiredate;
-    private int E_status;
-    private double E_salary;
+    private String E_hiredate;
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "E_num='" + E_num + '\'' +
-                ", E_ID=" + E_ID +
-                ", E_phone='" + E_phone + '\'' +
-                ", E_name='" + E_name + '\'' +
-                ", E_password='" + E_password + '\'' +
-                ", E_position='" + E_position + '\'' +
-                ", E_address='" + E_address + '\'' +
-                ", E_hiredate=" + E_hiredate +
-                ", E_status=" + E_status +
-                ", E_salary=" + E_salary +
-                '}';
+    public int getE_status() {
+        return E_status;
+    }
+
+    public void setE_status(int e_status) {
+        E_status = e_status;
+    }
+
+    public double getE_salary() {
+        return E_salary;
+    }
+
+    public void setE_salary(double e_salary) {
+        E_salary = e_salary;
+    }
+
+    public String getE_ID() {
+        return E_ID;
+    }
+
+    public void setE_ID(String e_ID) {
+        E_ID = e_ID;
+    }
+
+    public String getE_sex() {
+        return E_sex;
+    }
+
+    public void setE_sex(String e_sex) {
+        E_sex = e_sex;
     }
 
     public String getE_num() {
@@ -38,14 +51,6 @@ public class Employee {
 
     public void setE_num(String e_num) {
         E_num = e_num;
-    }
-
-    public int getE_ID() {
-        return E_ID;
-    }
-
-    public void setE_ID(int e_ID) {
-        E_ID = e_ID;
     }
 
     public String getE_phone() {
@@ -88,27 +93,28 @@ public class Employee {
         E_address = e_address;
     }
 
-    public Date getE_hiredate() {
+    public String getE_hiredate() {
         return E_hiredate;
     }
 
-    public void setE_hiredate(Date e_hiredate) {
+    public void setE_hiredate(String e_hiredate) {
         E_hiredate = e_hiredate;
     }
 
-    public int getE_status() {
-        return E_status;
-    }
-
-    public void setE_status(int e_status) {
-        E_status = e_status;
-    }
-
-    public double getE_salary() {
-        return E_salary;
-    }
-
-    public void setE_salary(double e_salary) {
-        E_salary = e_salary;
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "E_status=" + E_status +
+                ", E_salary=" + E_salary +
+                ", E_ID='" + E_ID + '\'' +
+                ", E_sex='" + E_sex + '\'' +
+                ", E_num='" + E_num + '\'' +
+                ", E_phone='" + E_phone + '\'' +
+                ", E_name='" + E_name + '\'' +
+                ", E_password='" + E_password + '\'' +
+                ", E_position='" + E_position + '\'' +
+                ", E_address='" + E_address + '\'' +
+                ", E_hiredate='" + E_hiredate + '\'' +
+                '}';
     }
 }

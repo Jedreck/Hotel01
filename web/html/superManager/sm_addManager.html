@@ -44,11 +44,11 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
+        <a href="../common/index.html" class="logo"><b>酒店<span>预订</span></b></a>
         <!--logo end-->
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="login.html">登出</a></li>
+                <li><a class="logout" href="../common/index.html">登出</a></li>
             </ul>
         </div>
     </header>
@@ -65,7 +65,7 @@
                 <h5 class="centered">Sam Soffes</h5>
 
                 <li class="mt">
-                    <a href="#">
+                    <a class="" href="#">
                         <i class="glyphicon glyphicon-home"></i>
                         <span>首页</span>
                     </a>
@@ -81,6 +81,8 @@
                         <li><a href="sm_addManager.html">添加管理员</a></li>
                     </ul>
                 </li>
+
+
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -92,89 +94,110 @@
     <!--main content start-->
     <section id="main-content">
         <section class="wrapper">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 添加管理员</h3>
+            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 添加(超级)管理员</h3>
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
                     <div class="form-panel">
-                        <form action="#" class="form-horizontal style-form">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">工号：</label>
-                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="E_num" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="" disabled="disabled" placeholder="自动分配">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">姓名：</label>
-                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="E_name" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
-                                </div>
-                            </div>
-                            <div class="form-group layui-form" style="text-align: center">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px;">性别：</label>
-                                <div class="col-md-3 col-xs-11 layui-input-inline" style="margin-top: 5px;margin-left: -80px">
-                                    <input type="radio" name="E_sex" value="男" title="男">
-                                    <input type="radio" name="E_sex" value="女" title="女" checked="checked">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">手机号：</label>
-                                <div class="col-md-3 col-xs-11">
-                                    <input id="E_tel" class="form-control form-control-inline input-medium default-date-picker" size="16" type="tel" value="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 10px">身份证：</label>
-                                <div class="col-md-3 col-xs-11">
-                                    <input id="E_id" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">密码：</label>
-                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="E_passwd" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+                        <form class="layui-form layui-form-pane" lay-filter="RoomInfo">
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">员工编号:</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_num" autocomplete="off"
+                                           placeholder="自动生成" class="layui-input" disabled>
                                 </div>
                             </div>
 
                             <div class="layui-form form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">职位：</label>
-                                <div class="layui-input-inline col-md-3 col-xs-11">
-                                    <select id="E_position" lay-filter="aihao" disabled="disabled">
+                                <label class="layui-form-label">身份证*：</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_ID" autocomplete="off" lay-verify="required|identity"
+                                           placeholder="请输入员工身份证" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">姓名:*</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_name" autocomplete="off" class="layui-input"
+                                           lay-verify="required" placeholder="请输入姓名" >
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密码:*</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_password" autocomplete="off" class="layui-input"
+                                           lay-verify="required" placeholder="请输入密码" >
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" pane="">
+                                <label class="layui-form-label">性别*</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="E_sex" value="男" title="男" checked="">
+                                    <input type="radio" name="E_sex" value="女" title="女">
+                                </div>
+                            </div>
+
+                            <div class="layui-form form-group">
+                                <label class="layui-form-label">职位*：</label>
+                                <div class="layui-input-block">
+                                    <select id="E_position" lay-filter="E_position" name="E_position" lay-verify="required">
                                         <option value=""></option>
-                                        <option value="酒店前台">酒店前台</option>
                                         <option value="管理员" selected="">管理员</option>
                                         <option value="超级管理员">超级管理员</option>
-                                        <option value="经理">经理</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">住址：</label>
-                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input id="E_address" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
-                                </div>
-                            </div>
+
+
                             <div class="layui-form form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">在职状态：</label>
-                                <div class="layui-input-inline col-md-3 col-xs-11">
-                                    <select id="E_status" lay-filter="aihao" disabled="disabled" style="color: #0C0C0C">
-                                        <option value=""></option>
+                                <label class="layui-form-label">状态*：</label>
+                                <div class="layui-input-block">
+                                    <select id="E_status" lay-filter="E_status" name="E_status" lay-verify="required" disabled>
                                         <option value="在职">在职</option>
-                                        <option value="已离职" selected="">已离职</option>
+                                        <option value="已离职">已离职</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" style="float: left;text-align: right;padding: 16px">薪资/月(元)：</label>
-                                <div class="col-md-3 col-xs-11" style="margin-top: 5px">
-                                    <input oninput = "value=value.replace(/[^\d]/g,'')" id="E_salary" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" value="">
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">入职时间:*</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="E_hiredate" name="E_hiredate" autocomplete="off" class="layui-input"
+                                           lay-verify="required|date" placeholder="请选择入职时间" >
                                 </div>
                             </div>
-                            <div class="showback" style="text-align: center">
-                                <button type="button" class="btn btn-primary" id="submit"><i class="fa fa-check-square"></i> 提交</button>
-                                <button type="button" class="btn btn-warning" id="reset"><i class="fa fa-undo"></i> 重置</button>
-                                <button type="button" class="btn btn-warning" id="clearAll"><i class="fa fa-eraser"></i> 清空</button>
-                                <button type="button" class="btn btn-info" id="goback"><i class="fa fa-chevron-circle-left"></i> 返回</button>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">工资:*</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_salary" autocomplete="off" class="layui-input"
+                                           lay-verify="required|number" placeholder="请填写工资" >
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">地址:*</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_address" autocomplete="off" class="layui-input"
+                                           lay-verify="required" placeholder="请输入地址" >
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">电话:*</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="E_phone" autocomplete="off" class="layui-input"
+                                           lay-verify="required|phone" placeholder="请输入电话" >
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
+                                <button class="layui-btn layui-btn-danger" id="clearAll" type="reset">清空</button>
                             </div>
                         </form>
                     </div>
@@ -228,184 +251,52 @@
 
 <script src="../../lib/layui/layui.js"></script>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function(){
-        var form = layui.form;
-    });
-</script>
-<script>
-    var obj;
-    window.onload = initialData;
-    function initialData() {
-        obj = {
-            E_num:"123",
-            E_name:"张三",
-            E_sex:"男",
-            E_tel:"123",
-            E_id:"123",
-            E_passwd:"213",
-            E_position:"经理",
-            E_address:"dfsd",
-            E_status:"在职",
-            E_salary:"20000"
-
-        };
-        //$("#E_num").val(obj.E_num);
-        $("#E_name").val(obj.E_name);
-        if(obj.E_sex == '男') {
-            $("input[type='radio'][name='E_sex'][value='男']").prop("checked",true);
-            layui.form.render();
-        } else {
-            $("input[type='radio'][name='E_sex'][value='女']").prop("checked",true);
-        }
-        $("#E_tel").val(obj.E_tel);
-        $("#E_id").val(obj.E_id);
-        $("#E_passwd").val(obj.E_passwd);
-        $("#E_position").val(obj.E_position);
-        $("#E_address").val(obj.E_address);
-        $("#E_status").val(obj.E_status);
-        $("#E_salary").val(obj.E_salary);
-        layui.form.render();
-    }
-    ;!function(){
-        var layer = layui.layer,form = layui.form;
-    }();
-    // 返回
-    $("#goback").click(function () {
-        // window.open('./m_clist.html','_self');
-        // window.history.back();
-        window.history.back(-1);
-    });
-    // 删除
-    $("#delete").click(function () {
-        layer.open({
-            content: '确定删除吗？'
-            ,btn: ['删除', '取消']
-            ,yes: function(index, layero){
-                //按钮【按钮一】的回调
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
+    $(function () {
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form;
+            var laydate = layui.laydate;
+            form.on('submit(submit)', function (data) {//提交表单
+                data.field.E_num = "";
+                data.field.E_ID = data.field.E_ID + "";
+                data.field.E_salary = parseFloat(data.field.E_salary);
+                data.field.E_status = data.field.E_status == "在职" ? 1 : 0;
+                var json = JSON.stringify(data.field);
+                $.ajax({
+                    url: "/AddEmployeeServlet",
+                    type:'post',
+                    data:{employee:json},
+                    dataType:'text',
+                    success: function(data){
+                        if(data == 0) {
+                            showResult("增加" + $("select[name='E_position']").val() + "失败，请重试！");
+                        } else if(data == 1){
+                            showResult("增加" + $("select[name='E_position']").val() + "成功！");
+                        } else {
+                            showResult("该员工已经存在！");
+                        }
+                    }});
+                return false;
+            });
+            laydate.render({
+                elem: '#E_hiredate' //指定元素
+                ,theme:'grid'
+            });
         });
-    });
-    // 提交
-    $("#submit").click(function () {
-        var E_num = $("#E_num").val();
-        var E_name = $("#E_name").val();
-        var E_sex = $("#E_sex").val();
-        var E_tel = $("#E_tel").val();
-        var E_id = $("#E_id").val();
-        var E_passwd = $("#E_passwd").val();
-        var E_position = $("#E_position").val();
-        var E_address = $("#E_address").val();
-        var E_status = $("#E_status").val();
-        var E_salary = $("#E_salary").val();
-        layer.open({
-            content: '确定提交吗？'
-            ,btn: ['提交', '取消']
-            ,yes: function(index, layero){
-                // 向后台传递的json数据
-                var json = {
-                    E_num:E_num,
-                    E_name:E_name,
-                    E_sex:E_sex,
-                    E_tel:E_tel,
-                    E_id:E_id,
-                    E_passwd:E_passwd,
-                    E_position:E_position,
-                    E_address:E_address,
-                    E_status:E_status,
-                    E_salary:E_salary
-                }
-                var obj = validateInfo(json);
-                if(!obj.rw){// 信息有误
+
+        // 显示结果
+        function showResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
                     layer.closeAll();
-                    layer.open({
-                        content:obj.hintInfo
-                    });
                 }
-            }
-            ,btn2: function(index, layero){
-                //按钮【按钮二】的回调
+                ,cancel: function(){
+                }
+            });
+        }
 
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-            ,cancel: function(){
-                //右上角关闭回调
-
-                //return false 开启该代码可禁止点击该按钮关闭
-            }
-        });
     });
-    // 清空表单
-    $("#clearAll").click(function () {
-        $("form input").val("");
-        $("form select").find("option[text='']").prop("selected",true);
-    });
-    // 重置表单为默认状态
-    $("#reset").click(function () {
-        initialData();
-    });
-    // 验证信息是否正确
-    function validateInfo(json) {
-        var hintInfo = "";
-        var tel_regexp="^((/(/d{3}/))|(/d{3}/-))?13[0-9]/d{8}|15[89]/d{8}";
-        var idnum_regexp="/(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)/";
-        var rw = true;
-        if(json.E_name.length == ''){
-            hintInfo += '姓名不能为空<br>';
-            rw = false;
-        }
-
-        if(json.E_tel.length == ''){
-            hintInfo += '手机号不能为空<br>';
-            rw = false;
-        } else if(!json.E_tel.match(tel_regexp)){
-            hintInfo += '手机号格式不正确<br>';
-            rw = false;
-        }
-
-        if(json.E_passwd.length == ''){
-            hintInfo += '密码不能为空<br>';
-            rw = false;
-        }
-
-        if(json.E_id.length == ''){
-            hintInfo += '身份证不能为空<br>';
-            rw = false;
-        } else if(!json.E_id.match(idnum_regexp)){
-            hintInfo += '身份证格式不正确';
-            rw = false;
-        }
-
-        if(json.E_salary.length == ''){
-            hintInfo += '薪资不能为空<br>';
-            rw = false;
-        }
-
-        if(json.E_position.length == ''){
-            hintInfo += '薪资不能为空<br>';
-            rw = false;
-        }
-
-        if(json.E_status.length == ''){
-            hintInfo += '薪资不能为空<br>';
-            rw = false;
-        }
-
-        console.log(hintInfo);
-        return {
-            rw:rw,
-            hintInfo:hintInfo
-        };
-    }
 
 </script>
 

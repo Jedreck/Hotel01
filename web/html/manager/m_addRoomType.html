@@ -351,40 +351,40 @@
     }
 </script>
 <script>
-    var room = {
-        typename: "单人间",
-        bedtype: "大床房",
-        price: 100,
-        people: 3,
-        area: 50,
-        wifi: 0,
-        wirednet:0,
-        windows: 0,
-        smoke: 0,
-        bathroom: 0,
-        facility: "1111",
-        other: "22222"
-    };
-    window.onload = initialData;
-
-    // 表单初始化
-    function initialData() {
-        layui.form.val("RoomInfo", { //表单初始化
-            "typename": room.typename
-            , "bedtype": room.bedtype
-            , "price": room.price
-            , "people": room.people
-            , "area": room.area
-            , "wifi": room.wifi == 1 ? "有" : "无"
-            ,"wirednet":room.wirednet == 1 ? "有" : "无"
-            , "windows": room.windows == 1 ? "有" : "无"
-            , "smoke": room.smoke == 1 ? "允许" : "禁止"
-            , "bathroom": room.bathroom == 1 ? "有" : "无"
-            , "facility": room.facility
-            , "other": room.other
-        });
-        layui.form.render();
-    }
+    // var room = {
+    //     typename: "单人间",
+    //     bedtype: "大床房",
+    //     price: 100,
+    //     people: 3,
+    //     area: 50,
+    //     wifi: 0,
+    //     wirednet:0,
+    //     windows: 0,
+    //     smoke: 0,
+    //     bathroom: 0,
+    //     facility: "1111",
+    //     other: "22222"
+    // };
+    // window.onload = initialData;
+    //
+    // // 表单初始化
+    // function initialData() {
+    //     layui.form.val("RoomInfo", { //表单初始化
+    //         "typename": room.typename
+    //         , "bedtype": room.bedtype
+    //         , "price": room.price
+    //         , "people": room.people
+    //         , "area": room.area
+    //         , "wifi": room.wifi == 1 ? "有" : "无"
+    //         ,"wirednet":room.wirednet == 1 ? "有" : "无"
+    //         , "windows": room.windows == 1 ? "有" : "无"
+    //         , "smoke": room.smoke == 1 ? "允许" : "禁止"
+    //         , "bathroom": room.bathroom == 1 ? "有" : "无"
+    //         , "facility": room.facility
+    //         , "other": room.other
+    //     });
+    //     layui.form.render();
+    // }
 
 
 </script>

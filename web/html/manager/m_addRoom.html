@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>添加客房类型</title>
+    <title>添加房间</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -140,22 +140,17 @@
                         <form class="layui-form layui-form-pane" lay-filter="RoomInfo">
 
                             <div class="layui-form-item">
-                                <label class="layui-form-label">房间编号:</label>
+                                <label class="layui-form-label">房间编号*:</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="R_num" autocomplete="off"
-                                           placeholder="请填写房间号" class="layui-input">
+                                           placeholder="请填写房间号" class="layui-input" lay-verify="required">
                                 </div>
                             </div>
 
                             <div class="layui-form form-group">
                                 <label class="layui-form-label">所属类型*：</label>
                                 <div class="layui-input-block">
-                                    <select id="typename" lay-filter="R_roomtype">
-                                        <option value=""></option>
-                                        <option value="酒店前台">酒店前台</option>
-                                        <option value="管理员" selected="">管理员</option>
-                                        <option value="超级管理员">超级管理员</option>
-                                        <option value="经理">经理</option>
+                                    <select id="typename" lay-filter="R_roomtype" name="R_roomtype">
                                     </select>
                                 </div>
                             </div>
@@ -164,12 +159,12 @@
                                 <label class="layui-form-label">楼层:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="R_floor" autocomplete="off" class="layui-input"
-                                           lay-verify="required" placeholder="请输入楼层">
+                                           lay-verify="required" placeholder="请输入楼层" >
                                 </div>
                             </div>
 
                             <div class="layui-form-item">
-                                <button class="layui-btn" lay-submit="" lay-filter="submit">提交</button>
+                                <button class="layui-btn" lay-submit lay-filter="submit">提交</button>
                                 <button class="layui-btn layui-btn-danger" id="clearAll" type="reset">清空</button>
                             </div>
                         </form>
@@ -224,71 +219,67 @@
 
 <script src="../../lib/layui/layui.js"></script>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form;
-        form.on('submit(submit)', function (data) {//提交表单
-            data.field.R_smoke = data.field.smoke == "禁止" ? false : true;
-            data.field.R_bathroom = data.field.bathroom == "无" ? false : true;
-            data.field.R_wifi = data.field.wifi == "无" ? false : true;
-            data.field.R_wind = data.field.windows == "无" ? false : true;
-            console.log(data.field);
-            var json = JSON.stringify(data.field);
-            alert(json);
+    $(function () {
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form;
+            form.on('submit(submit)', function (data) {//提交表单
+                data.field.R_roomtype = parseInt(data.field.R_roomtype.split("-")[0]);
+                data.field.R_floor = parseInt(data.field.R_floor);
+                data.field.duetime = "1970-08-31";
+                var json = JSON.stringify(data.field);
+                $.ajax({
+                    url: "/AddRoomServlet",
+                    type:'post',
+                    data:{roomInfo:json},
+                    dataType:'text',
+                    success: function(data){
+                        if(data == 0) {
+                            showResult("增加房间失败，请重试！");
+                        } else {
+                            showResult("增加房间成功！");
+                        }
+                    }});
+                return false;
+            });
+        });
+        initialData();
+        // 初始化下拉框的值
+        function initialData() {
             $.ajax({
-                url: "/AddRoomTypeServlet",
+                url: "/SelectTNServlet",
                 type:'post',
-                data:{roomType:json},
                 dataType:'text',
                 success: function(data){
-                    alert(data);
+                    if(data == "Error") {
+                        showResult("数据查询出错！");
+                    } else {
+                        var obj = JSON.parse(data);
+                        typename = $("#typename");
+                        typename.empty();
+                        for(var i = 0; i < obj.length; i++){
+                            var value = obj[i].R_roomtype + '-' +obj[i].typename;
+                            typename.append('<option value="'+ value +'">'+ value + '</option>');
+                        }
+                        layui.form.render();
+
+                    }
                 }});
-            return false;
-        });
+        }
+
+        // 显示结果
+        function showResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
+
     });
-
-</script>
-<script>
-    var room = {
-        R_num: "123",
-        R_roomtype: "单人间",
-        R_bedtype: "大床房",
-        R_price: 100,
-        R_people: 3,
-        R_area: 50,
-        R_story: 5,
-        R_wifi: false,
-        R_wind: false,
-        R_smoke: false,
-        R_bathroom: false,
-        R_facilities: "1111",
-        R_media: "sss",
-        R_view: "sdfsdf",
-        R_other: "22222"
-    };
-    window.onload = initialData;
-
-    // 表单初始化
-    function initialData() {
-        layui.form.val("RoomInfo", { //表单初始化
-            "R_num": room.R_num // "name": "value"
-            , "R_roomtype": room.R_roomtype
-            , "R_bedtype": room.R_bedtype
-            , "R_price": room.R_price
-            , "R_people": room.R_people
-            , "R_area": room.R_area
-            , "R_story": room.R_story
-            , "R_wifi": room.R_wifi ? "有" : "无"
-            , "R_wind": room.R_wind ? "有" : "无"
-            , "R_smoke": room.R_somke ? "允许" : "禁止"
-            , "R_bathroom": room.R_bathroom ? "有" : "无"
-            , "R_facilities": room.R_facilities
-            , "R_media": room.R_media
-            , "R_view": room.R_view
-            , "R_other": room.R_other
-        });
-        layui.form.render();
-    }
-
 
 </script>
 

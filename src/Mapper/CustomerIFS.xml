@@ -17,11 +17,33 @@
         where C_ID = #{test}
     </select>
 
-    <!--${}表示拼接字符串-->
-    <select id="selectCustomerByFuzzyName" parameterType="java.lang.String" resultType="Bean.Customer">
+    <!--按照名字选择客户-->
+    <select id="SelectCustomerByFuzzyName" resultType="Bean.Customer">
         select *
         from customer
-        where C_name like '%${value}%'
+        <choose>
+            <when test="name == ''"></when>
+            <otherwise>
+                where C_name like '%${name}%'
+            </otherwise>
+        </choose>
+        limit #{offset},10
+    </select>
+
+    <!--按照身份证选择客户-->
+    <select id="SelectCustomerByID" resultType="Bean.Customer">
+        select * from customer where C_ID = #{C_ID};
+    </select>
+
+    <!--获取数据总数，便于分页-->
+    <select id="GetTotalDatas" resultType="int">
+        select count(*) from customer
+        <choose>
+            <when test="name == ''"></when>
+            <otherwise>
+                where C_name like '%${name}%'
+            </otherwise>
+        </choose>
     </select>
 
     <!--多参数查询-->

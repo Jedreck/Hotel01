@@ -1,6 +1,9 @@
 package servlet;
 
+
 import Bean.RoomType;
+import Bean.Roominfo;
+import Dao.RoomInfoDao;
 import Dao.RoomTypeDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,18 +12,18 @@ import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "UpdateRoomTypeServlet", urlPatterns = {"/UpdateRoomTypeServlet"})
-public class UpdateRoomTypeServlet extends javax.servlet.http.HttpServlet {
+@WebServlet(name = "UpdateRoomServlet", urlPatterns = {"/UpdateRoomServlet"})
+public class UpdateRoomServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
-        String json = request.getParameter("roomType");
+        String json = request.getParameter("roomInfo");
         int result = 0;
         try {
             Gson gson = new GsonBuilder().create();
-            RoomType roomType = gson.fromJson(json, RoomType.class);
-            System.out.println(roomType.toString());
-            result = new RoomTypeDao().UpdateRoomType(roomType);
+            Roominfo roominfo = gson.fromJson(json, Roominfo.class);
+            System.out.println(roominfo.toString());
+            result = new RoomInfoDao().UpdateRoom(roominfo);
         }catch (Exception e) {
             System.out.println("更新数据出现异常--UpdateRoomTypeServlet");
             e.printStackTrace();

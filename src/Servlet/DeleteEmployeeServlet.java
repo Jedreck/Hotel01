@@ -1,29 +1,23 @@
 package servlet;
 
-import Bean.RoomType;
-import Dao.RoomTypeDao;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import Dao.EmployeeDao;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "UpdateRoomTypeServlet", urlPatterns = {"/UpdateRoomTypeServlet"})
-public class UpdateRoomTypeServlet extends javax.servlet.http.HttpServlet {
+@WebServlet(name = "DeleteEmployeeServlet", urlPatterns = {"/DeleteEmployeeServlet"})
+public class DeleteEmployeeServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
-        String json = request.getParameter("roomType");
+        String E_num = request.getParameter("E_num");
         int result = 0;
         try {
-            Gson gson = new GsonBuilder().create();
-            RoomType roomType = gson.fromJson(json, RoomType.class);
-            System.out.println(roomType.toString());
-            result = new RoomTypeDao().UpdateRoomType(roomType);
+            result = new EmployeeDao().UpdateEmployeeStatusByEN(E_num,0);
         }catch (Exception e) {
-            System.out.println("更新数据出现异常--UpdateRoomTypeServlet");
-            e.printStackTrace();
+            System.out.println("删除数据出现异常--DeleteRoomTypeServlet");
+            //e.printStackTrace();
         }
         PrintWriter out = response.getWriter();
         out.print(result);
