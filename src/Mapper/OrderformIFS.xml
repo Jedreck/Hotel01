@@ -20,10 +20,41 @@
         c.C_ID in (select cu.C_ID from customer cu,orderform ord where cu.C_ID = ord.C_ID and ord.O_num = #{O_num}) and
         r.R_roomtype in (select ro.R_roomtype from roomtype ro,orderform ord where ro.R_roomtype = ord.R_type and ord.O_num = #{O_num})
     </select>
-
+    <!--获取个人订单总数-->
     <select id="GetTotalDatas" parameterType="java.lang.String" resultType="int">
        select count(*)
        from orderform
        where C_ID = #{C_ID}
     </select>
+
+<!--获取可以取消的订单,已接收状态，未接受状态-->
+    <select id="selectOrderCanCancelByCID" resultType="map">
+        select orderform.*,customer.C_name
+        from orderform,customer
+        where orderform.C_ID = #{C_ID} and customer.C_ID = #{C_ID} and (orderform.O_status = 1 or orderform.O_status = 0)
+        limit #{offset},10
+    </select>
+    <!--获取个人可以取消订单总数-->
+    <select id="GetTotalCancelDatas" parameterType="java.lang.String" resultType="int">
+        select count(*)
+        from orderform
+        where C_ID = #{C_ID} and customer.C_ID = #{C_ID} and (orderform.O_status = 1 or orderform.O_status = 0)
+    </select>
+
+    <!--删除预订 -->
+<!--解除预定房间-->
+    <update id="CancleOrderByOnumberRTOC" parameterType="java.lang.String">
+        update roomtypeordercheck
+        set ordernum = ordernum - 1
+        where R_roomtype in (select R_type from orderform where O_num = #{O_num})
+        and optime between date((select checkintime from orderform where O_num = #{O_num}))
+        and DATE_SUB(date((select checkouttime from orderform where O_num = #{O_num})),INTERVAL 1 DAY )
+    </update>
+<!--改变订单状态-->
+    <update id="CancleOrderByOnumberOF" parameterType="java.lang.String">
+        update orderform
+        set O_status = 5
+        where O_num = #{O_num}
+    </update>
+
 </mapper>
