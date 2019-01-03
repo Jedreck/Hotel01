@@ -1,24 +1,25 @@
 package servlet;
 
 import Bean.RoomType;
+import Bean.Roominfo;
 import Dao.RoomInfoDao;
 import Dao.RoomTypeDao;
+import Dao.Tools.getSqlSession;
+import Mapper.RoomTypeIFS;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.ibatis.session.SqlSession;
+import org.junit.Test;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name="SelectAllRoomTypeServlet",urlPatterns={"/SelectAllRoomTypeServlet"})
-public class SelectAllRoomTypeServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+@WebServlet(name = "SelectRoomsServlet", urlPatterns = {"/SelectRoomsServlet"})
+public class SelectRoomsServlet extends javax.servlet.http.HttpServlet {
+    protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         int page = Integer.valueOf(request.getParameter("page"));// 获取要查找的页号
@@ -28,12 +29,12 @@ public class SelectAllRoomTypeServlet extends HttpServlet {
         Gson gson = new GsonBuilder().create();
         int total = 0;
         try {
-            RoomInfoDao rid = new RoomInfoDao();
+            RoomInfoDao rtd = new RoomInfoDao();
             System.out.println("typename" + typename);
-            roomList = rid.SelectAllRooms(page * 10, typename);
-            total = rid.GetTotalDatas(typename);
+            roomList = rtd.SelectAllRooms(page * 10, typename);
+            total = rtd.GetTotalDatas(typename);
         }catch (Exception e) {
-            System.out.println("查询数据出现异常--SelectAllRoomTypeServlet");
+            System.out.println("查询数据出现异常--SelectRoomsServlet");
             //e.printStackTrace();
         }
         if(roomList == null) {
@@ -43,7 +44,8 @@ public class SelectAllRoomTypeServlet extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
+    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
+        doPost(request, response);
     }
+
 }

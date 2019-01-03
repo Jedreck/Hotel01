@@ -12,13 +12,19 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 public class RoomTypeDao {
     private SqlSession session;
     private RoomTypeIFS roomTypeIFS;
 
-    //插入一个房间类型
+    /**
+     * 插入一个房间类型
+     * @param roomType
+     * @return
+     * @throws IOException
+     */
     @Test
     public int insertRoomType(RoomType roomType) throws IOException {
         //获取sqlSession对象
@@ -56,7 +62,12 @@ public class RoomTypeDao {
         return roomTypeList;
     }
 
-    // 删除某个房间类型
+    /**
+     * 根据房间类型名删除房间类型
+     * @param R_typename
+     * @return
+     * @throws IOException
+     */
     public int DeleteRoomType(int R_typename)throws IOException{
         //获取sqlSession对象
         session = getSqlSession.getSession().openSession();
@@ -75,7 +86,7 @@ public class RoomTypeDao {
     }
 
     /**
-     *
+     * 根据房间类型编号选择房间类型
      * @param R_roomtype 房间类型编号
      * @return 根据房间类型编号获得的房间类型
      */
@@ -96,7 +107,7 @@ public class RoomTypeDao {
     }
 
     /**
-     *
+     * 更新房间类型信息
      * @param roomType 需要更新的数据
      * @return 更新结果
      * @throws IOException
@@ -113,6 +124,12 @@ public class RoomTypeDao {
         return result;
     }
 
+    /**
+     * 获取类型名为typename的数据总数
+     * @param typename 类型名
+     * @return 数据总数
+     * @throws IOException
+     */
     public int GetTotalDatas(String typename) throws IOException{
         //获取sqlSession对象
         session = getSqlSession.getSession().openSession();
@@ -129,11 +146,38 @@ public class RoomTypeDao {
         return total;
     }
 
+    /**
+     * 选择所有的房间类型名称
+     * @return 类型名List
+     * @throws IOException
+     */
+    public List<Map<String,Object>> SelectTN()throws IOException{
+        //获取sqlSession对象
+        session = getSqlSession.getSession().openSession();
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        roomTypeIFS = session.getMapper(RoomTypeIFS.class);
+        return roomTypeIFS.SelectTN();
+    }
+
+
+    /**
+     * 当增加一个房间或删除一个房间时 改变roomnum的值
+     * @param R_roomtype 房间类型编号
+     * @param increment 增量，当为负数则减小；反之增加
+     * @throws IOException
+     */
+    public void UpdateRoomNum(int R_roomtype, int increment)throws IOException{
+        session = getSqlSession.getSession().openSession();
+        roomTypeIFS = session.getMapper(RoomTypeIFS.class);
+        roomTypeIFS.UpdateRoomNum(R_roomtype,increment);
+        session.commit();
+        session.close();
+    }
+
     public static void main(String[] args) {
         try {
             RoomTypeDao rtd = new RoomTypeDao();
-            int i = rtd.GetTotalDatas("-1");
-            System.out.println("sdfsdf" + i);
+            System.out.println(rtd.SelectTN().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

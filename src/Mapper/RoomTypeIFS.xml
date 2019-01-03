@@ -26,6 +26,21 @@
         select * from roomtype where R_roomtype = #{R_roomtype}
     </select>
 
+    <select id="GetTotalDatas" parameterType="int" resultType="int">
+    <choose>
+        <when test="typename == ''">
+            select count(*) from roomtype
+        </when>
+        <otherwise>
+            select count(*) from (select R_typename where typename = #{typename})
+        </otherwise>
+    </choose>
+    </select>
+
+    <select id="SelectTN" resultType="map">
+        select R_roomtype,typename from roomtype
+    </select>
+
     <update id="UpdateRoomType" parameterType="Bean.RoomType">
         update roomtype set typename = #{typename}, bedtype = #{bedtype},
                             people = #{people},wifi = #{wifi}, wirednet = #{wirednet},
@@ -34,15 +49,8 @@
                             roomnum = #{roomnum}, price = #{price}, other = #{other} where R_roomtype = #{R_roomtype}
     </update>
 
-    <select id="GetTotalDatas" parameterType="int" resultType="int">
-        <choose>
-            <when test="typename == ''">
-                select count(*) from roomtype
-            </when>
-            <otherwise>
-                select count(*) from (select R_typename where typename = #{typename})
-            </otherwise>
-        </choose>
-    </select>
+    <update id="UpdateRoomNum">
+        update roomtype set roomnum = roomnum + #{increment} where R_roomtype = #{R_roomtype}
+    </update>
 
 </mapper>

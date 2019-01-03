@@ -3,5 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Mapper.RoominfoIFS">
+    <insert id="InsertRoom" parameterType="Bean.Roominfo">
+        insert into roominfo(R_num, R_roomtype, R_floor,duetime)
+        values (#{R_num}, #{R_roomtype}, #{R_floor},#{duetime})
+    </insert>
+
+    <select id="SelectAllRooms" resultType="map">
+       select roominfo.*,roomtype.typename from roominfo,roomtype
+        where roominfo.R_roomtype = roomtype.R_roomtype
+        <choose>
+            <when test="typename == ''"></when>
+            <otherwise>and roominfo.R_roomtype = (select R_roomtype from roomtype
+                where roomtype.typename = #{typename} limit 1)
+            </otherwise>
+        </choose>
+        limit #{offset},10;
+    </select>
+
+    <select id="GetTotalDatas" resultType="int">
+        select count(*) from roominfo,roomtype
+        where roominfo.R_roomtype = roomtype.R_roomtype
+        <choose>
+            <when test="typename == ''"></when>
+            <otherwise>and roominfo.R_roomtype = (select R_roomtype from roomtype
+                where roomtype.typename = #{typename} limit 1)
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>
