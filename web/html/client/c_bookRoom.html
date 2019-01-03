@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!--load-->
+    <script src="../../lib/easyCookie.js"></script>
+    <script>
+        var cookies_phone = cookie.get("phone");
+        if (cookies_phone == null) {
+            top.location.href = "/html/common/login.html";
+        }
+    </script>
+    <!--end load-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -26,12 +35,6 @@
     <!--layUI-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
 
-    <!-- =======================================================
-      Template Name: Dashio
-      Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
-      Author: TemplateMag.com
-      License: https://templatemag.com/license/
-    ======================================================= -->
 </head>
 
 <body>
@@ -86,7 +89,7 @@
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered"><a href="profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
                                                                 width="80"></a></p>
-                <h5 class="centered">Sam Soffes</h5>
+                <h5 id="phone" class="centered"></h5>
 
                 <li class="mt">
                     <a class="" href="c_main.html">
@@ -136,37 +139,33 @@
                                    placeholder="入住日期与离店日期">
                         </td>
                         <td rowspan="5" style="width:150px">
-                            <button class="layui-btn" style="margin-left: 20px" lay-submit=""
-                                    lay-filter="demo1">立即提交
+                            <button class="layui-btn" style="margin-left: 20px" type="button" onclick="submitForm()">立即提交
                             </button>
                         </td>
                     </tr>
                     <tr style="height: 25px;">
                         <td>
-                            <label class="labelFont">房型:</label>
+                            <label class="labelFont">人数:</label>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="singleroom" title="单人间">
+                            <input type="radio" name="people" value="1" title="1人" checked="">
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" style="margin-left: 5px" name="standardroom"
-                                   title="标间"
-                                   checked="">
+                            <input type="radio" name="people" value="2" title="2人">
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" style="margin-left: 5px" name="bigbedroom"
-                                   title="大床房">
+                            <input type="radio" name="people" value="3" title="3人">
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label class="labelFont">宽带:</label>
+                            <label class="labelFont">网络:</label>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="like[write]" title="WIFI">
+                            <input type="checkbox" name="wifi" value="1" title="WIFI" checked>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="like[read]" title="有线" checked>
+                            <input type="checkbox" name="wirednet" value="1" title="有线" >
                         </td>
                     </tr>
                     <tr>
@@ -174,10 +173,10 @@
                             <label class="labelFont">床型:</label>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="like[write]" title="标准">
+                            <input type="checkbox" name="bed_M" value="1" title="标准" checked>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="like[read]" title="大床" checked>
+                            <input type="checkbox" name="bed_L" value="1" title="大床" >
                         </td>
                     </tr>
                     <tr>
@@ -185,22 +184,22 @@
                             <label class="labelFont">窗口:</label>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="like[write]" title="有窗">
+                            <input type="checkbox" name="window1" value="1" title="有窗">
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="like[read]" title="无窗" checked>
+                            <input type="checkbox" name="window0" value="1" title="无窗">
                         </td>
                     </tr>
                 </table>
             </form>
             <!--检索结果-->
             <div style="min-width: 200px;min-height: 200px;">
-                <div class="row mt">
+                <div id="resultPanel" class="row mt">
                     <!--panel-->
                     <div class="col-md-4 col-sm-4 mb">
                         <div class="grey-panel pn donut-chart roomresult_panel">
                             <div class="grey-header">
-                                <h3>标间</h3>
+                                <h3>样板间</h3>
                             </div>
                             <div style="height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
                                 假装有图片
@@ -217,86 +216,7 @@
                             <!--</di/v>-->
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-4 mb">
-                        <div class="grey-panel pn donut-chart roomresult_panel">
-                            <div class="grey-header">
-                                <h3>标间</h3>
-                            </div>
-                            <div style="height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
-                                假装有图片
-                            </div>
-                            <table border="0" style="margin:auto;width: 90%;font-size: 16px">
-                                <tr>
-                                    <td width="20">大床</td>
-                                    <td width="20">有线，WIFI</td>
-                                    <td width="20">有窗</td>
-                                </tr>
-                            </table>
-                            <button class="layui-btn" style="margin-top: 5px">查看详情</button>
-                            <button class="layui-btn" style="margin-top: 5px">预订</button>
-                            <!--</di/v>-->
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 mb">
-                        <div class="grey-panel pn donut-chart roomresult_panel">
-                            <div class="grey-header">
-                                <h3>标间</h3>
-                            </div>
-                            <div style="height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
-                                假装有图片
-                            </div>
-                            <table border="0" style="margin:auto;width: 90%;font-size: 16px">
-                                <tr>
-                                    <td width="20">大床</td>
-                                    <td width="20">有线，WIFI</td>
-                                    <td width="20">有窗</td>
-                                </tr>
-                            </table>
-                            <button class="layui-btn" style="margin-top: 5px">查看详情</button>
-                            <button class="layui-btn" style="margin-top: 5px">预订</button>
-                            <!--</di/v>-->
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 mb">
-                        <div class="grey-panel pn donut-chart roomresult_panel">
-                            <div class="grey-header">
-                                <h3>标间</h3>
-                            </div>
-                            <div style="height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
-                                假装有图片
-                            </div>
-                            <table border="0" style="margin:auto;width: 90%;font-size: 16px">
-                                <tr>
-                                    <td width="20">大床</td>
-                                    <td width="20">有线，WIFI</td>
-                                    <td width="20">有窗</td>
-                                </tr>
-                            </table>
-                            <button class="layui-btn" style="margin-top: 5px">查看详情</button>
-                            <button class="layui-btn" style="margin-top: 5px">预订</button>
-                            <!--</di/v>-->
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-4 mb">
-                        <div class="grey-panel pn donut-chart roomresult_panel">
-                            <div class="grey-header">
-                                <h3>标间</h3>
-                            </div>
-                            <div style="height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
-                                假装有图片
-                            </div>
-                            <table border="0" style="margin:auto;width: 90%;font-size: 16px">
-                                <tr>
-                                    <td width="20">大床</td>
-                                    <td width="20">有线，WIFI</td>
-                                    <td width="20">有窗</td>
-                                </tr>
-                            </table>
-                            <button class="layui-btn" style="margin-top: 5px">查看详情</button>
-                            <button class="layui-btn" style="margin-top: 5px">预订</button>
-                            <!--</di/v>-->
-                        </div>
-                    </div>
+                    <!--end panel-->
                 </div>
             </div>
         </section>
@@ -342,11 +262,165 @@
 
 
 <script src="../../lib/layui/layui.all.js"></script>
+
+<script>
+    console.log("check cookies--" + cookies_phone);
+    $('#phone').text(cookies_phone);
+    var bookInfo = cookie.get("bookInfo");
+    console.log("bookInfo--" + bookInfo);
+    if (bookInfo != null) {
+        console.log("submit info");
+        submitInfo(bookInfo);
+    }
+
+    //json2Div("123");
+
+
+    function submitInfo(jsonStr) {
+        $.ajax({
+            url: "/bookSearchServlet",
+            data: {jsondata: jsonStr},
+            type: "post",
+            success: function (flag) {
+                console.log(flag);
+                if (flag === "0") {
+                    alert("查询失败。。。");
+                } else {
+                    console.log("have info will fill !!");
+                    json2Div(flag);
+                }
+            },
+            error: function () {
+                alert("网络错误。。。");
+            }
+        })
+    }
+
+    function json2Div(jsons) {
+        console.log(jsons);
+        var json = JSON.parse(jsons);
+        var itemStr = "";
+        for (var i = 0; i < json.length; i++) {
+            itemStr += "<div class=\"col-md-4 col-sm-4 mb\">\n" +
+                "                        <div class=\"grey-panel pn donut-chart roomresult_panel\">\n" +
+                "                            <div class=\"grey-header\">\n" +
+                "                                <h3>" + json[i].typename + "</h3>\n" +
+                "                            </div>\n" +
+                "                            <div style=\"height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto\">\n" +
+                "                                图片\n" +
+                "                            </div>\n" +
+                "                            <table border=\"0\" style=\"margin:auto;width: 90%;font-size: 16px\">\n" +
+                "                                <tr>\n" +
+                "                                    <td width=\"20\">";
+            // if(json[i].bedtype==="大床房"){itemStr+=""}
+            itemStr += json[i].bedtype;
+            itemStr += "</td>\n" +
+                "                                    <td width=\"20\">";
+            if (json[i].wifi === 1)
+                itemStr += " WIFI ";
+            if (json[i].wirednet === 1)
+                itemStr += " 有线宽带 ";
+            itemStr += "</td>\n" +
+                "                                    <td width=\"20\">";
+            if (json[i].windows === 1)
+                itemStr += "有窗";
+            itemStr += "</td>\n" +
+                "                                </tr>\n" +
+                "                            </table>\n" +
+                "                            <button class=\"layui-btn\" style=\"margin-top: 5px\" onclick='InfoDetail(";
+            itemStr += json[i].R_roomtype;
+            itemStr += ")'>查看详情</button>\n" +
+                "                            <button class=\"layui-btn\" style=\"margin-top: 5px\" onclick='orderRoom(";
+            itemStr += json[i].R_roomtype;
+            itemStr += ")'>预订</button>\n" +
+                "                            <!--</di/v>-->\n" +
+                "                        </div>\n" +
+                "                    </div>";
+        }
+        $('#resultPanel').html(itemStr);
+    }
+</script>
+
+<script>
+    function InfoDetail(roomtypeID) {
+        console.log(roomtypeID);
+    }
+    function orderRoom(roomtypeID) {
+        console.log(roomtypeID);
+    }
+    function submitForm() {
+        console.log("submit");
+        var bookInfo = "";
+        var date = $('#inDate').val();
+        if(date.length<20){
+            layer.tips('请选择入住与结束日期', '#inDate', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return 0;
+        }
+        console.log("date:"+date.length);
+        bookInfo += "{\"inDate\":\"" + date + "\"";
+
+        var people = $('input:radio[name="people"]:checked').val();
+        console.log("people:"+people);
+        bookInfo += ",\"people\":\"" + people + "\"";
+
+        var wifi = $('input:checkbox[name="wifi"]:checked').val();
+        if(wifi==null)
+            wifi=0;
+        console.log("wifi:"+wifi);
+        bookInfo += ",\"wifi\":\"" + wifi + "\"";
+
+        var wirednet = $('input:checkbox[name="wirednet"]:checked').val();
+        if(wirednet==null)
+            wirednet=0;
+        console.log("wirednet:"+wirednet);
+        bookInfo += ",\"wirednet\":\"" + wirednet + "\"";
+
+        var bedM = $('input:checkbox[name="bed_M"]:checked').val();
+        if(bedM==null)
+            bedM=0;
+        console.log("bed_M:"+bedM);
+        var bedL = $('input:checkbox[name="bed_L"]:checked').val();
+        if(bedL==null)
+            bedL=0;
+        console.log("bed_L:"+bedL);
+        if(bedL==0&&bedM==1){
+            bookInfo += ",\"bedtype\":\"标准床\"";
+        }else if(bedL==1&&bedM==0){
+            bookInfo += ",\"bedtype\":\"大床\"";
+        }else {
+            bookInfo += ",\"bedtype\":\"\"";
+        }
+
+        var window1 = $('input:checkbox[name="window1"]:checked').val();
+        if(window1==null)
+            window1=0;
+        console.log("window1:"+window1);
+        var window0 = $('input:checkbox[name="window0"]:checked').val();
+        if(window0==null)
+            window0=0;
+        console.log("window0:"+window0);
+        if(window1==1&&window0==0){
+            bookInfo += ",\"window\":\"1\"";
+        }else if(window1==0&&window0==1){
+            bookInfo += ",\"window\":\"0\"";
+        }else{
+            bookInfo += ",\"window\":\"\"";
+        }
+        bookInfo+="}";
+        console.log("bookInfo:"+bookInfo);
+    }
+</script>
+
 <script>
     layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
             , form = layui.form;
-
+    });
+    layui.use('layer', function () {
+        var layer = layui.layer;
     });
 </script>
 <!--日期选择器-->
@@ -361,7 +435,7 @@
             , min: 0
             , max: 60
         });
-    })
+    });
     console.log("123123");
 </script>
 

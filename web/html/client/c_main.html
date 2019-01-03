@@ -10,6 +10,7 @@
             top.location.href = "/html/common/login.html";
         }
     </script>
+    <!--end load-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -154,8 +155,8 @@
                 </div>
                 <div class="main_blacktoolbar">
                     <!--<div style="position: relative;">-->
-                    <div class="layui-form">
-                        <table style="margin:auto">
+                    <div id="bookForm" class="layui-form" style="margin-bottom: 10px">
+                        <table style="margin:auto;">
                             <tr>
                                 <td>
                                     <label style="margin: auto;font-size: 20px;color:#ffffff">日期范围:</label>
@@ -166,26 +167,22 @@
                                            placeholder="入住日期与离店日期">
                                 </td>
                                 <td rowspan="2" style="width:150px">
-                                    <button class="layui-btn" style="margin-left: 20px" lay-submit=""
-                                            lay-filter="demo1">立即提交
+                                    <button class="layui-btn" style="margin-left: 20px" type="button" onclick="submitForm()">立即提交
                                     </button>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label style="margin: auto;font-size: 20px;color:#ffffff">床型:</label>
+                                    <label style="margin: auto;font-size: 20px;color:#ffffff">人数（成人）:</label>
                                 </td>
-                                <td style="padding: 5px">
-                                    <input type="checkbox" name="singleroom" title="单人间">
+                                <td style="padding: 5px;color:#ffffff">
+                                    <input type="radio" name="people" value="1" title="1人" checked="">
                                 </td>
-                                <td>
-                                    <input type="checkbox" style="margin-left: 5px" name="standardroom"
-                                           title="标间"
-                                           checked="">
+                                <td style="padding: 5px;color:#ffffff">
+                                    <input type="radio" name="people" value="2" title="2人">
                                 </td>
-                                <td>
-                                    <input type="checkbox" style="margin-left: 5px" name="bigbedroom"
-                                           title="大床房">
+                                <td style="padding: 5px;color:#ffffff">
+                                    <input type="radio" name="people" value="3" title="3人">
                                 </td>
                             </tr>
                         </table>
@@ -235,10 +232,26 @@
 
 <!--图片轮播script-->
 <script src="../../lib/layui/layui.js"></script>
+
 <script>
     console.log("check cookies--" + cookies_phone);
     $('#phone').text(cookies_phone);
+</script>
 
+<script>
+    function submitForm() {
+        var date = $('#inDate').val();
+        console.log("date:"+date);
+        var people = $('input:radio[name="people"]:checked').val();
+        console.log("people:"+people);
+        var bookInfo = "{\"inDate\":\"" + date + "\",\"people\":\"" + people + "\"}";
+        console.log(bookInfo);
+        cookie.setTemp("bookInfo",bookInfo);
+        top.location.href = "/html/client/c_bookRoom.html";
+    }
+</script>
+
+<script>
     layui.use(['carousel', 'form'], function () {
         var carousel = layui.carousel
             , form = layui.form;
@@ -267,22 +280,6 @@
                 ins3.reload(options);
             }
         };
-
-        //监听开关
-        form.on('switch(autoplay)', function () {
-            ins3.reload({
-                autoplay: this.checked
-            });
-        });
-
-        $('.demoSet').on('keyup', function () {
-            var value = this.value
-                , options = {};
-            if (!/^\d+$/.test(value)) return;
-
-            options[this.name] = value;
-            ins3.reload(options);
-        });
     });
 </script>
 

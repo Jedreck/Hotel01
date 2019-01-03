@@ -16,4 +16,6 @@ public interface RoomTypeIFS {
     public void UpdateRoomNum(@Param(value="R_roomtype")int R_roomtype, @Param(value="increment")int increment)throws IOException;
     public int GetTotalDatas(@Param(value="typename") String typename)throws IOException;
     public List<Map<String,Object>> SelectTN()throws IOException;
+    public List<RoomType> selectRoomtypeForBookSearch(RoomType roomType)throws IOException;
+
 }
