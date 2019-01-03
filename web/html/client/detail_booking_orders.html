@@ -111,7 +111,7 @@
                         <span>订单管理</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="order_management.html">取消订单</a></li>
+                        <li><a href="order_cancle.html">取消订单</a></li>
                         <li><a href="order_management.html">历史记录</a></li>
                     </ul>
                 </li>
@@ -405,11 +405,15 @@
 
         // 数据初始化
         function initialData(obj) {
+            var str = obj.checkintime.split(" ");
+            var checkintime = str[0] + str[1] + str[2];
+            str = obj.checkouttime.split(" ");
+            var checkouttime = str[0] + str[1] + str[2];
             $("#order_number").text(obj.O_num);
             $("#order_people").text(obj.C_name);
             $("#people_number").text(obj.people);
-            $("#checkindate").text(obj.checkintime);
-            $("#checkoutdate").text(obj.checkouttime);
+            $("#checkindate").text(checkintime);
+            $("#checkoutdate").text(checkouttime);
             $("#phone_number").text(obj.C_phone);
             $("#roomtype").text(obj.typename);
             $("#area").text(obj.area);

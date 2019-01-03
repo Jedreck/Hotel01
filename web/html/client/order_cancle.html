@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>订单记录</title>
+    <title>取消订单</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -135,7 +135,6 @@
                 <br/>
                 <div class="col-md-12">
                     <div class="content-panel">
-
                         <table class="table table-striped table-advance table-hover">
                             <h4><i class="fa fa-angle-right"></i>订单记录</h4>
                             <hr>
@@ -152,14 +151,14 @@
 
                             <tbody id="table_content">
                             <!--<tr>-->
-                                <!--<td id="order_number">001</td>-->
-                                <!--<td class="hidden-phone" id="order_name">李涛</td>-->
-                                <!--<td id="check_in_date">2018-12-31</td>-->
-                                <!--<td id="order_price">12000.00$</td>-->
-                                <!--<td><span class="label label-info label-mini" id="order_state">Due</span></td>-->
-                                <!--<td>-->
-                                    <!--<button class="btn btn-success btn-xs" name="detail"><i class="fa fa-check"></i></button>-->
-                                <!--</td>-->
+                            <!--<td id="order_number">001</td>-->
+                            <!--<td class="hidden-phone" id="order_name">李涛</td>-->
+                            <!--<td id="check_in_date">2018-12-31</td>-->
+                            <!--<td id="order_price">12000.00$</td>-->
+                            <!--<td><span class="label label-info label-mini" id="order_state">Due</span></td>-->
+                            <!--<td>-->
+                            <!--<button class="btn btn-success btn-xs" name="detail"><i class="fa fa-check"></i></button>-->
+                            <!--</td>-->
                             <!--</tr>-->
                             </tbody>
 
@@ -255,7 +254,7 @@
                 showProcess("table_content");
             });
             $.ajax({
-                url: "/GetOrderInfoServlet",
+                url: "/SelectOrderCanCancelServlet",
                 type:'post',
                 data:{page:page,CustomerID:CustomerID},
                 dataType:'text',
@@ -316,11 +315,11 @@
                 html += "</span></td>\n" +
                     "            <td>\n" +
                     "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-check\"></i></button>\n" +
+                    "             <button class=\"btn btn-danger btn-xs\" name=\"cancel\"><i class=\"fa fa-trash-o\"></i></button>\n" +
                     "            </td>\n" +
                     "            </tr>";
             }
             $("#table_content").html(html);
-
             // 详细信息和修改
             $("button[name='detail']").click(function () {
                 //获取订单号
@@ -329,10 +328,65 @@
                 window.open('./detail_booking_orders.html','_self');
             });
 
+            //删除某一行
+            $("button[name='cancel']").click(function () {
+                //获取订单号
+                var order_number = $($(this).parent().parent()).find("td[name='order_number']").html();
+                layer.open({
+                    content: '确定取消预订吗？'
+                    ,btn: ['确定', '再想想']
+                    ,yes: function(index, layero){//删除
+                        layer.closeAll();
+                        deleteData(order_number,CustomerID)
+                    }
+                    ,btn2: function(index, layero){
+                        //按钮【按钮二】的回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                    ,cancel: function(){
+                        //右上角关闭回调
+
+                        //return false 开启该代码可禁止点击该按钮关闭
+                    }
+                });
+            });
         }
 
+        // 根据订单编号取消相应的预订订单
+        function deleteData(order_num,CustomerID) {
+            $.ajax({
+                url: "/CancelOrderByONumServlet",
+                type:'post',
+                data:{O_num:order_num},
+                dataType:'text',
+                success: function(data){
+                    // 后台删除失败
+                    if(data != "取消订单成功") {
+                        showInsertResult("1取消预订失败！");
+                    } else {
+                        showInsertResult("取消预订成功！");
+                        getData(pageNow-1,CustomerID);// 重新获取数据
+                    }
+                },
+                error: function () {
+                    showInsertResult("2取消预订失败！");
+                }
+            });
+        }
 
-
+        // 显示删除的结果
+        function showInsertResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
         /**
          *
          * @param page 当前的页号
