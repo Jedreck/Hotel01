@@ -1,5 +1,6 @@
 package Dao;
 
+import Dao.Tools.LogOut;
 import Dao.Tools.getSqlSession;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -181,6 +182,20 @@ public class RoomTypeDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<RoomType> bookInfoSearch(RoomType roomType) throws IOException {
+        SqlSession session = getSqlSession.getSession().openSession();
+        RoomTypeIFS roomTypeIFS = session.getMapper(RoomTypeIFS.class);
+
+        List<RoomType> list = roomTypeIFS.selectRoomtypeForBookSearch(roomType);
+
+        LogOut.Info("in bookInfoSearch--result",list);
+
+        session.commit();
+        session.close();
+
+        return list;
     }
 
 }
