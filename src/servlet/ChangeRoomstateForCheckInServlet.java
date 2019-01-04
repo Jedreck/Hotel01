@@ -1,6 +1,8 @@
 package servlet;
 
 import Dao.OrderFormDao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,24 +11,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
-@WebServlet(name = "CancelOrderByONumServlet",urlPatterns = "/CancelOrderByONumServlet")
-public class CancelOrderByONumServlet extends HttpServlet {
+@WebServlet(name = "ChangeRoomstateForCheckInServlet",urlPatterns = "/ChangeRoomstateForCheckInServlet")
+public class ChangeRoomstateForCheckInServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
-        String O_num = request.getParameter("O_num");
-        PrintWriter out = response.getWriter();
-        try{
-            OrderFormDao ofd = new OrderFormDao();
-            ofd.CancelOrderByOnumber(O_num);
 
-            out.print("取消订单成功");
-        }catch (IOException e){
-            System.out.println("取消订单异常--CancelOrderByONumServlet");
+        String O_num = request.getParameter("O_num");
+        String R_num = request.getParameter("R_num");
+
+        int total = 0;//用来获取客户个人订单的总数
+
+        PrintWriter out = response.getWriter();
+        OrderFormDao ofd = new OrderFormDao();
+        try{
+            total = ofd.ChangeRoomstateForCheckIn(O_num,R_num);
+        }catch(IOException e){
+            System.out.println("查询出错 - GetOrderInfoServlet");
         }
-        out.flush();
-        out.close();
+        if(total == 2){
+           out.print("入住成功");
+        }else{
+            out.print("入住出错--ChangeRoomstateForCheckInServlet");
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

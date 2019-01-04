@@ -57,4 +57,97 @@
         where O_num = #{O_num}
     </update>
 
+    <!--前台获取所有已接受订单-->
+    <select id="SelectAllAcceptedOrder" resultType="map">
+        select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
+        from orderform o,customer c, roomtype r
+        where o.O_num in (select O_num from orderform where O_status = 1)
+        and o.C_ID = c.C_ID
+        and r.R_roomtype = o.R_type
+        order by o.checkintime
+        limit #{offset},10
+    </select>
+    <!--前台获取所有已接受订单的总数-->
+    <select id="StaffGetTotalAcceptOrderNum" resultType="int">
+        select count(*)
+        from orderform
+        where O_status = 1
+    </select>
+
+    <!--前台获取所有未接受订单-->
+    <select id="SelectAllUnAcceptedOrder" resultType="map">
+        select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
+        from orderform o,customer c, roomtype r
+        where o.O_num in (select O_num from orderform where O_status = 0)
+        and o.C_ID = c.C_ID
+        and r.R_roomtype = o.R_type and checkouttime >  current_date()
+        order by o.checkintime
+        limit #{offset},10
+    </select>
+    <!--前台获取所有未接受订单的总数-->
+    <select id="StaffGetTotalUnAcceptOrderNum" resultType="int">
+        select count(*)
+        from orderform o
+        where o.O_status = 0 and checkouttime >  current_date()
+    </select>
+
+    <!--接受新的预订订单-->
+    <update id="AcceptOrder">
+        update orderform
+        set O_status = 1
+        where O_num = #{O_num}
+    </update>
+
+    <!--拒绝预定订单-->
+    <!--解除房间占用-->
+    <update id="RejectionOfOrderByNum" parameterType="java.lang.String">
+        update roomtypeordercheck
+        set ordernum = ordernum - 1
+        where R_roomtype in (select R_type from orderform where O_num = #{O_num})
+        and optime between date((select checkintime from orderform where O_num = #{O_num}))
+        and DATE_SUB(date((select checkouttime from orderform where O_num = #{O_num})),INTERVAL 1 DAY )
+    </update>
+    <!--改变订单状态-->
+    <update id="RejectionOfOrderStatus" parameterType="java.lang.String">
+        update orderform
+        set O_status = 2
+        where O_num = #{O_num}
+    </update>
+
+    <!--办理入住-->
+
+    <!--网上预订入住-->
+    <!--查询可以入住的订单-->
+    <select id="SelectOrderCanCheckIn" parameterType="java.lang.String" resultType="map">
+        select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
+        from orderform o,customer c, roomtype r
+        where c.C_phone = #{C_phone}
+              and o.C_ID = c.C_ID
+              and r.R_roomtype = o.R_type and (o.O_status = 0 or o.O_status = 1)
+        order by o.checkintime
+    </select>
+    <!--查询可以入住的房间-->
+    <select id="SelectRoomCanCheckIn" resultType="map">
+        select ri.R_num,ri.R_floor,rt.typename,rt.bedtype,rt.area
+        from roominfo ri,roomtype rt
+        where ri.R_roomtype = (select R_type from orderform where O_num = #{O_num})
+              and rt.R_roomtype = (select R_type from orderform where O_num = #{O_num})
+              and (curdate() > ri.duetime or curdate() = ri.duetime)
+        limit #{offset},10
+    </select>
+    <!--查询某个类型可以入住房间的总数-->
+    <select id="SelectTotalRoomCanCheckInNum" resultType="int">
+        select count(*)
+        from roominfo
+        where (select R_type from orderform where O_num = #{O_num})
+         and (curdate() > roominfo.duetime or curdate() = duetime)
+    </select>
+
+    <!--选择房间入住-->
+    <!--利用R_num改变房间的duetime-->
+    <update id="ChangeRoomstateForCheckIn">
+        update roominfo r,orderform o
+        set r.duetime = date(o.checkouttime),o.O_status = 3
+        where o.O_num = #{O_num} and r.R_num = #{R_num}
+    </update>
 </mapper>
