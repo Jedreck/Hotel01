@@ -251,7 +251,7 @@
 
         function getData(page,CustomerID) {
             $(document).ajaxStart(function () {
-                showProcess("table_content");
+                showProcess("table_content",6);
             });
             $.ajax({
                 url: "/SelectOrderCanCancelServlet",

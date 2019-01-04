@@ -26,6 +26,7 @@
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/my_common.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -154,18 +155,18 @@
                             </thead>
 
                             <tbody id="table_content">
-                            <tr>
-                                <td id="order_number">001</td>
-                                <td class="hidden-phone" id="order_name">李涛</td>
-                                <td id="room_type">单人间</td>
-                                <td id="check_in_date">2018-12-31</td>
-                                <td id="phonenumber">12345678901</td>
-                                <td id="order_status"><span class="label label-info label-mini">Accept</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
+                            <!--<tr>-->
+                                <!--<td id="order_number">001</td>-->
+                                <!--<td class="hidden-phone" id="order_name">李涛</td>-->
+                                <!--<td id="room_type">单人间</td>-->
+                                <!--<td id="check_in_date">2018-12-31</td>-->
+                                <!--<td id="phonenumber">12345678901</td>-->
+                                <!--<td id="order_status"><span class="label label-info label-mini">Accept</span></td>-->
+                                <!--<td>-->
+                                    <!--<button class="btn btn-success btn-xs" name="detail"><i class="fa fa-pencil"></i></button>-->
+                                    <!--<button class="btn btn-danger btn-xs" name="delete"><i class="fa fa-trash-o "></i></button>-->
+                                <!--</td>-->
+                            <!--</tr>-->
                             </tbody>
 
                         </table>
@@ -208,62 +209,114 @@
 </section>
 
 <script type="application/javascript">
-    $(document).ready(function() {
-        var pageNum = 0;
-        var obj = [{
-            E_order_number:"001",
-            E_order_name:"张三",
-            E_room_type:"单人间",
-            E_check_in_date:"2011-11-8",
-            E_phonenumber:"12345678901",
-            E_order_status:"Unaccepted"
-        },{
-            E_order_number:"002",
-            E_order_name:"李涛",
-            E_room_type:"单人间",
-            E_check_in_date:"2011-11-8",
-            E_phonenumber:"12345678901",
-            E_order_status:"Unaccepted"
-        }];
-        window.onload = initialTable();
+    $(function () {
+        var pageNum = 0;//用来接收订单数量
+        var obj;//用来接收查询的订单列表
+        var pageNow = 1;// 当前的页
+
+        initialData();
+
+        //初始化数据
+        function initialData(){
+            getData(0);
+        }
+
+        /**
+         *
+         * @param page 当前的页号
+         */
+        function getData(page) {
+            $(document).ajaxStart(function () {
+                showProcess("table_content",7);
+            });
+            $.ajax({
+                url: "/SelectAllAcceptedOrderServlet",
+                type:'post',
+                data:{page:page},
+                dataType:'text',
+                success: function(data){
+                    var str = data.split("!");
+                    var total = parseInt(str[1]);
+                    // 后台查询失败
+                    if(str == "Error") {
+                        $("#table_content").html("1加载数据失败，请稍后重试!");
+                        return;
+                    }
+                    obj = JSON.parse(str[0]);
+                    // 后台没有数据
+                    if(obj.length == 0) {
+                        $("#table_content").html("没有已预订的订单");
+                        return
+                    }
+                    // 后台有>=1条数据
+                    initialTable(page+1,obj,total);
+                },
+                error:  function () {
+                    $("#table_content").html("2加载数据失败，请稍后重试!");
+                }
+            });
+        }
+
+        /**
+         *
+         * @param page 当前的页号
+         * @param obj 获取当前页的数据
+         * @param total 数据总量，用于设置分页
+         */
         // 初始化表格
-        function initialTable(){
+        function initialTable(page,obj,total) {
             pageNum = obj.length;
-            setPage(pageNum);
+            setPage(page,total);
             var html = "";
             for(var i = 0; i < obj.length; i++){
                 // 拼接内容
                 html += "        <tr>\n" +
-                    "            <td id=\"order_number\">";
-                html += obj[i].E_order_number;
+                    "            <td name=\"order_number\">";
+                html += obj[i].O_num;
                 html += "</td>\n" +
-                    "            <td class=\"hidden-phone\" id=\"order_name\">";
-                html += obj[i].E_order_name;
+                    "            <td class=\"hidden-phone\" name=\"order_name\">";
+                html += obj[i].C_name;
                 html += "</td>\n" +
-                    "            <td id=\"room_type\">";
-                html += obj[i].E_room_type;
+                    "            <td name=\"room_type\">";
+                html += obj[i].typename;
                 html += "</td>\n" +
-                    "            <td id=\"check_in_date\">";
-                html += obj[i].E_check_in_date;
+                    "            <td name=\"check_in_date\">";
+                html += obj[i].checkintime.split(" ")[0];
+                html += obj[i].checkintime.split(" ")[1];
+                html += obj[i].checkintime.split(" ")[2];
                 html += "</td>\n" +
-                    "            <td id=\"phonenumber\">";
-                html += obj[i].E_phonenumber;
+                    "            <td name=\"phonenumber\">";
+                html += obj[i].C_phone;
                 html += "</td>\n" +
-                    "             <td id=\"order_status\"><span class=\"label label-info label-mini\">";
-                html += obj[i].E_order_status;
+                    "             <td name=\"order_status\"><span class=\"label label-info label-mini\">";
+                html += obj[i].O_status;
                 html += "</span></td>\n" +
                     "            <td>\n" +
                     "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-pencil\"></i></button>\n" +
-                    "            <button class=\"btn btn-danger btn-xs\" name=\"delete\"><i class=\"fa fa-trash-o \"></i></button>\n" +
                     "            </td>\n" +
                     "            </tr>";
             }
             console.log(html);
             $("#table_content").html(html);
+
+            // 详细信息和修改
+            $("button[name='detail']").click(function () {
+                //console.log("11111111");
+                //获取订单号
+                var order_number = $($(this).parent().parent()).find("td[name='order_number']").html();
+                console.log(order_number);
+                sessionStorage.setItem("order_number",order_number.trim());//页面之间传递数据
+                window.open('../client/detail_booking_orders.html','_self');
+            });
         }
+
+        /**
+         *
+         * @param page 当前的页号
+         * @param total 数据总量，用于设置分页
+         */
         // 设置分页数量
-        function setPage(pageNum) {
-            console.log(pageNum);
+        function setPage(page,total) {
             layui.use(['laypage','form','layer'], function(){
                 var form = layui.form;
                 var laypage = layui.laypage;
@@ -271,44 +324,120 @@
                 //执行一个laypage实例
                 laypage.render({
                     elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
-                    ,count: pageNum //数据总数，从服务端得到
+                    ,count: total //数据总数，从服务端得到
+                    ,curr:page
+                    ,jump:function (obj,first) {
+                        if(!first){
+                            pageNow = obj.curr;
+                            getData(obj.curr-1);
+                        }
+                    }
                 });
                 //监听指定开关
             });
         }
-
-        // 查看详细预订信息
-        $("button[name='detail']").click(function () {
-
-            window.open('./detail_booking_orders.html','_self');
-        });
-
-        //删除指定的预订
-        $("button[name='delete']").click(function () {
-            console.log("qqq");
-            var temp = this;
-            layer.open({
-                content: '确定删除该预订？'
-                ,btn: ['删除', '取消']
-                ,yes: function(index, layero){//删除
-                    temp.closest('tr').remove();
-                    layer.closeAll();
-                }
-                ,btn2: function(index, layero){
-                    //按钮【按钮二】的回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-                ,cancel: function(){
-                    //右上角关闭回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-            });
-            console.log("111");
-            setPage(--pageNum);//调整分页数量
-        });
     });
+    // $(document).ready(function() {
+    //     var pageNum = 0;
+    //     var obj = [{
+    //         E_order_number:"001",
+    //         E_order_name:"张三",
+    //         E_room_type:"单人间",
+    //         E_check_in_date:"2011-11-8",
+    //         E_phonenumber:"12345678901",
+    //         E_order_status:"Unaccepted"
+    //     },{
+    //         E_order_number:"002",
+    //         E_order_name:"李涛",
+    //         E_room_type:"单人间",
+    //         E_check_in_date:"2011-11-8",
+    //         E_phonenumber:"12345678901",
+    //         E_order_status:"Unaccepted"
+    //     }];
+    //     window.onload = initialTable();
+    //     // 初始化表格
+    //     function initialTable(){
+    //         pageNum = obj.length;
+    //         setPage(pageNum);
+    //         var html = "";
+    //         for(var i = 0; i < obj.length; i++){
+    //             // 拼接内容
+    //             html += "        <tr>\n" +
+    //                 "            <td id=\"order_number\">";
+    //             html += obj[i].E_order_number;
+    //             html += "</td>\n" +
+    //                 "            <td class=\"hidden-phone\" id=\"order_name\">";
+    //             html += obj[i].E_order_name;
+    //             html += "</td>\n" +
+    //                 "            <td id=\"room_type\">";
+    //             html += obj[i].E_room_type;
+    //             html += "</td>\n" +
+    //                 "            <td id=\"check_in_date\">";
+    //             html += obj[i].E_check_in_date;
+    //             html += "</td>\n" +
+    //                 "            <td id=\"phonenumber\">";
+    //             html += obj[i].E_phonenumber;
+    //             html += "</td>\n" +
+    //                 "             <td id=\"order_status\"><span class=\"label label-info label-mini\">";
+    //             html += obj[i].E_order_status;
+    //             html += "</span></td>\n" +
+    //                 "            <td>\n" +
+    //                 "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-pencil\"></i></button>\n" +
+    //                 "            <button class=\"btn btn-danger btn-xs\" name=\"delete\"><i class=\"fa fa-trash-o \"></i></button>\n" +
+    //                 "            </td>\n" +
+    //                 "            </tr>";
+    //         }
+    //         console.log(html);
+    //         $("#table_content").html(html);
+    //     }
+    //     // 设置分页数量
+    //     function setPage(pageNum) {
+    //         console.log(pageNum);
+    //         layui.use(['laypage','form','layer'], function(){
+    //             var form = layui.form;
+    //             var laypage = layui.laypage;
+    //             var layer = layui.layer;
+    //             //执行一个laypage实例
+    //             laypage.render({
+    //                 elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
+    //                 ,count: pageNum //数据总数，从服务端得到
+    //             });
+    //             //监听指定开关
+    //         });
+    //     }
+    //
+    //     // 查看详细预订信息
+    //     $("button[name='detail']").click(function () {
+    //
+    //         window.open('./detail_booking_orders.html','_self');
+    //     });
+    //
+    //     //删除指定的预订
+    //     $("button[name='delete']").click(function () {
+    //         console.log("qqq");
+    //         var temp = this;
+    //         layer.open({
+    //             content: '确定删除该预订？'
+    //             ,btn: ['删除', '取消']
+    //             ,yes: function(index, layero){//删除
+    //                 temp.closest('tr').remove();
+    //                 layer.closeAll();
+    //             }
+    //             ,btn2: function(index, layero){
+    //                 //按钮【按钮二】的回调
+    //
+    //                 //return false 开启该代码可禁止点击该按钮关闭
+    //             }
+    //             ,cancel: function(){
+    //                 //右上角关闭回调
+    //
+    //                 //return false 开启该代码可禁止点击该按钮关闭
+    //             }
+    //         });
+    //         console.log("111");
+    //         setPage(--pageNum);//调整分页数量
+    //     });
+    // });
 </script>
 
 <!-- js placed at the end of the document so the pages load faster -->

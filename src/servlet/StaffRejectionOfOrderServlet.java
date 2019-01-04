@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "CancelOrderByONumServlet",urlPatterns = "/CancelOrderByONumServlet")
-public class CancelOrderByONumServlet extends HttpServlet {
+@WebServlet(name = "StaffRejectionOfOrderServlet",urlPatterns = "/StaffRejectionOfOrderServlet")
+public class StaffRejectionOfOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         String O_num = request.getParameter("O_num");
         PrintWriter out = response.getWriter();
+        int inde = 0;
         try{
             OrderFormDao ofd = new OrderFormDao();
-            ofd.CancelOrderByOnumber(O_num);
-
-            out.print("取消订单成功");
+            inde = ofd.RejectionOfOrder(O_num);
+            out.print(inde);
         }catch (IOException e){
-            System.out.println("取消订单异常--CancelOrderByONumServlet");
+            System.out.println("拒绝订单异常--StaffRejectionOfOrderServlet");
         }
         out.flush();
         out.close();

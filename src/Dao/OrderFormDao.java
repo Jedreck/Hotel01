@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import Dao.Tools.getSqlSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -136,12 +137,134 @@ public class OrderFormDao {
        // return total;
     }
 
+    //酒店管理人员查询所有已经预定的订单
+    public List<Map<String,Object>> SelectAllAcceptedOrder(int offect)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        List<Map<String,Object>> orderformlist = null;
+        try{
+            orderformlist = orderformIFS.SelectAllAcceptedOrder(offect);
+        }catch (IOException e){
+            System.out.println("查询客户已预订订单信息出错");
+            e.printStackTrace();
+        }
+        //System.out.println(orderformlist);
+        session.commit();
+        session.close();
+        return orderformlist;
+    }
+    //所有已经预定订单的数量
+    public int StaffGetTotalAcceptOrderNum()throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        int total = 0;
+        try{
+            total = orderformIFS.StaffGetTotalAcceptOrderNum();
+        }catch (Exception e){
+            System.out.println("客户可以取消的房间总数->GetTotalCancelDatas");
+        }
+        session.close();
+        return total;
+    }
+
+    //酒店管理人员查询所有未经预定的订单
+    public List<Map<String,Object>> SelectAllUnAcceptedOrder(int offect)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        List<Map<String,Object>> orderformlist = null;
+
+        try{
+            orderformlist = orderformIFS.SelectAllUnAcceptedOrder(offect);
+        }catch (IOException e){
+            System.out.println("查询客户未预订订单信息出错");
+            e.printStackTrace();
+        }
+        //System.out.println("1111111111111111111111111111111111111111111111111111111111");
+        //System.out.println("11111111"+orderformlist);
+        session.commit();
+        session.close();
+        return orderformlist;
+    }
+    //所有未预定订单的数量
+    public int StaffGetTotalUnAcceptOrderNum()throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        int total = 0;
+        try{
+            total = orderformIFS.StaffGetTotalUnAcceptOrderNum();
+        }catch (Exception e){
+            System.out.println("客户可以取消的房间总数->GetTotalCancelDatas");
+        }
+        session.commit();
+        session.close();
+        return total;
+    }
+
+    //接受新的订单
+    public void AcceptOrder(String O_num)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        try{
+             orderformIFS.AcceptOrder(O_num);
+        }catch (Exception e){
+            System.out.println("酒店管理人员接受预订->AcceptOrder");
+        }
+        session.commit();
+        session.close();
+    }
+
+    //拒绝未接受预订订单
+    public  int RejectionOfOrder(String O_num) throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        int index = 0;
+        try{
+            orderformIFS.RejectionOfOrderByNum(O_num);
+            index = orderformIFS.RejectionOfOrderStatus(O_num);
+        }catch (Exception e){
+            System.out.println("拒绝订单-->OrderFormDao");
+        }
+        //提交
+        session.commit();
+        session.close();
+         return index;
+    }
+
     public static void main(String[] args){
         try{
             //OrderFormDao.selectOrderformByCID("145154199609093333");
             //new OrderFormDao().selectOrderformByOnumber("001");
             //OrderFormDao.CancelOrderByOnumber("100");
             //OrderFormDao.selectOrderCanCancelByCID(0,"145154199609093333");
+            //new OrderFormDao().SelectAllAcceptedOrder();
+            //new OrderFormDao().SelectAllAcceptedOrder(0);
+            //System.out.println(new OrderFormDao().SelectAllUnAcceptedOrder(0));
+            //new OrderFormDao().SelectAllUnAcceptedOrder(0);
+            //System.out.println(new OrderFormDao().StaffGetTotalUnAcceptOrderNum());
+            //new OrderFormDao().RejectionOfOrder("021");
+            //new OrderFormDao().AcceptOrder("100");
         }catch (Exception e){
             e.printStackTrace();
         }
