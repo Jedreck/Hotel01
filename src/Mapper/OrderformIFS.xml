@@ -113,4 +113,41 @@
         set O_status = 2
         where O_num = #{O_num}
     </update>
+
+    <!--办理入住-->
+
+    <!--网上预订入住-->
+    <!--查询可以入住的订单-->
+    <select id="SelectOrderCanCheckIn" parameterType="java.lang.String" resultType="map">
+        select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
+        from orderform o,customer c, roomtype r
+        where c.C_phone = #{C_phone}
+              and o.C_ID = c.C_ID
+              and r.R_roomtype = o.R_type and (o.O_status = 0 or o.O_status = 1)
+        order by o.checkintime
+    </select>
+    <!--查询可以入住的房间-->
+    <select id="SelectRoomCanCheckIn" resultType="map">
+        select ri.R_num,ri.R_floor,rt.typename,rt.bedtype,rt.area
+        from roominfo ri,roomtype rt
+        where ri.R_roomtype = (select R_type from orderform where O_num = #{O_num})
+              and rt.R_roomtype = (select R_type from orderform where O_num = #{O_num})
+              and (curdate() > ri.duetime or curdate() = ri.duetime)
+        limit #{offset},10
+    </select>
+    <!--查询某个类型可以入住房间的总数-->
+    <select id="SelectTotalRoomCanCheckInNum" resultType="int">
+        select count(*)
+        from roominfo
+        where (select R_type from orderform where O_num = #{O_num})
+         and (curdate() > roominfo.duetime or curdate() = duetime)
+    </select>
+
+    <!--选择房间入住-->
+    <!--利用R_num改变房间的duetime-->
+    <update id="ChangeRoomstateForCheckIn">
+        update roominfo r,orderform o
+        set r.duetime = date(o.checkouttime),o.O_status = 3
+        where o.O_num = #{O_num} and r.R_num = #{R_num}
+    </update>
 </mapper>

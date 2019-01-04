@@ -48,4 +48,16 @@ public interface OrderformIFS {
     //改变订单状态
     public int RejectionOfOrderStatus(@Param(value = "O_num")String O_num)throws IOException;
 
+    //!--办理入住-->
+
+    //<!--网上预订入住-->
+    //<!--查询可以入住的订单-->
+    public List<Map<String,Object>>SelectOrderCanCheckIn(@Param(value = "C_phone")String C_phone)throws IOException;
+    //查询可以入住的房间
+    public List<Map<String,Object>>SelectRoomCanCheckIn(@Param(value = "offset") int offset,@Param(value = "O_num")String  O_num)throws IOException;
+    //<!--查询某个类型可以入住房间类型的总数-->
+    public int SelectTotalRoomCanCheckInNum(@Param(value = "O_num")String O_num)throws IOException;
+
+    //改变房间占用时间，订单状态，办理入住
+    public int ChangeRoomstateForCheckIn(@Param(value = "O_num")String O_num,@Param(value = "R_num")String R_num)throws IOException;
 }

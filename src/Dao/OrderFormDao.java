@@ -4,6 +4,7 @@ import Bean.Orderform;
 import Mapper.OrderformIFS;
 import org.apache.ibatis.session.SqlSession;
 import Dao.Tools.getSqlSession;
+import org.apache.tools.ant.taskdefs.condition.Or;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -252,6 +253,94 @@ public class OrderFormDao {
          return index;
     }
 
+    //!--办理入住-->
+
+    //<!--网上预订入住-->
+    //<!--查询可以入住的订单-->
+    public List<Map<String,Object>>SelectOrderCanCheckIn(String C_phone)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        List<Map<String,Object>> orderformlist = null;
+        try{
+            orderformlist = orderformIFS.SelectOrderCanCheckIn(C_phone);
+        }catch (IOException e){
+            System.out.println("查询可以入住的订单出错--orderformdao");
+            e.printStackTrace();
+        }
+        //System.out.println(orderformlist);
+        session.commit();
+        session.close();
+        return orderformlist;
+    }
+
+    public List<Map<String,Object>>SelectRoomCanCheckIn(int offect,String O_num)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        List<Map<String,Object>> orderformlist = null;
+        try{
+            orderformlist = orderformIFS.SelectRoomCanCheckIn(offect,O_num);
+        }catch (IOException e){
+            System.out.println("查询可以入住的订单出错--orderformdao");
+            e.printStackTrace();
+        }
+        //System.out.println(orderformlist);
+        session.commit();
+        session.close();
+        return orderformlist;
+    }
+
+    //查询某个类型可以入住房间类型的总数
+    public int SelectTotalRoomCanCheckInNum(String O_num)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        int total = 0;
+        try{
+            total = orderformIFS.SelectTotalRoomCanCheckInNum(O_num);
+        }catch (Exception e){
+            System.out.println("客户可以取消的房间总数->orderformdao");
+        }
+        session.commit();
+        session.close();
+        return total;
+    }
+
+    //通过身份证号查询客户订单
+    public  int ChangeRoomstateForCheckIn(String O_num,String R_num)throws IOException{
+
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        int total = 0;
+        try{
+            total = orderformIFS.ChangeRoomstateForCheckIn(O_num,R_num);
+        }catch (IOException e){
+            System.out.println("客户入住房间失败，orderformdao");
+            e.printStackTrace();
+        }
+        //System.out.println(orderformlist);
+        //System.out.println(total);
+        session.commit();
+        session.close();
+        return total;
+    }
+
     public static void main(String[] args){
         try{
             //OrderFormDao.selectOrderformByCID("145154199609093333");
@@ -265,6 +354,9 @@ public class OrderFormDao {
             //System.out.println(new OrderFormDao().StaffGetTotalUnAcceptOrderNum());
             //new OrderFormDao().RejectionOfOrder("021");
             //new OrderFormDao().AcceptOrder("100");
+            //new OrderFormDao().SelectOrderCanCheckIn("13695632587");
+            //new OrderFormDao().SelectRoomCanCheckIn(0,"001");
+            new OrderFormDao().ChangeRoomstateForCheckIn("001","101");
         }catch (Exception e){
             e.printStackTrace();
         }
