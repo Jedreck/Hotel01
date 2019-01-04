@@ -101,6 +101,8 @@
                     <ul class="sub">
                         <li><a href="m_roomtypelist.html">客房类型列表</a></li>
                         <li><a href="m_addRoomType.html">添加客房类型</a></li>
+                        <li><a href="m_addRoomlist.html">房间列表</a></li>
+                        <li><a href="m_addRoom.html">添加房间</a></li>
                     </ul>
                 </li>
 
@@ -136,14 +138,14 @@
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
-                    <div class="form-panel">
+                    <div class="form-panel" style="display: none">
                         <form class="layui-form layui-form-pane" lay-filter="employeeInfo">
 
                             <div class="layui-form-item">
                                 <label class="layui-form-label">员工编号:</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_num" id="E_num" autocomplete="off"
-                                           placeholder="自动生成" class="layui-input" readonly>
+                                           placeholder="数据加载失败" class="layui-input" readonly>
                                 </div>
                             </div>
 
@@ -151,7 +153,7 @@
                                 <label class="layui-form-label">身份证*：</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_ID" autocomplete="off" lay-verify="required|identity"
-                                           placeholder="请输入员工身份证" class="layui-input">
+                                           placeholder="数据加载失败" class="layui-input">
                                 </div>
                             </div>
 
@@ -159,7 +161,7 @@
                                 <label class="layui-form-label">姓名:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_name" autocomplete="off" class="layui-input"
-                                           lay-verify="required" placeholder="请输入姓名" >
+                                           lay-verify="required" placeholder="数据加载失败" >
                                 </div>
                             </div>
 
@@ -167,7 +169,7 @@
                                 <label class="layui-form-label">密码:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_password" autocomplete="off" class="layui-input"
-                                           lay-verify="required" placeholder="请输入密码" >
+                                           lay-verify="required" placeholder="数据加载失败" >
                                 </div>
                             </div>
 
@@ -207,7 +209,7 @@
                                 <label class="layui-form-label">入职时间:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" id="E_hiredate" name="E_hiredate" autocomplete="off" class="layui-input"
-                                           lay-verify="required|date" placeholder="请选择入职时间" >
+                                           lay-verify="required|date" placeholder="数据加载失败" >
                                 </div>
                             </div>
 
@@ -215,7 +217,7 @@
                                 <label class="layui-form-label">工资:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_salary" autocomplete="off" class="layui-input"
-                                           lay-verify="required|number" placeholder="请填写工资" >
+                                           lay-verify="required|number" placeholder="数据加载失败" >
                                 </div>
                             </div>
 
@@ -223,7 +225,7 @@
                                 <label class="layui-form-label">地址:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_address" autocomplete="off" class="layui-input"
-                                           lay-verify="required" placeholder="请输入地址" >
+                                           lay-verify="required" placeholder="数据加载失败" >
                                 </div>
                             </div>
 
@@ -231,7 +233,7 @@
                                 <label class="layui-form-label">电话:*</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="E_phone" autocomplete="off" class="layui-input"
-                                           lay-verify="required|phone" placeholder="请输入电话" >
+                                           lay-verify="required|phone" placeholder="数据加载失败" >
                                 </div>
                             </div>
 
@@ -288,11 +290,12 @@
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
-
-
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
 <script>
     $(function () {
+        if(!validateEmployee()) return;
         initialData();
         layui.use(['form', 'layedit', 'laydate'], function () {
             var form = layui.form;
@@ -326,6 +329,9 @@
         });
 
         function initialData() {
+            $(document).ajaxStart(function () {
+                showProcess2($("div[class='col-lg-12']"));
+            });
             var E_num = sessionStorage.getItem("E_num");
             // if(E_num == null) {
             //     showResult("非法访问！");
@@ -339,6 +345,9 @@
                 success: function(data){
                     if(data == "Error") {
                         showResult("数据查询出错！");
+                        removeProcess2();
+                        // 下拉出表单
+                        $("div[class='form-panel']").slideToggle();
                     } else {
                         var obj = JSON.parse(data);
                         initialForm(obj);
@@ -361,6 +370,9 @@
                 "E_address":employee.E_address,
                 "E_phone":employee.E_phone
             });
+            removeProcess2();
+            // 下拉出表单
+            $("div[class='form-panel']").slideToggle();
             layui.form.render();
         }
 

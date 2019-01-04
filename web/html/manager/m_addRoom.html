@@ -101,6 +101,8 @@
                     <ul class="sub">
                         <li><a href="m_roomtypelist.html">客房类型列表</a></li>
                         <li><a href="m_addRoomType.html">添加客房类型</a></li>
+                        <li><a href="m_addRoomlist.html">房间列表</a></li>
+                        <li><a href="m_addRoom.html">添加房间</a></li>
                     </ul>
                 </li>
 
@@ -131,12 +133,11 @@
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 添加房间</h3>
+        <section class="wrapper" style="background-color: #f6fff1">
+            <h3 style="margin-top: 10px"><i class="fa fa-plus-square"></i> 添加房间</h3>
             <div class="row mt">
-                <!--  DATE PICKERS -->
                 <div class="col-lg-12">
-                    <div class="form-panel">
+                    <div class="form-panel" style="display: none">
                         <form class="layui-form layui-form-pane" lay-filter="RoomInfo">
 
                             <div class="layui-form-item">
@@ -215,11 +216,15 @@
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
-
-
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
+
+
+
 <script>
     $(function () {
+        if(!validateEmployee()) return;
         layui.use(['form', 'layedit', 'laydate'], function () {
             var form = layui.form;
             form.on('submit(submit)', function (data) {//提交表单
@@ -227,6 +232,9 @@
                 data.field.R_floor = parseInt(data.field.R_floor);
                 data.field.duetime = "1970-08-31";
                 var json = JSON.stringify(data.field);
+                $(document).ajaxStart(function () {
+                    layer.load();
+                });
                 $.ajax({
                     url: "/AddRoomServlet",
                     type:'post',
@@ -239,12 +247,16 @@
                             showResult("增加房间成功！");
                         }
                     }});
+                layer.closeAll("loading");
                 return false;
             });
         });
         initialData();
         // 初始化下拉框的值
         function initialData() {
+            $(document).ajaxStart(function () {
+                showProcess2($("div[class='col-lg-12']"));
+            });
             $.ajax({
                 url: "/SelectTNServlet",
                 type:'post',
@@ -261,9 +273,11 @@
                             typename.append('<option value="'+ value +'">'+ value + '</option>');
                         }
                         layui.form.render();
-
                     }
                 }});
+            removeProcess2();
+            $("div[class='form-panel']").slideToggle();
+
         }
 
         // 显示结果

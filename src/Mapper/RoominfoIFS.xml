@@ -21,8 +21,8 @@
     </select>
 
     <select id="SelectRoomByNum" resultType="Bean.Roominfo">
-       select roominfo.* from roominfo
-        where roominfo.R_num = R_num
+       select * from roominfo
+        where roominfo.R_num = #{R_num}
     </select>
 
     <select id="GetTotalDatas" resultType="int">

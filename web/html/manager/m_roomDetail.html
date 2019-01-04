@@ -101,6 +101,8 @@
                     <ul class="sub">
                         <li><a href="m_roomtypelist.html">客房类型列表</a></li>
                         <li><a href="m_addRoomType.html">添加客房类型</a></li>
+                        <li><a href="m_addRoomlist.html">房间列表</a></li>
+                        <li><a href="m_addRoom.html">添加房间</a></li>
                     </ul>
                 </li>
 
@@ -136,7 +138,7 @@
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
-                    <div class="form-panel">
+                    <div class="form-panel"  style="display: none">
                         <form class="layui-form layui-form-pane" lay-filter="RoomInfo">
 
                             <div class="layui-form-item">
@@ -216,11 +218,13 @@
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
-
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
 
 <script src="../../lib/layui/layui.js"></script>
 <script>
     $(function () {
+        if(!validateEmployee()) return;
         layui.use(['form', 'layedit', 'laydate'], function () {
             var form = layui.form;
             form.on('submit(submit)', function (data) {//提交表单
@@ -245,6 +249,9 @@
         initialData();
         // 初始化数据
         function initialData() {
+            $(document).ajaxStart(function () {
+                showProcess2($("div[class='col-lg-12']"));
+            });
             var R_num = sessionStorage.getItem("R_num");
             $.ajax({
                 url: "/SelectRoomByRNServlet",
@@ -254,6 +261,9 @@
                 success: function(data){
                     if(data == "Error") {
                         showResult("数据查询出错！");
+                        removeProcess2();
+                        // 下拉出表单
+                        $("div[class='form-panel']").slideToggle();
                     } else {
                         var str = data.split("!");
                         var obj = JSON.parse(str[0]);
@@ -266,7 +276,6 @@
                         }
                         layui.form.render();
                         initialForm(JSON.parse(str[1]));
-
                     }
                 }});
         }
@@ -291,6 +300,9 @@
                 ,"R_floor":room.R_floor
             });
             layui.form.render();
+            removeProcess2();
+            // 下拉出表单
+            $("div[class='form-panel']").slideToggle();
         }
 
         // 删除房间

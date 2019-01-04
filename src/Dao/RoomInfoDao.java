@@ -6,6 +6,7 @@ import Mapper.RoominfoIFS;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -154,9 +155,17 @@ public class RoomInfoDao {
 //            roominfo.setR_roomtype(25);
               List<Map<String,Object>> roomList = null;
               RoomInfoDao rid = new RoomInfoDao();
-              roomList = rid.SelectAllRooms(0,"");
-              System.out.println(roomList.toString() + "sdfsdfsdf");
-              System.out.println("jjjjj" + rid.GetTotalDatas("单人间"));
+             // roomList = rid.SelectAllRooms(0,"");
+              //System.out.println(roomList.toString() + "sdfsdfsdf");
+              //System.out.println("jjjjj" + rid.GetTotalDatas("单人间"));
+            //System.out.println(rid.SelectRoomByNum("101"));
+
+            File file=new File("./web/img/myImage/25");
+            if(!file.exists()){//如果文件夹不存在
+                System.out.println(file.getAbsolutePath());
+                file.mkdir();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

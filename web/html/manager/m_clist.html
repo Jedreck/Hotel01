@@ -90,7 +90,7 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a class="active" href="javascript:;">
                         <i class="fa fa-users"></i>
                         <span>客户管理</span>
                     </a>
@@ -100,7 +100,7 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a class="active" href="javascript:;">
+                    <a href="javascript:;">
                         <i class="fa fa-group"></i>
                         <span>员工管理</span>
                     </a>
@@ -118,6 +118,8 @@
                     <ul class="sub">
                         <li><a href="m_roomtypelist.html">客房类型列表</a></li>
                         <li><a href="m_addRoomType.html">添加客房类型</a></li>
+                        <li><a href="m_addRoomlist.html">房间列表</a></li>
+                        <li><a href="m_addRoom.html">添加房间</a></li>
                     </ul>
                 </li>
 
@@ -261,9 +263,11 @@
 <script src="../../lib/bootstrap-switch.js"></script>
 
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/easyCookie.js"></script>
 <script src="../../lib/my_common.js"></script>
 <script type="application/javascript">
     $(function () {
+        if(!validateEmployee()) return;
         var pageNum = 0;
         var obj;
         var pageNow = 1;// 当前的页

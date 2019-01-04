@@ -45,3 +45,42 @@ function showResult(content) {
         }
     });
 }
+
+/**
+ */
+function showProcess2(obj) {
+    var url = "../../css/style_process2.css";// 相对于html文件的位置
+    dynamicLoadCss(url);
+    obj.append("                    <div class=\"spinner\">\n" +
+        "                        <div class=\"cube1\"></div>\n" +
+        "                        <div class=\"cube2\"></div>\n" +
+        "                    <div class='minfo'>数据加载中请稍后</div></div>");
+}
+
+/**
+ * 移除加载动画
+ * @param obj
+ */
+function removeProcess2() {
+    $("div[class='spinner']").remove();
+}
+
+/**
+ * 验证员工是否登录
+ */
+function validateEmployee() {
+    return true;
+    // var cookies_En = cookie.get("E_num");
+    // if (cookies_En == null) {
+    //     layui.use(['form', 'upload','layer'], function(){
+    //         var layer = layui.layer;
+    //         layer.alert('请登录后访问！', {
+    //             skin: 'layui-layer-molv' //样式类名
+    //             ,closeBtn: 0
+    //         }, function(){
+    //             top.location.href = "/html/common/login.html";
+    //         });
+    //     });
+    //     return false;
+    // } else return true;
+}

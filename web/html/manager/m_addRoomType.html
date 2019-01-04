@@ -101,6 +101,8 @@
                     <ul class="sub">
                         <li><a href="m_roomtypelist.html">客房类型列表</a></li>
                         <li><a href="m_addRoomType.html">添加客房类型</a></li>
+                        <li><a href="m_addRoomlist.html">房间列表</a></li>
+                        <li><a href="m_addRoom.html">添加房间</a></li>
                     </ul>
                 </li>
 
@@ -131,8 +133,8 @@
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 添加客房类型</h3>
+        <section class="wrapper" style="background-color: #f6fff1">
+            <h3 style="margin-top: 10px"><i class="fa fa-plus-square"></i> 添加房间类型</h3>
             <div class="row mt">
                 <!--  DATE PICKERS -->
                 <div class="col-lg-12">
@@ -252,6 +254,12 @@
                                 </div>
                             </div>
 
+                            <div class="layui-form" style="margin-bottom: 10px">
+                                <div class="layui-input-inline" style="width: 100%;left: 0px">
+                                    <button id="uploadBT" class="btn btn-theme btn-lg btn-block" type="button">上传图片</button>
+                                </div>
+                            </div>
+
                             <div class="layui-form-item">
                                 <button class="layui-btn" lay-submit="" lay-filter="submit">提交</button>
                                 <button class="layui-btn layui-btn-danger" id="clearAll" type="reset">清空</button>
@@ -304,51 +312,134 @@
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
 
 
 <script src="../../lib/layui/layui.js"></script>
 <script>
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form;
-        form.on('submit(submit)', function (data) {//提交表单
-            data.field.area = parseInt(data.field.area);
-            data.field.people = parseInt(data.field.people);
-            data.field.price = parseFloat(data.field.price);
-            data.field.roomnum = 0;
-            data.field.R_roomtype = 0;
-            data.field.smoke = data.field.smoke == "禁止" ? 0 : 1;
-            data.field.bathroom = data.field.bathroom == "无" ? 0 : 1;
-            data.field.wifi = data.field.wifi == "无" ? 0 : 1;
-            data.field.windows = data.field.windows == "无" ? 0 : 1;
-            data.field.wirednet = data.field.wirednet == "无" ? 0 : 1;
-            //console.log(data.field);
-            var json = JSON.stringify(data.field);
-            $.ajax({
-                url: "/AddRoomTypeServlet",
-                type:'post',
-                data:{roomType:json},
-                dataType:'text',
-                success: function(data){
-                    console.log(data);
-                    var content = data == 1 ? "插入成功!" : "插入失败！";
-                    showInsertResult(content);
-                }});
-            return false;
+    layui.use(['upload'], function(){
+
+        // 文件上传
+        var upload = layui.upload;
+        //多文件列表示例
+        var demoListView = $('#demoList')
+            ,uploadListIns = upload.render({
+            elem: '#testList'
+            ,url: '/UploadRTPicServlet'
+            ,multiple: true
+            ,auto: false
+            ,accept:'images'
+            ,number:5
+            ,bindAction: '#testListAction'
+            ,choose: function(obj){
+                console.log("选择文件");
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function(index, file, result){
+                    var tr = $(['<tr id="upload-'+ index +'">'
+                        ,'<td>'+ file.name +'</td>'
+                        ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                        ,'<td>等待上传</td>'
+                        ,'<td>'
+                        ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        ,'</td>'
+                        ,'</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function(){
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function(){
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            ,done: function(res, index, upload){
+                console.log("上传完成");
+                if(res.code == 0){ //上传成功
+                    var tr = demoListView.find('tr#upload-'+ index)
+                        ,tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html(''); //清空操作
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            ,error: function(index, upload){
+                console.log("上传文件失败！");
+                var tr = demoListView.find('tr#upload-'+ index)
+                    ,tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+
+    });
+</script>
+<script>
+    $(function () {
+        if(!validateEmployee()) return;
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form;
+            form.on('submit(submit)', function (data) {//提交表单
+                data.field.area = parseInt(data.field.area);
+                data.field.people = parseInt(data.field.people);
+                data.field.price = parseFloat(data.field.price);
+                data.field.roomnum = 0;
+                data.field.R_roomtype = 0;
+                data.field.smoke = data.field.smoke == "禁止" ? 0 : 1;
+                data.field.bathroom = data.field.bathroom == "无" ? 0 : 1;
+                data.field.wifi = data.field.wifi == "无" ? 0 : 1;
+                data.field.windows = data.field.windows == "无" ? 0 : 1;
+                data.field.wirednet = data.field.wirednet == "无" ? 0 : 1;
+                //console.log(data.field);
+                var json = JSON.stringify(data.field);
+                $.ajax({
+                    url: "/AddRoomTypeServlet",
+                    type:'post',
+                    data:{roomType:json},
+                    dataType:'text',
+                    success: function(data){
+                        console.log(data);
+                        var content = data == 1 ? "插入成功!" : "插入失败！";
+                        showInsertResult(content);
+                    }});
+                return false;
+            });
+        });
+
+        // 现实插入的结果
+        function showInsertResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
+
+        $("#uploadBT").click(function () {
+            layer.open({
+                type: 1,
+                fixed: true, //固定
+                skin: 'layui-layer-rim', //加上边框
+                area: ['700px', '450px'],
+                content: $("#uploadDIV")
+            });
         });
     });
 
-    // 现实插入的结果
-    function showInsertResult(content) {
-        layer.open({
-            content: content
-            ,btn: ['确定']
-            ,yes: function(index, layero){//删除
-                layer.closeAll();
-            }
-            ,cancel: function(){
-            }
-        });
-    }
 </script>
 <script>
     // var room = {
@@ -392,4 +483,20 @@
 
 </body>
 
+<!--文件上传的部分-->
+<div class="layui-upload" id="uploadDIV" style="display: none;padding:10px">
+    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多个图片</button>
+    <div class="layui-upload-list">
+        <table class="layui-table">
+            <thead>
+            <tr><th>文件名</th>
+                <th>大小</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr></thead>
+            <tbody id="demoList"></tbody>
+        </table>
+    </div>
+    <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+</div>
 </html>

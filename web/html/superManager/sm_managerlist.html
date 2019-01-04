@@ -32,7 +32,6 @@
             margin: 20px;
         }
     </style>
-
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -120,15 +119,6 @@
                                                 </div>
                                                 <button type="button" class="btn btn-theme" id="search" name="search"><i class="fa fa-search"></i>>搜索</button>
                                                 <button type="button" class="btn btn-theme" id="refresh" name="refresh"><i class="fa fa-rotate-right"></i>刷新</button>
-                                                <!--多删除-->
-                                                <!--<div style="float: right;">-->
-                                                <!--<div style="float: left;text-align: center;padding: 5px"><label>多选</label></div>-->
-                                                <!--<div style="float: right">-->
-                                                <!--<div class="switch switch-square" data-on-label="<i class=' fa fa-check'></i>" data-off-label="<i class='fa fa-times'></i>">-->
-                                                <!--<input type="checkbox" id="multiopt"/>-->
-                                                <!--</div>-->
-                                                <!--</div>-->
-                                                <!--</div>-->
                                             </form>
                                         </div>
                                     </div>
@@ -144,41 +134,6 @@
                             </tr>
                             </thead>
                             <tbody id="table_content">
-                            <tr>
-                                <td id="E_ID">Company Ltd</td>
-                                <td class="hidden-phone" id="E_name">Lorem Ipsum dolor</td>
-                                <td class="hidden-phone" id="E_sex">Lorem Ipsum dolor</td>
-                                <td id="E_position"><span class="label label-info label-mini">Due</span></td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>
-                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">Company Ltd</a>
-                                </td>
-                                <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                <td><i class="fa fa-male"></i>男</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>
-                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="basic_table.html#">张三</a>
-                                </td>
-                                <td class="hidden-phone">123</td>
-                                <td><i class="fa fa-male"></i>男</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs" name="detail"><i class="fa fa-exclamation-circle"></i></button>
-                                    <button class="btn btn-primary btn-xs" name="detail"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-danger btn-xs"  name="delete"><i class="fa fa-trash-o "></i></button>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -235,10 +190,11 @@
 <script src="../../lib/bootstrap-switch.js"></script>
 
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/easyCookie.js"></script>
 <script src="../../lib/my_common.js"></script>
-
 <script type="application/javascript">
     $(function() {
+        if(!validateEmployee()) return;
         var pageNum = 0;
         var obj;
         var pageNow = 1;// 当前的页
