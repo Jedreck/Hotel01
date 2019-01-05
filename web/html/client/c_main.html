@@ -6,8 +6,9 @@
     <script src="../../lib/easyCookie.js"></script>
     <script>
         var cookies_phone = cookie.get("phone");
-        if (cookies_phone == null) {
-            top.location.href = "/html/common/login.html";
+        var status_val = cookie.get("status");
+        if (cookies_phone == null || status_val == null || status === "0") {
+            top.location.href = "/html/common/index.html";
         }
     </script>
     <!--end load-->
@@ -90,7 +91,7 @@
         </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="../common/index.html">登出</a></li>
+                <li><a class="logout" onclick="logout()">登出</a></li>
             </ul>
         </div>
     </header>
@@ -122,13 +123,13 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a href="">
                         <i class="fa fa-cogs"></i>
                         <span>订单管理</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="order_cancle.html">取消订单</a></li>
-                        <li><a href="order_management.html">历史记录</a></li>
+                        <li><a href="/html/client/order_cancle.html">取消订单</a></li>
+                        <li><a href="/html/client/order_management.html">历史记录</a></li>
                     </ul>
                 </li>
             </ul>
@@ -167,7 +168,8 @@
                                            placeholder="入住日期与离店日期">
                                 </td>
                                 <td rowspan="2" style="width:150px">
-                                    <button class="layui-btn" style="margin-left: 20px" type="button" onclick="submitForm()">立即提交
+                                    <button class="layui-btn" style="margin-left: 20px" type="button"
+                                            onclick="submitForm()">立即提交
                                     </button>
                                 </td>
                             </tr>
@@ -235,19 +237,33 @@
 
 <script>
     console.log("check cookies--" + cookies_phone);
+    console.log("status_val--" + status_val);
     $('#phone').text(cookies_phone);
 </script>
 
 <script>
     function submitForm() {
         var date = $('#inDate').val();
-        console.log("date:"+date);
+        if (date.length < 20) {
+            layer.tips('请选择入住与结束日期', '#inDate', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return 0;
+        }
+        console.log("date:" + date);
+        cookie.setTemp("orderDate", date);
         var people = $('input:radio[name="people"]:checked').val();
-        console.log("people:"+people);
-        var bookInfo = "{\"inDate\":\"" + date + "\",\"people\":\"" + people + "\"}";
+        console.log("people:" + people);
+        var bookInfo = "{\"inDate\":\"" + date + "\",\"people\":\"" + people + "\",\"wifi\":\"\",\"wirednet\":\"\",\"bedtype\":\"\",\"window\":\"\"}";
         console.log(bookInfo);
-        cookie.setTemp("bookInfo",bookInfo);
+        cookie.setTemp("bookInfo", bookInfo);
         top.location.href = "/html/client/c_bookRoom.html";
+    }
+
+    function logout() {
+        cookie.setTemp("status", 0);
+        top.location.href = "/html/common/index.html"
     }
 </script>
 

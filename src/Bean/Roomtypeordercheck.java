@@ -34,4 +34,12 @@ public class Roomtypeordercheck {
     this.ordernum = ordernum;
   }
 
+  @Override
+  public String toString() {
+    return "Roomtypeordercheck{" +
+            "optime=" + optime +
+            ", R_roomtype=" + R_roomtype +
+            ", ordernum=" + ordernum +
+            '}';
+  }
 }

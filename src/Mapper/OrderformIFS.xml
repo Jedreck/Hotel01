@@ -113,6 +113,13 @@
         set O_status = 2
         where O_num = #{O_num}
     </update>
+    <!--新增订单-->
+    <insert id="insertOrder">
+        insert into orderform (O_num,createtime,checkintime,checkouttime,R_type,C_ID,O_price,O_status)
+        values ('${O_num}',current_time,'${checkintime}','${checkouttime}','${R_type}',(select customer.C_ID from customer where C_phone='${phone}'),'${O_price}',0)
+    </insert>
+
+
 
     <!--办理入住-->
 
