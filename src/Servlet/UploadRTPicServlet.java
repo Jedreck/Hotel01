@@ -22,15 +22,15 @@ public class UploadRTPicServlet extends javax.servlet.http.HttpServlet {
         response.setCharacterEncoding("utf-8");
         // 设置request的编码方式为utf-8,解决上传文件时中文文件名称乱码的问题
         request.setCharacterEncoding("UTF-8");
-        System.out.println(request.getServletPath());
-
+        String R_roomtype = request.getParameter("R_roomtype");
+        System.out.println(R_roomtype + "999999999999999");
         // 生成路径 未部署的时候使用
         String opath[] = request.getServletContext().getRealPath("index.jsp").split("\\\\");
         String path = opath[0] + "\\" + opath[1] + "\\" + opath[2] + "\\" + "web\\img\\myImage\\";
 
         System.out.println("servlet：" + path);
 
-        MyUtil.SaveFiles(request, path,"26");
+        MyUtil.SaveFiles(request, path,R_roomtype);
         // layui的上传模块必须需要返回一个json格式的数据
         PrintWriter out = response.getWriter();
         JsonObject json = new JsonObject();

@@ -4,4 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Mapper.PicturesIFS">
 
+    <!--获取某个房间类型图片的总数-->
+    <select id="GetTotalPicByRT" resultType="int">
+        select count(*) from pictures where R_roomtype = #{R_roomtype}
+    </select>
+
+    <!--获取相应房间类型的图片-->
+    <select id="SelectPicByRT" resultType="String">
+        select P_path from pictures where R_roomtype = #{R_roomtype}
+    </select>
+
+    <!--插入图片路径-->
+    <insert id="InsertPicPathByRT">
+        insert into pictures(R_roomtype,P_path) values (#{R_roomtype},#{P_path})
+    </insert>
+
+    <!--删除相应图片类型的所有图片-->
+    <delete id="DeleteAllByRT">
+        delete from pictures where R_roomtype = #{R_roomtype}
+    </delete>
+
 </mapper>

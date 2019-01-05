@@ -244,6 +244,19 @@
                                               lay-verify="required"></textarea>
                                 </div>
                             </div>
+
+                            <div class="layui-form" style="margin-bottom: 10px">
+                                <div class="layui-input-inline" style="width: 100%;left: 0px">
+                                    <button id="uploadBT" class="btn btn-theme btn-lg btn-block" type="button">上传图片</button>
+                                </div>
+                            </div>
+
+                            <div class="layui-form" style="margin-bottom: 10px">
+                                <div class="layui-input-inline" style="width: 100%;left: 0px">
+                                    <button id="deletePic" class="btn btn-theme btn-lg btn-block" type="button">删除图片</button>
+                                </div>
+                            </div>
+
                             <div class="layui-form-item">
                                 <button class="layui-btn" lay-submit="" lay-filter="submit">提交</button>
                                 <button class="layui-btn layui-btn-danger" id="clearAll" type="reset" >清空</button>
@@ -363,10 +376,10 @@
                 ,"price": room.price
                 ,"other": room.other
             });
-            removeProcess2();
             // 下拉出表单
             $("div[class='form-panel']").slideToggle();
             layui.form.render();
+            removeProcess2();
         }
 
         // 删除房间类型
@@ -448,11 +461,140 @@
             });
         }
 
+        /**
+         * 显示上传弹出框
+         */
+        $("#uploadBT").click(function () {
+            var R_roomtype = sessionStorage.getItem("R_roomtype");
+            layui.use(['upload'], function(){
+
+                // 文件上传
+                var upload = layui.upload;
+                //多文件列表示例
+                var demoListView = $('#demoList')
+                    ,uploadListIns = upload.render({
+                    elem: '#testList'
+                    ,method:'post'
+                    ,url: '/UploadRTPicServlet' + "?R_roomtype=" + R_roomtype
+                    ,multiple: true
+                    ,auto: false
+                    ,accept:'images'
+                    ,acceptMime:'image/*'
+                    ,number:5
+                    ,bindAction: '#testListAction'
+                    ,before:function (obj) {
+                        layer.load();
+                    }
+                    ,choose: function(obj){
+                        console.log("选择文件" + obj.length);
+                        var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                        //读取本地文件
+                        obj.preview(function(index, file, result){
+                            //obj.resetFile(index, file, '123.jpg'); //重命名文件名
+                            var tr = $(['<tr id="upload-'+ index +'">'
+                                ,'<td>'+ file.name +'</td>'
+                                ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+                                ,'<td>等待上传</td>'
+                                ,'<td>'
+                                ,'<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                                ,'<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                                ,'</td>'
+                                ,'</tr>'].join(''));
+
+                            //单个重传
+                            tr.find('.demo-reload').on('click', function(){
+                                obj.upload(index, file);
+                            });
+
+                            //删除
+                            tr.find('.demo-delete').on('click', function(){
+                                delete files[index]; //删除对应的文件
+                                tr.remove();
+                                uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                            });
+
+                            demoListView.append(tr);
+                        });
+                    }
+                    ,done: function(res, index, upload){
+                        layer.closeAll("loading");
+                        console.log("上传完成" + index);
+                        if(res.code == 0){ //上传成功
+                            var tr = demoListView.find('tr#upload-'+ index)
+                                ,tds = tr.children();
+                            tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                            tds.eq(3).html(''); //清空操作
+                            return delete this.files[index]; //删除文件队列已经上传成功的文件
+                        }
+                        this.error(index, upload);
+                    }
+                    ,error: function(index, upload){
+                        console.log("上传文件失败！");
+                        var tr = demoListView.find('tr#upload-'+ index)
+                            ,tds = tr.children();
+                        tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                        tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                    },allDone:function () {
+                        removeProcess2();
+                    }
+                });
+
+            });
+            layer.open({
+                type: 1,
+                fixed: true, //固定
+                skin: 'layui-layer-rim', //加上边框
+                area: ['700px', '450px'],
+                content: $("#uploadDIV")
+            });
+        });
+
+        $("#deletePic").click(function () {
+            $(document).ajaxStart(function () {
+                removeProcess2();
+                layer.load(1);
+            });
+            var R_roomtype = sessionStorage.getItem("R_roomtype");
+            $.ajax({
+                url: "/DeletePicServlet",
+                type:'post',
+                data:{R_roomtype:R_roomtype},
+                dataType:'text',
+                success: function(data){
+                    // 后台删除失败
+                    if(data == 0) {
+                        showResult("该类型没有图片！");
+                    } else {
+                        showResult("删除成功！");
+                    }
+                },
+                error: function () {
+                    showResult("2删除失败！");
+                }
+            });
+            layer.closeAll('loading');
+        });
+
     });
 
 </script>
 
 
 </body>
-
+<!--文件上传的部分-->
+<div class="layui-upload" id="uploadDIV" style="display: none;padding:10px">
+    <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多个图片</button>
+    <div class="layui-upload-list">
+        <table class="layui-table">
+            <thead>
+            <tr><th>文件名</th>
+                <th>大小</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr></thead>
+            <tbody id="demoList"></tbody>
+        </table>
+    </div>
+    <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+</div>
 </html>
