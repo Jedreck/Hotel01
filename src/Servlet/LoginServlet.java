@@ -1,7 +1,9 @@
 package servlet;
 
 import Bean.Customer;
+import Bean.Employee;
 import Dao.CustomerDao;
+import Dao.EmployeeDao;
 import Dao.Tools.LogOut;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -31,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         String password = jsonElement.getAsJsonObject().get("password").toString();
         password = password.substring(1, password.length() - 1);
         LogOut.Info(phone, password);
-        LogOut.Info("idLenth", String.valueOf(phone.length()));
+        LogOut.Info("idLenth", phone.length());
 
         if (phone.length() == 11&&password.length()!=0) {
             //Customer登录
@@ -52,6 +54,25 @@ public class LoginServlet extends HttpServlet {
             }
         } else if (phone.length() == 7&&password.length()!=0) {
             //employee登录
+            LogOut.Info("employee登录");
+            Employee employee = new Employee();
+            employee.setE_num(phone);
+            employee.setE_password(password);
+            employee = EmployeeDao.Login(employee);
+
+            if(employee==null){
+                LogOut.Info("employee login fail");
+                out.print(0);
+            }else{
+                LogOut.Info("employee login success");
+                if(employee.getE_position().equals("酒店前台")){
+                    out.print(phone+"1");
+                }else if(employee.getE_position().equals("管理员")){
+                    out.print(phone+"2");
+                }else{
+                    out.print(phone+"3");
+                }
+            }
         } else
             out.print(0);
     }

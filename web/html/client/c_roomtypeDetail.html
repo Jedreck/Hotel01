@@ -6,8 +6,9 @@
     <script src="../../lib/easyCookie.js"></script>
     <script>
         var cookies_phone = cookie.get("phone");
-        if (cookies_phone == null) {
-            top.location.href = "/html/common/login.html";
+        var status_val = cookie.get("status");
+        if (cookies_phone == null || status_val == null || status_val === "0") {
+            top.location.href = "/html/common/index.html";
         }
         var num = cookie.get("wantToSeeRoomtype");
         console.log(num);
@@ -38,6 +39,7 @@
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../css/style-responsive.css" rel="stylesheet">
     <script src="../../lib/chart-master/Chart.js"></script>
+    <script src="../../lib/my_common.js"></script>
     <!--layUI-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
 
@@ -80,7 +82,7 @@
         </div>
         <div class="top-menu">
             <ul class="nav pull-right top-menu">
-                <li><a class="logout" href="../common/index.html">登出</a></li>
+                <li><a class="logout" onclick="logout()">登出</a></li>
             </ul>
         </div>
     </header>
@@ -117,8 +119,8 @@
                         <span>订单管理</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="grids.html">取消订单</a></li>
-                        <li><a href="calendar.html">历史记录</a></li>
+                        <li><a href="/html/client/order_cancle.html">取消订单</a></li>
+                        <li><a href="/html/client/order_management.html">历史记录</a></li>
                     </ul>
                 </li>
             </ul>

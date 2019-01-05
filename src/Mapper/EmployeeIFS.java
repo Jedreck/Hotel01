@@ -24,4 +24,6 @@ public interface EmployeeIFS {
     public List<Employee> SelectSOM(@Param(value="offset")int offset, @Param(value="name")String name)throws IOException;
 
     public int GetTotalSOMDatas(@Param(value="name") String name)throws IOException;
+
+    public Employee Login(Employee employee)throws IOException;
 }

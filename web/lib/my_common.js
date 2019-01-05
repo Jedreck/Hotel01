@@ -84,3 +84,9 @@ function validateEmployee() {
     //     return false;
     // } else return true;
 }
+
+//登出
+function logout() {
+        cookie.setTemp("status", 0);
+        top.location.href = "/html/common/index.html"
+}

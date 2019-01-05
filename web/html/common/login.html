@@ -150,19 +150,37 @@
 
     //登录成功
     function loginSuccess(flag) {
-        if ($('#remenberMe').get(0).checked) {
-            //记住
-            console.log("remenberMark c");
-            cookie.set("phone", flag, 3);
-            cookie.set("status",1,3);
-            console.log("check cookies1--" + cookie.get("phone"));
-        } else {
-            //不记住
-            console.log("remenberMark uc");
-            cookie.setTemp("phone",flag);
-            console.log("check cookies2--" + cookie.get("phone"));
+        if(flag.length===11) {
+            if ($('#remenberMe').get(0).checked) {
+                //记住
+                console.log("remenberMark c");
+                cookie.set("phone", flag, 3);
+                cookie.set("status", 1, 3);
+                console.log("check cookies1--" + cookie.get("phone"));
+            } else {
+                //不记住
+                console.log("remenberMark uc");
+                cookie.setTemp("phone", flag);
+                cookie.setTemp("status", 1);
+                console.log("check cookies2--" + cookie.get("phone"));
+            }
+            top.location.href = "/html/client/c_main.html";
+        }else{
+            var E_num = flag.substring(0,7);
+            console.log("E_num--"+E_num);
+            console.log("flag--",flag);
+            var position = flag.substring(7,8);
+            console.log("position--"+position);
+            cookie.setTemp("E_num",E_num);
+            cookie.setTemp("status",1);
+            if(position==="2"){
+                top.location.href = "/html/manager/m_addRoomlist.html";
+            }else if(position==="3"){
+                top.location.href = "/html/superManager/sm_managerlist.html";
+            }else{
+                top.location.href = "/html/staff/check_in_now.html";
+            }
         }
-        top.location.href = "/html/client/c_main.html";
     }
 
 </script>
