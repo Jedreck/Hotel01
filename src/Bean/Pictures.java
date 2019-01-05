@@ -3,32 +3,31 @@ package Bean;
 
 public class Pictures {
 
-  private String P_ID;
-  private long R_type;
+  private String P_path;// 图片路径
+  private long R_roomtype;
 
 
-  public String getPId() {
-    return P_ID;
+  public String getP_path() {
+    return P_path;
   }
 
-  public void setPId(String pId) {
-    this.P_ID = pId;
+  public void setP_path(String p_path) {
+    P_path = p_path;
   }
 
-
-  public long getRType() {
-    return R_type;
+  public long getR_roomtype() {
+    return R_roomtype;
   }
 
-  public void setRType(long rType) {
-    this.R_type = rType;
+  public void setR_roomtype(long r_roomtype) {
+    R_roomtype = r_roomtype;
   }
 
   @Override
   public String toString() {
     return "Pictures{" +
-            "P_ID='" + P_ID + '\'' +
-            ", R_type=" + R_type +
+            "P_path='" + P_path + '\'' +
+            ", R_roomtype=" + R_roomtype +
             '}';
   }
 }
