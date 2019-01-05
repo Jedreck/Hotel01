@@ -71,9 +71,6 @@
             <if test="windows != null and windows != ''">
                 and windows = #{windows}
             </if>
-            <if test="windows != null and windows != ''">
-                and windows = #{windows}
-            </if>
         </where>
     </select>
 
