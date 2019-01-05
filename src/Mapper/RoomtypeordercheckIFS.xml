@@ -5,7 +5,37 @@
 <mapper namespace="Mapper.RoomtypeordercheckIFS">
     <select id="selectNowToFuture" resultType="int">
         select COUNT(*)
-        from roomtypeordercheck,roomtype
-        where roomtypeordercheck.R_roomtype=#{roomType} and optime between '${startDate}' and '${endDate}' and ordernum&lt;roomnum
+        from roomtypeordercheck,
+             roomtype
+        where roomtypeordercheck.R_roomtype = #{roomType}
+          and roomtypeordercheck.R_roomtype = roomtype.R_roomtype
+          and optime between '${startDate}' and '${endDate}'
+          and ordernum &lt; roomnum
     </select>
+
+    <select id="selectMaxDate" parameterType="int" resultType="java.sql.Date">
+        select max(optime)
+        from roomtypeordercheck
+        where R_roomtype = #{value}
+    </select>
+
+    <insert id="insertDateOfTime" parameterType="java.util.List">
+        insert into roomtypeordercheck (optime, R_roomtype)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.optime},
+            #{item.R_roomtype}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateRoomtypeOfOrderNum">
+        update roomtypeordercheck
+        set ordernum = ordernum + 1
+        where optime between '${startDate}' and '${endDate}'
+          and R_roomtype = #{roomType}
+    </update>
+
+
 </mapper>

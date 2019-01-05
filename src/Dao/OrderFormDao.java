@@ -8,6 +8,7 @@ import org.apache.tools.ant.taskdefs.condition.Or;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -361,4 +362,19 @@ public class OrderFormDao {
             e.printStackTrace();
         }
     }
+
+    public static int insertForm(String O_num
+            , Timestamp checkintime
+            , Timestamp checkouttime
+            , int R_type
+            , String phone
+            , double O_price
+    )throws IOException{
+        SqlSession session = getSqlSession.getSession().openSession();
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        int success = orderformIFS.insertOrder(O_num,checkintime.toString(),checkouttime.toString(),R_type,phone,O_price);
+        session.commit();
+        session.close();
+        return success;
+    };
 }
