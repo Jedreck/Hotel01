@@ -23,9 +23,11 @@
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../css/style-responsive.css" rel="stylesheet">
     <script src="../../lib/chart-master/Chart.js"></script>
-    <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
+    <!--<script type="text/javascript" src="../../lib/layui/layui.all.js"></script>-->
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
+    <script src="../../lib/my_common.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -143,112 +145,60 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">姓名</label>
                     <div class="layui-input-block">
-                        <input name="title" class="layui-input" required="" type="text" placeholder="请输入姓名" autocomplete="off" lay-verify="required" id="name">
+                        <input name="C_name" class="layui-input" required="" type="text" placeholder="请输入姓名" autocomplete="off" lay-verify="required" id="name">
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">证件号</label>
                     <div class="layui-input-block">
-                        <input name="title" class="layui-input" required="" type="text" placeholder="请输入证件号" autocomplete="off" lay-verify="required" id="idcard">
+                        <input name="C_ID" class="layui-input" required="" type="text" placeholder="请输入证件号" autocomplete="off" lay-verify="required|identity" id="idcard">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">单选框</label>
+                    <div class="layui-input-block">
+                        <input name="sex" title="男" type="radio" value="男"><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i><div>男</div></div>
+                        <input name="sex" title="女" type="radio" checked="" value="女"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>女</div></div>
                     </div>
                 </div>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">手机号</label>
                     <div class="layui-input-block">
-                        <input name="title" class="layui-input" required="" type="text" placeholder="请输入手机号" autocomplete="off" lay-verify="required" id="phonenumber">
+                        <input name="C_phone" class="layui-input" required="" type="text" placeholder="请输入手机号" autocomplete="off" lay-verify="required|phone" id="phonenumber">
                     </div>
                 </div>
 
-                <!--<label class="layui-form-label">房间类型</label>-->
-                <!--<div class="layui-input-inline">-->
-                    <!--<select name="city" lay-verify="required">-->
-                        <!--<option value=""></option>-->
-                        <!--<option value="0">单人间</option>-->
-                        <!--<option value="1">双人间</option>-->
-                        <!--<option value="2">主题房</option>-->
-                        <!--<option value="3">豪华套房</option>-->
-                    <!--</select>-->
-                    <!--&lt;!&ndash;<div class="layui-unselect layui-form-select">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="layui-select-title">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<input class="layui-input layui-unselect" type="text" readonly="" placeholder="请选择房间类型" value="">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="layui-edge"></i>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<dl class="layui-anim layui-anim-upbit">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<dd class="layui-select-tips" lay-value="">请选择房间类型</dd>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<dd lay-value="0">北京</dd>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<dd lay-value="1">上海</dd>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<dd lay-value="2">广州</dd>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<dd lay-value="3">深圳</dd>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</dl>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--</div>-->
-
-
-
-                <!--<div class="layui-form-item">-->
-                    <!--<label class="layui-form-label">入住时间</label>-->
-                    <!--<div>-->
-                        <!--<div class="layui-input-inline"> &lt;!&ndash; 注意：这一层元素并不是必须的 &ndash;&gt;-->
-                            <!--<input type="text" class="layui-input" id="inDate"-->
-                                   <!--style="margin-left: 5px"-->
-                                   <!--placeholder="入住日期与离店日期">-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
                 <div>
                     <table>
                         <tr>
                             <td>
                                 <label class="layui-form-label">房间类型</label>
                                 <div class="layui-input-inline">
-                                    <select name="city" lay-verify="required">
-                                        <option value=""></option>
-                                        <option value="0">单人间</option>
-                                        <option value="1">双人间</option>
-                                        <option value="2">主题房</option>
-                                        <option value="3">豪华套房</option>
+                                    <select name="R_roomtype" id="R_roomtype" lay-verify="required">
                                     </select>
-                                    <!--<div class="layui-unselect layui-form-select">-->
-                                    <!--<div class="layui-select-title">-->
-                                    <!--<input class="layui-input layui-unselect" type="text" readonly="" placeholder="请选择房间类型" value="">-->
-                                    <!--<i class="layui-edge"></i>-->
-                                    <!--</div>-->
-                                    <!--<dl class="layui-anim layui-anim-upbit">-->
-                                    <!--<dd class="layui-select-tips" lay-value="">请选择房间类型</dd>-->
-                                    <!--<dd lay-value="0">北京</dd>-->
-                                    <!--<dd lay-value="1">上海</dd>-->
-                                    <!--<dd lay-value="2">广州</dd>-->
-                                    <!--<dd lay-value="3">深圳</dd>-->
-                                    <!--</dl>-->
-                                    <!--</div>-->
                                 </div>
                             </td>
                             <td>
                                 <label class="layui-form-label">入住时间</label>
-                                <div class="layui-input-inline"> <!-- 注意：这一层元素并不是必须的 -->
-                                    <input type="text" class="layui-input" id="inDate"
+                                <div class="layui-input-inline">
+                                    <input type="inDate" class="layui-input" id="inDate" name="inDate" autocomplete="off"
                                            placeholder="入住日期与离店日期">
                                 </div>
                             </td>
                             <td>
-                                <label class="layui-form-label">楼层</label>
+                                <label class="layui-form-label">床型</label>
                                 <div class="layui-input-inline">
-                                    <select name="city" lay-verify="required">
-                                        <option value=""></option>
-                                        <option value="0">1楼</option>
-                                        <option value="1">2楼</option>
-                                        <option value="2">3楼</option>
-                                        <option value="3">4楼</option>
+                                    <select name="bedtype" id="bedtype" lay-verify="required">
                                     </select>
                                 </div>
                             </td>
                             <td>
                                 <label class="layui-form-label">无烟房</label>
                                 <div class="layui-input-inline">
-                                    <select name="city" lay-verify="required">
-                                        <option value=""></option>
+                                    <select name="smoke" lay-verify="required">
                                         <option value="0">是</option>
                                         <option value="1">否</option>
                                     </select>
@@ -258,17 +208,12 @@
                     </table>
                 </div>
 
-                <!--<div class="layui-form-item">-->
-                    <!--<label class="layui-form-label">预计离店</label>-->
-                    <!--<div class="layui-input-block">-->
-                        <!--<div class="layui-inline"> &lt;!&ndash; 注意：这一层元素并不是必须的 &ndash;&gt;-->
-                            <!--<input type="text" class="layui-input" id="check_out_time">-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="layui-form-item" style="text-align: center">-->
-                    <!--<button class="layui-btn" lay-filter="formDemoPane" lay-submit="" id="check_in">立即入住</button>-->
-                <!--</div>-->
+                <div style="text-align: center">
+                    <div class="layui-form-item">
+                        <button class="layui-btn layui-btn-primary" lay-submit lay-filter="submit">提交</button>
+                        <button class="layui-btn layui-btn-primary" id="clearAll" type="reset">清空</button>
+                    </div>
+                </div>
             </form>
             <!--表单-->
 
@@ -284,36 +229,22 @@
                                 <th><i class="fa fa-home"></i>房间类型</th>
                                 <th class="hidden-phone"><i class="fa fa-bed"></i>床型</th>
                                 <th><i class="fa fa-columns"></i>窗户</th>
-                                <th><i class=" fa fa-picture-o"></i>景观</th>
+                                <th><i class=" fa fa-picture-o"></i>可入住数</th>
                                 <th><i class=" fa fa-rss"></i>无线网络</th>
-                                <th><i class=" fa fa-wrench"></i>便利设施</th>
+                                <th><i class=" fa fa-wrench"></i>房间面积</th>
                                 <th></th>
                             </tr>
                             </thead>
 
                             <tbody id="table_content">
-                            <tr>
-                                <td id="room_type">豪华大床房</td>
-                                <td class="hidden-phone" id="bed_type">卧式铣床</td>
-                                <td id="window">有</td>
-                                <td id="sense">特色建筑</td>
-                                <td id="net">免费WIFI</td>
-                                <td id="equipment">配备日常设施</td>
-                                <td>
-                                    <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                </td>
-                            </tr>
                             </tbody>
-
                         </table>
-
                     </div>
                     <!-- /content-panel -->
                 </div>
                 <!-- /col-md-12 -->
             </div>
             <!--房间列表-->
-
             <!-- /row -->
         </section>
     </section>
@@ -346,128 +277,6 @@
     <!--footer end-->
 </section>
 
-<script type="application/javascript">
-    $(document).ready(function() {
-        var pageNum = 0;
-        var obj = [{
-            E_room_type:"单人间",
-            E_bed_type:"大床房",
-            E_window:"有",
-            E_sense:"特色建筑",
-            E_net:"免费WIFI",
-            E_equipment:"配备日常设施"
-        },{
-            E_room_type:"单人间",
-            E_bed_type:"大床房",
-            E_window:"有",
-            E_sense:"特色建筑",
-            E_net:"免费WIFI",
-            E_equipment:"配备日常设施"
-        }];
-        window.onload = initialTable();
-        // 初始化表格
-        function initialTable(){
-            pageNum = obj.length;
-            setPage(pageNum);
-            var html = "";
-            for(var i = 0; i < obj.length; i++){
-                // 拼接内容
-                html += "        <tr>\n" +
-                    "            <td id=\"room_type\">";
-                html += obj[i].E_room_type;
-                html += "</td>\n" +
-                    "            <td class=\"hidden-phone\" id=\"bed_type\">";
-                html += obj[i].E_bed_type;
-                html += "</td>\n" +
-                    "            <td id=\"window\">";
-                html += obj[i].E_window;
-                html += "</td>\n" +
-                    "            <td id=\"sense\">";
-                html += obj[i].E_sense;
-                html += "</td>\n" +
-                    "            <td id=\"net\">";
-                html += obj[i].E_net;
-                html += "</td>\n" +
-                    "             <td id=\"equipment\">";
-                html += obj[i].E_equipment;
-                html += "</td>\n" +
-                    "            <td>\n" +
-                    "             <button class=\"btn btn-success btn-xs\"><i class=\"fa fa-check\"></i></button>\n" +
-                    "            </td>\n" +
-                    "            </tr>";
-            }
-            console.log(html);
-            $("#table_content").html(html);
-        }
-        // 设置分页数量
-        function setPage(pageNum) {
-            console.log(pageNum);
-            layui.use(['laypage','form','layer'], function(){
-                var form = layui.form;
-                var laypage = layui.laypage;
-                var layer = layui.layer;
-                //执行一个laypage实例
-                laypage.render({
-                    elem: 'order_page' //注意，这里的 test1 是 ID，不用加 # 号
-                    ,count: pageNum //数据总数，从服务端得到
-                });
-                //监听指定开关
-            });
-        }
-
-        // 接受预订并删除该行
-        $("button[name='check_in']").click(function () {
-            var temp = this;
-            layer.open({
-                content: '确定办理入住？'
-                ,btn: ['确定', '取消']
-                ,yes: function(index, layero){//删除
-                    temp.closest('tr').remove();
-                    layer.closeAll();
-                }
-                ,btn2: function(index, layero){
-                    //按钮【按钮二】的回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-                ,cancel: function(){
-                    //右上角关闭回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-            });
-            console.log("111");
-            setPage(--pageNum);//调整分页数量
-        });
-
-        //删除指定的预订
-        $("button[name='delete']").click(function () {
-            console.log("qqq");
-            var temp = this;
-            layer.open({
-                content: '确定删除该预订？'
-                ,btn: ['删除', '取消']
-                ,yes: function(index, layero){//删除
-                    temp.closest('tr').remove();
-                    layer.closeAll();
-                }
-                ,btn2: function(index, layero){
-                    //按钮【按钮二】的回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-                ,cancel: function(){
-                    //右上角关闭回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-            });
-            console.log("111");
-            setPage(--pageNum);//调整分页数量
-        });
-    });
-</script>
-
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
 
@@ -483,10 +292,340 @@
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
+<!--<script src="../../lib/layui/layui.all.js"></script>-->
+<script src="../../lib/layui/layui.js"></script>
+<!--日期选择器-->
+<script>
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //日期范围
+        laydate.render({
+            elem: '#inDate'
+            , range: true
+            , calendar: true
+            , min: 0
+            , max: 60
+        });
+    });
+</script>
+
+<script>
+    $(function () {
+        //员工编号待获取
+        var E_num = "101001";
+
+        var bookInfo = "";
+
+        var index = 0;
+        layui.use(['form', 'layedit', 'laydate'], function () {
+            var form = layui.form;
+            form.on('submit(submit)', function (data) {//提交表单
 
 
-<script src="../../lib/layui/layui.all.js"></script>
+                bookInfo += "{\"typename\":\"" +data.field.R_roomtype+"\"";
+
+                bookInfo += ",\"inDate\":\"" + data.field.inDate + "\"";
+
+                bookInfo += ",\"bedtype\":\"" + data.field.bedtype + "\"";
+
+                bookInfo += ",\"smoke\":\"" + data.field.smoke + "\"}";
+
+                console.log(bookInfo);
+                index = layer.load(0, {shade: false});
+                $.ajax({
+                    url: "/CheckInBookSearchServlet",
+                    type:'post',
+                    data:{roomInfo:bookInfo},
+                    dataType:'text',
+                    success: function(data){
+                        if(data == 0) {
+                            showResult("查询房间类型失败，请重试！");
+                        } else {
+                            //showResult("有可用的房间！");
+                            obj = JSON.parse(data);
+                            showRoomType(obj);
+                        }
+                    }});
+                return false;
+            });
+        });
+        initialData();
+        // 初始化下拉框的值
+        function initialData() {
+            $.ajax({
+                url: "/SelectMainRtypeBtypeServlet",
+                type:'post',
+                dataType:'text',
+                success: function(data){
+                    if(data == "Error") {
+                        showResult("数据查询出错！");
+                    } else {
+                        var str = data.split("!");
+
+                        var rtype = JSON.parse(str[0]);
+                        var btype = JSON.parse(str[1]);
+                        R_roomtype = $("#R_roomtype");
+                        R_roomtype.empty();
+                        for(var i = 0; i < rtype.length; i++){
+                            R_roomtype.append('<option value="'+ rtype[i] +'">'+ rtype[i] + '</option>');
+                        }
+
+                        bedtype = $("#bedtype");
+                        bedtype.empty();
+                        for(var i = 0; i < btype.length; i++){
+                            bedtype.append('<option value="'+ btype[i] +'">'+ btype[i] + '</option>');
+                        }
+                        layui.form.render();
+                    }
+                }});
+        }
+
+        //拼接显示内容
+        function showRoomType(obj) {
+            var html = "";
+            for(var i = 0; i < obj.length; i++){
+                // 拼接内容
+                html += "        <tr>\n" +
+                    "            <td name=\"room_type\">";
+                html += obj[i].R_roomtype + "-" + obj[i].typename;
+                html += "</td>\n" +
+                    "            <td class=\"hidden-phone\" name=\"bed_type\">";
+                html += obj[i].bedtype;
+                html += "</td>\n" +
+                    "            <td name=\"window\">";
+                html += obj[i].windows;
+                html += "</td>\n" +
+                    "            <td name=\"people\">";
+                html += obj[i].people;
+                html += "</td>\n" +
+                    "            <td name=\"wifi\">";
+                html += obj[i].wifi;
+                html += "</td>\n" +
+                    "             <td name=\"facility\">";
+                html += obj[i].area;
+                html += "</td>\n" +
+                    "            <td>\n" +
+                    "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-pencil\"></i></button>\n" +
+                    "             <button class=\"btn btn-success btn-xs\" name=\"check\"'><i class=\"fa fa-check\"></i></button>\n" +
+                    "            </td>\n" +
+                    "            </tr>";
+            }
+            console.log(html);
+            $("#table_content").html(html);
+            layer.close(index);
+
+            // 详细信息和修改
+            $("button[name='detail']").click(function () {
+                layer.open({
+                    type: 1,
+                    title: '客房详细信息界面',
+                    shadeClose: true,
+                    shade: false,
+                    maxmin: true, //开启最大化最小化按钮
+                    area: ['893px', '600px'],
+                    content: $("#RoomTypeDetail")
+                });
+
+                var str =  $($(this).parent().parent()).find("td[name='room_type']").html();
+                console.log(str);
+                var R_roomtype = str.split("-")[0];
+                console.log(R_roomtype);
+                getData(R_roomtype);
+            });
+
+            //接受预订
+            $("button[name='check']").click(function () {
+                var CustomerInfo = "";
+
+                CustomerInfo += "{\"C_ID\":\"" +$("input[name = 'C_ID']").val()+"\"";
+
+                CustomerInfo += ",\"C_phone\":\"" + $("input[name = 'C_phone']").val()+ "\"";
+
+                CustomerInfo += ",\"C_password\": \"000000\"";
+
+                CustomerInfo += ",\"C_name\":\"" +$("input[name = 'C_name']").val() + "\"";
+
+                CustomerInfo += ",\"C_sex\":\"" + $("input[name = 'sex']:checked").val()+ "\"}";
+
+                console.log(CustomerInfo);
+                //获取订单号
+                var str = $($(this).parent().parent()).find("td[name='room_type']").html();
+                console.log(str);
+                var R_roomtype = str.split("-")[0];
+                console.log(R_roomtype);
+                sessionStorage.setItem("R_roomtype",R_roomtype.trim());//页面之间传递数据
+                sessionStorage.setItem("CustomerInfo",CustomerInfo);
+                sessionStorage.setItem("bookInfo",bookInfo);
+                sessionStorage.setItem("E_num",E_num);
+                window.open('./staff_choose_room_number.html','_self');
+            });
+
+        }
+
+        // 获取数据
+        function getData(R_roomtype) {
+            $.ajax({
+                url: "/SelectRoomTypeByTBServlet",
+                type:'post',
+                data:{R_roomtype:R_roomtype},
+                dataType:'text',
+                success: function(data){
+                    var obj = JSON.parse(data);
+                    console.log(obj);
+                    // 后台查询失败
+                    if(data == "Error") {
+                        showResult("1出错，稍后重试！");
+                        window.history.back(-1);
+                        return;
+                    } else{
+                        initialData1(obj);
+                    }
+                },
+                error: function () {
+                    showResult("2出错，稍后重试！");
+                    window.history.back(-1);
+                    return;
+                }
+            });
+        }
+
+        // 数据初始化
+        function initialData1(room) {
+            layui.form.val("RoomInfo", { //表单初始化
+                "typename": room.typename
+                ,"bedtype": room.bedtype
+                ,"people":room.people
+                ,"area": room.area
+                ,"roomnum": room.roomnum
+                ,"wifi": room.wifi == 1? "有" : "无"
+                ,"wirednet": room.wirednet == 1? "有" : "无"
+                ,"windows": room.windows == 1? "有" : "无"
+                ,"smoke": room.smoke == 1? "允许" : "禁止"
+                ,"bathroom": room.bathroom == 1? "有" : "无"
+                ,"facility": room.facility
+                ,"price": room.price
+                ,"other": room.other
+            });
+            layui.form.render();
+        }
+
+        // 显示插入的结果
+        function showResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
+    });
+
+</script>
 
 </body>
+
+
+    <div class="form-panel" style="display: none" id="RoomTypeDetail">
+        <form class="layui-form layui-form-pane" lay-filter="RoomInfo">
+            <div class="layui-form-item">
+                <label class="layui-form-label">客房类型*</label>
+                <div class="layui-input-block">
+                    <input type="text" name="typename" lay-verify="required" placeholder="请输入客房类型名称"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">床型*</label>
+                <div class="layui-input-block">
+                    <input type="text" name="bedtype" autocomplete="off" class="layui-input"
+                           lay-verify="required" placeholder="请输入床型">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">价格*</label>
+                <div class="layui-input-block">
+                    <input type="text" name="price" autocomplete="off" class="layui-input"
+                           placeholder="￥" lay-verify="required|number">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">人数*</label>
+                <div class="layui-input-block">
+                    <input type="text" name="people" placeholder="请输入人数" autocomplete="off"
+                           class="layui-input" lay-verify="required|number">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">建筑面积*</label>
+                <div class="layui-input-block">
+                    <input type="text" name="area" placeholder="请输入面积" autocomplete="off"
+                           class="layui-input" lay-verify="required|number">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">无限网络*</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="wifi" value="有" title="有" checked="">
+                    <input type="radio" name="wifi" value="无" title="无">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">有线网络*</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="wirednet" value="有" title="有" checked="">
+                    <input type="radio" name="wirednet" value="无" title="无">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">窗户*</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="windows" value="有" title="有" checked="">
+                    <input type="radio" name="windows" value="无" title="无">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">浴室*</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="bathroom" value="有" title="有" checked="">
+                    <input type="radio" name="bathroom" value="无" title="无">
+                </div>
+            </div>
+
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">吸烟*</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="smoke" value="允许" title="允许" checked="">
+                    <input type="radio" name="smoke" value="禁止" title="禁止">
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">便利设施*</label>
+                <div class="layui-input-block">
+                                    <textarea placeholder="请输入便利设施内容" class="layui-textarea" name="facility"
+                                              lay-verify="required"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">其他*</label>
+                <div class="layui-input-block">
+                                    <textarea name="other" placeholder="其他" class="layui-textarea"
+                                              lay-verify="required"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
 
 </html>

@@ -318,12 +318,13 @@
 
         // 详细房间的信息
         $("button[name='detail']").click(function () {
+
             //获取订单号
             var order_number = $($(this).parent().parent()).find("td[name='order_number']").html();
             //var R_roomtype = $($(this).parent().parent()).find("td[name='order_number']").html();
             console.log(order_number);
             sessionStorage.setItem("order_number",order_number.trim());//页面之间传递数据
-            //window.open('./choose_room_number.html','_self');
+            window.open('./choose_room_number.html','_self');
         });
     }
 </script>
