@@ -229,4 +229,11 @@
         set O_status = 4,finishtime = sysdate()
         where O_num = #{O_num}
     </update>
+
+
+    <select id="SelectCIDForCustomer" parameterType="java.lang.String" resultType="java.lang.String">
+        select C_ID
+        from customer
+        where C_phone = #{C_phone}
+    </select>
 </mapper>

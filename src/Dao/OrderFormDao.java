@@ -542,6 +542,26 @@ public class OrderFormDao {
         session.close();
     }
 
+    public String SelectCIDForCustomer(String C_phone)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        //调用userMapper的方法
+        String C_ID = "";
+        try{
+             C_ID = orderformIFS.SelectCIDForCustomer(C_phone);
+            System.out.println(C_ID);
+        }catch (IOException e){
+            System.out.println("改变订单状态填入结束时间出错- orderformdao");
+            e.printStackTrace();
+        }
+        session.commit();
+        session.close();
+        return C_ID;
+    }
+
     public static void main(String[] args){
         try{
             //OrderFormDao.selectOrderformByCID("145154199609093333");
@@ -563,6 +583,7 @@ public class OrderFormDao {
             //new OrderFormDao().StaffSelectTotalRoomCanCheckInNum("25");
             //new OrderFormDao().StaffSelectRoomCanCheckIn(0,"25");
             //new OrderFormDao().StaffselectOrderformByCphone("18222222222");
+            new OrderFormDao().SelectCIDForCustomer("15888888888");
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -108,4 +108,6 @@ public interface OrderformIFS {
     public Map<String, Object> StaffselectOrderformByCphone(String C_phone) throws IOException;
     //<!--结算改变订单状态填入结束时间-->
     public void StaffCheckOut(String O_num)throws IOException;
+
+    public String SelectCIDForCustomer(String C_phone)throws IOException;
 }
