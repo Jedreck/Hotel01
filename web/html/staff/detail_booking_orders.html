@@ -25,6 +25,8 @@
     <script src="../../lib/chart-master/Chart.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <script src="../../lib/easyCookie.js"></script>
+    <script src="../../lib/my_common.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -311,6 +313,11 @@
     }();
 </script>
 
+<script>
+    $(function () {
+        if(!validateEmployee()) return;
+    });
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

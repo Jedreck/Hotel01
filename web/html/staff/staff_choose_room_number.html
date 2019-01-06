@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/easyCookie.js"></script>
     <script src="../../lib/my_common.js"></script>
-
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -242,6 +242,7 @@
 </script>
 <script type="application/javascript">
     $(function() {
+        if(!validateEmployee()) return;
         var index = 0;
         var pageNum = 0;//用来接收订单数量
         var obj;//用来接收查询的订单列表

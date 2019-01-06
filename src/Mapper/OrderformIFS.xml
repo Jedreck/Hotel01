@@ -214,4 +214,19 @@
         where R_roomtype = #{R_type} and optime between  date(#{checkintime})
         and DATE_SUB(date( #{checkouttime} ),INTERVAL 1 DAY )
     </update>
+
+
+    <!--通过手机号查询某个客户订单用来结算-->
+    <select id="StaffselectOrderformByCphone" parameterType="java.lang.String" resultType="map">
+        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,r.price
+        from orderform o,customer c,roomtype r
+        where c.C_phone = #{C_phone} and o.C_ID = c.C_ID and r.R_roomtype = o.R_type and o.O_status = 3
+    </select>
+
+    <!--结算改变订单状态填入结束时间-->
+    <update id="StaffCheckOut" parameterType="java.lang.String">
+        update orderform
+        set O_status = 4,finishtime = sysdate()
+        where O_num = #{O_num}
+    </update>
 </mapper>
