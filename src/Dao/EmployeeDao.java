@@ -210,4 +210,16 @@ public class EmployeeDao {
             e.printStackTrace();
         }
     }
+
+    public static Employee Login(Employee employee) throws IOException {
+        SqlSession session = getSqlSession.getSession().openSession();
+        EmployeeIFS employeeIFS = session.getMapper(EmployeeIFS.class);
+
+        employee = employeeIFS.Login(employee);
+
+        session.commit();
+        session.close();
+
+        return employee;
+    }
 }

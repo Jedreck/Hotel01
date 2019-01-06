@@ -16,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>Customer</title>
+    <title>客户预定房间</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -34,7 +34,12 @@
     <script src="../../lib/chart-master/Chart.js"></script>
     <!--layUI-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
-
+    <style type="text/css">
+        .pic{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -202,8 +207,8 @@
                             <div class="grey-header">
                                 <h3>样板间</h3>
                             </div>
-                            <div style="height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
-                                假装有图片
+                            <div style="height: 50%;width:200px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
+                                <img src="../../img/404.png" alt="图片加载失败" name="pic" class="pic"/>
                             </div>
                             <table border="0" style="margin:auto;width: 90%;font-size: 16px">
                                 <tr>
@@ -265,6 +270,7 @@
 <script src="../../lib/layui/layui.all.js"></script>
 
 <script>
+    var picUrl;
     console.log("check cookies--" + cookies_phone);
     $('#phone').text(cookies_phone);
     var bookInfo = cookie.get("bookInfo");
@@ -281,10 +287,16 @@
 
 
     function submitInfo(jsonStr) {
+        $(document).ajaxStart(function () {
+            layer.load(1);
+        });
         $.ajax({
             url: "/bookSearchServlet",
             data: {jsondata: jsonStr},
             type: "post",
+            before:function(){
+                layer.load(2);
+            },
             success: function (flag) {
                 console.log(flag);
                 if (flag === "0") {
@@ -296,8 +308,10 @@
             },
             error: function () {
                 alert("网络错误。。。");
+            },
+            done:function () {
             }
-        })
+        });
     }
 
     function json2Div(jsons) {
@@ -309,13 +323,16 @@
             itemStr+="搜索无结果。。。"
         }else {
             for (var i = 0; i < json.length; i++) {
+                getPicUrl(json[i].R_roomtype);
                 itemStr += "<div class=\"col-md-4 col-sm-4 mb\">\n" +
                     "                        <div class=\"grey-panel pn donut-chart roomresult_panel\">\n" +
                     "                            <div class=\"grey-header\">\n" +
                     "                                <h3>" + json[i].typename + "</h3>\n" +
                     "                            </div>\n" +
-                    "                            <div style=\"height: 50%;width:150px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto\">\n" +
-                    "                                图片\n" +
+                    "                            <div style=\"height: 50%;width:200px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto\">\n" +
+                    "<img alt=\"图片加载失败\" class='pic' name=\"pic\" src='"
+                    + picUrl
+                    + "'/>" +
                     "                            </div>\n" +
                     "                            <table border=\"0\" style=\"margin:auto;width: 90%;font-size: 16px\">\n" +
                     "                                <tr>\n" +
@@ -344,7 +361,36 @@
             }
         }
         $('#resultPanel').html(itemStr);
+        console.log(itemStr);
+        layer.closeAll('loading');
     }
+
+    function setUrl(url) {
+        console.log("======++++"  + url);
+        picUrl = url;
+    }
+
+    function getPicUrl(R_roomtype) {
+        picUrl = "../../img/404.png";
+        //var picurl = "../../img/myImage/25/0c2a484d791230087f76fe5f7d412636.jpg";
+        $.ajax({
+            url: "/SelectPicByRT",
+            data: {R_roomtype: R_roomtype},
+            type: "post",
+            async:false,
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                console.log("jsonsjon:" + obj[0]);
+                if(obj.length > 0){
+                    setUrl(obj[0]);
+                }
+            },
+            error: function () {
+                alert("网络错误。。。");
+            }
+        });
+    }
+
 </script>
 
 <script>

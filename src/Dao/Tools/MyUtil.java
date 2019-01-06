@@ -1,6 +1,7 @@
 package Dao.Tools;
 
 import Dao.EmployeeDao;
+import Dao.PicturesDao;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.FileUploadException;
@@ -8,6 +9,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,8 +55,9 @@ public class MyUtil {
      * @param request
      * @param path 文件存储的路径
      */
-    public static void SaveFiles(javax.servlet.http.HttpServletRequest request,String path, String R_roomtype){
+    public static void SaveFiles(javax.servlet.http.HttpServletRequest request,String path, String R_roomtype) throws IOException {
 
+        PicturesDao pd = new PicturesDao();
         path += R_roomtype + "\\";
 
         // 文件夹不存在时，创建文件夹
@@ -73,12 +76,12 @@ public class MyUtil {
         List items = null;
         try {
             items = upload.parseRequest(request);
+            System.out.println("MyUtil"+request.getParameter("R_roomtype"));
         }
         catch (FileUploadException e) {
             e.printStackTrace();
         }
 
-        int count = 0;
         // 对所有请求信息进行判断
         Iterator iter = items.iterator();
         while (iter.hasNext()) {
@@ -91,14 +94,21 @@ public class MyUtil {
             }
             // 信息为文件格式
             else {
-               // String originalFilename = null;  //文件名
-                String fileName = R_roomtype + "-" + count + "." + item.getName().split("\\.")[1];
-                System.out.println("文件名" + fileName + "sdfsdf:" + item.getName().split("\\.")[1]);
+                String fileName = item.getName();  //文件名
+                //int count = pd.GetTotalPicByRT(R_roomtype);
+                //int count = MyUtil.GetTotal(R_roomtype);
+                //System.out.println("图片总数" + count);
+                //count++;
+                //count = count % 5 == 0 ? 1 : count % 5;// 只存5张图片
+               // String fileName = R_roomtype + "-" + count + "." + item.getName().split("\\.")[1];
+                System.out.println("文件名" + fileName);
 
                 // 获取文件存储的位置
                 //String basePath = request.getSession().getServletContext().getRealPath("/img/myImage/");
-                System.out.println(count + "路径：" + path);
                 File file = new File(path, fileName);
+                // 插入图片 相对路径供html文件访问
+                pd.InsertPicPathByRT(R_roomtype,"../../img/myImage/" + R_roomtype + "/" + fileName);
+                System.out.println("完整路径：" + "../../img/myImage/" + R_roomtype + "/" + fileName);
                 try {
                     item.write(file);
                 }
@@ -109,7 +119,41 @@ public class MyUtil {
         }
     }
 
+    /**
+     * 删除目录下的所有文件
+     * @param dpath 目录的的路径
+     */
+    public static void DeleteAllFiles(String dpath){
+        System.out.println("开始删除...|" + dpath);
+        try {
+            //File file1 = new File("./web/img/myImage/25/");
+            File file1 = new File(dpath);
+            String path = file1.getAbsolutePath();
+            File kid;
+            String[] kids = file1.list();
+            if (file1.exists()) {
+                System.out.println("11111");
+                for (int i = 0; i < kids.length; i++) {
+                    kid = new File(path + "/" +kids[i]);
+                    if(kid.exists()) {
+                        System.out.println(kids[i]);
+                        kid.delete();
+                    }
+
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println("删除完成！");
+    }
+
+    public static int GetTotal(String R_roomtype){
+        File file = new File("./web/img/myImage/" + R_roomtype + "/");
+        return file.list().length;
+    }
+
     public static void main(String[] args) {
-        System.out.println(GenerateE_num("经理")+ "sdfsdfsdf");
+        System.out.println(GetTotal("25")+ "sdfsdfsdf");
     }
 }
