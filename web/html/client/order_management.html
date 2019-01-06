@@ -241,11 +241,37 @@
 </script>
 <script type="application/javascript">
     $(function() {
+
+        var cookies_phone = cookie.get("phone");
+        console.log(cookies_phone);
         var pageNum = 0;//用来接收订单数量
         var obj;//用来接收查询的订单列表
         var pageNow = 1;// 当前的页
 
-        var CustomerID = "145154199609093333";//当前用户的身份证号
+        var CustomerID = "";//当前用户的身份证号
+
+        initialCID(cookies_phone);
+
+        function  initialCID(cookies_phone){
+            $.ajax({
+                url: "/SelectCIDForCustomerServlet",
+                type:'post',
+                data:{C_phone:cookies_phone},
+                dataType:'text',
+                success: function(data){
+                    console.log(data);
+
+                    CustomerID = data;
+                    if(CustomerID == "") {
+                        console.log("ERROR");
+                        return;
+                    }
+                },
+                error:  function () {
+                    $("#table_content").html("2加载数据失败，请稍后重试!");
+                }
+            });
+        }
 
         initialData();
 
