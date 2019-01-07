@@ -3,6 +3,7 @@ package servlet;
 import Dao.PicturesDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class SelectPicByRT extends javax.servlet.http.HttpServlet {
             System.out.println("异常：SelectPicByRT");
         }
         PrintWriter out = response.getWriter();
+        System.out.println(gson.toJson(picUrl).toString());
         out.print(gson.toJson(picUrl).toString());
         out.flush();
         out.close();
