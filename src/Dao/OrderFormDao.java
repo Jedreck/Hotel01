@@ -499,6 +499,69 @@ public class OrderFormDao {
         session.close();
     }
 
+    //通过手机号查询某个客户订单
+    public  Map<String,Object> StaffselectOrderformByCphone(String C_phone)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        Map<String,Object> orderform = null;
+        try{
+            orderform = orderformIFS.StaffselectOrderformByCphone(C_phone);
+            //System.out.println(orderform);
+        }catch (IOException e){
+            System.out.println("查询客户订单信息出错 - orderformdao");
+            e.printStackTrace();
+        }
+        //System.out.println(orderform);
+        session.commit();
+        session.close();
+        return orderform;
+
+    }
+
+    //!--结算改变订单状态填入结束时间-->
+    public void StaffCheckOut(String O_num)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+
+        //调用userMapper的方法
+        try{
+            orderformIFS.StaffCheckOut(O_num);
+        }catch (IOException e){
+            System.out.println("改变订单状态填入结束时间出错- orderformdao");
+            e.printStackTrace();
+        }
+        session.commit();
+        session.close();
+    }
+
+    public String SelectCIDForCustomer(String C_phone)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        //调用userMapper的方法
+        String C_ID = "";
+        try{
+             C_ID = orderformIFS.SelectCIDForCustomer(C_phone);
+            System.out.println(C_ID);
+        }catch (IOException e){
+            System.out.println("改变订单状态填入结束时间出错- orderformdao");
+            e.printStackTrace();
+        }
+        session.commit();
+        session.close();
+        return C_ID;
+    }
+
     public static void main(String[] args){
         try{
             //OrderFormDao.selectOrderformByCID("145154199609093333");
@@ -519,6 +582,8 @@ public class OrderFormDao {
             //new OrderFormDao().StaffSelectRoomCanCheckIn(0,"25");
             //new OrderFormDao().StaffSelectTotalRoomCanCheckInNum("25");
             //new OrderFormDao().StaffSelectRoomCanCheckIn(0,"25");
+            //new OrderFormDao().StaffselectOrderformByCphone("18222222222");
+            new OrderFormDao().SelectCIDForCustomer("15888888888");
         }catch (Exception e){
             e.printStackTrace();
         }

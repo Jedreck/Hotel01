@@ -102,4 +102,12 @@ public interface OrderformIFS {
     public void StaffChangeRoomstateForCheckIn(@Param(value = "R_num")String R_num)throws IOException;
     //<!--占用房间-->
     public void StaffChangeRoomOrderForCheckIn(Orderform orderform)throws IOException;
+
+//    结算
+//    <!--通过手机号查询某个客户订单用来结算-->
+    public Map<String, Object> StaffselectOrderformByCphone(String C_phone) throws IOException;
+    //<!--结算改变订单状态填入结束时间-->
+    public void StaffCheckOut(String O_num)throws IOException;
+
+    public String SelectCIDForCustomer(String C_phone)throws IOException;
 }
