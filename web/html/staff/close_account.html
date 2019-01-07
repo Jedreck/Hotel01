@@ -25,6 +25,8 @@
     <script src="../../lib/chart-master/Chart.js"></script>
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <script src="../../lib/jquery/jquery.js"></script>
+    <script src="../../lib/layui/layui.js"></script>
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -157,7 +159,7 @@
                                                    id="phonenumber">
                                         </div>
                                         <button class="layui-btn layui-btn-primary" style="text-align: left"
-                                                id="search_order_online">查询
+                                                id="search_order_online" onclick="checkphonenumber()" type="button">查询
                                         </button>
                                     </div>
                                 </form>
@@ -166,100 +168,94 @@
                                 <table class="table table-striped table-advance table-hover">
                                     <tbody>
                                     <tr>
-                                        <td>
+                                        <td style="width: 30%">
                                             <a href="basic_table.html#">订单号</a>
                                         </td>
-                                        <td class="hidden-phone" id="order_number">001</td>
+                                        <td class="hidden-phone" id="order_number"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">预订人</a>
                                         </td>
-                                        <td class="hidden-phone" id="order_people">李涛</td>
+                                        <td class="hidden-phone" id="order_people"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">人数</a>
                                         </td>
-                                        <td class="hidden-phone" id="people_number">2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="basic_table.html#">预订酒店</a>
-                                        </td>
-                                        <td class="hidden-phone" id="hotel">334酒店</td>
+                                        <td class="hidden-phone" id="people_number"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">预订日期</a>
                                         </td>
-                                        <td class="hidden-phone" id="data">2018-12-31</td>
+                                        <td class="hidden-phone" id="checkindate"></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <a href="basic_table.html#">预定天数</a>
+                                            <a href="basic_table.html#">预计离店</a>
                                         </td>
-                                        <td class="hidden-phone" id="last_number">2天</td>
+                                        <td class="hidden-phone" id="checkoutdate"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">联系电话</a>
                                         </td>
-                                        <td class="hidden-phone" id="phone_number">12345678901</td>
+                                        <td class="hidden-phone" id="phone_number"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">房型</a>
                                         </td>
-                                        <td class="hidden-phone" id="bed">标准双人房</td>
+                                        <td class="hidden-phone" id="roomtype"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">建筑面积</a>
                                         </td>
-                                        <td class="hidden-phone" id="area">18平米</td>
+                                        <td class="hidden-phone" id="area"></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <a href="basic_table.html#">楼层</a>
+                                            <a href="basic_table.html#">床型</a>
                                         </td>
-                                        <td class="hidden-phone" id="floor">一层</td>
+                                        <td class="hidden-phone" id="bedtype"></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <a href="basic_table.html#">早餐</a>
+                                            <a href="basic_table.html#">浴室</a>
                                         </td>
-                                        <td class="hidden-phone" id="breakfast">不含早餐</td>
+                                        <td class="hidden-phone" id="bathroom"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">有无无线网络</a>
                                         </td>
-                                        <td class="hidden-phone" id="net">免费WIFI</td>
+                                        <td class="hidden-phone" id="net"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">窗户</a>
                                         </td>
-                                        <td class="hidden-phone" id="window">有窗</td>
+                                        <td class="hidden-phone" id="window"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">吸烟</a>
                                         </td>
-                                        <td class="hidden-phone" id="somke">不可吸烟</td>
+                                        <td class="hidden-phone" id="somke"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="basic_table.html#">便利设施</a>
+                                        </td>
+                                        <td id="facility"></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <a href="basic_table.html#">订单价格</a>
                                         </td>
-                                        <td class="hidden-phone" id="money">220元</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="basic_table.html#">支付方式</a>
-                                        </td>
-                                        <td class="hidden-phone" id="pay_method">在线预付</td>
+                                        <td class="hidden-phone" id="price"></td>
                                     </tr>
                                     </tbody>
 
@@ -267,7 +263,7 @@
 
                                 <div style="text-align: center">
                                     <button class="layui-btn layui-btn-primary" style="margin: auto auto"
-                                            id="commit_order_online">确定结算
+                                            id="commit_order_online" onclick="checkout()">确定结算
                                     </button>
                                 </div>
 
@@ -309,45 +305,6 @@
     <!--footer end-->
 </section>
 
-<!--时间空间-->
-<script>
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#check_in_time' //指定元素
-        });
-    });
-</script>
-<script>
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#check_out_time' //指定元素
-        });
-    });
-</script>
-<!--时间空间-->
-
-<!--日期选择器-->
-<script>
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-        //日期范围
-        laydate.render({
-            elem: '#inDate'
-            , range: true
-            , calendar: true
-            , min: 0
-            , max: 60
-        });
-    })
-    console.log("123123");
-</script>
-<!--日期选择器-->
 
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
@@ -364,16 +321,15 @@
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
-
-
 <script src="../../lib/layui/layui.all.js"></script>
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
+
 <script>
     ;!function () {
         var layer = layui.layer, form = layui.form;
     }();
 </script>
-
-
 <script type="text/javascript">
     $(document).ready(function () {
         var unique_id = $.gritter.add({
@@ -436,6 +392,151 @@
         console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
 </script>
+<script>
+    layui.use('layer', function(){
+        var layer = layui.layer;
+
+    });
+</script>
+
+<script>
+    $(function () {
+        if(!validateEmployee()) return;
+        var index = 0;
+        function checkphonenumber() {
+            var result = true;
+            var con;
+            // 验证手机号
+            var regPhone = /^1(3|4|5|7|8)\d{9}$/;
+            phone = $("#phonenumber").val();
+            result = regPhone.test(phone);
+            if (!result) {
+                layer.tips('请正确输入11位手机号', '#phonenumber', {
+                    tips: [2, '#cd2235'],
+                    time: 2000
+                });
+                return result;
+            }else{
+                var C_phone = $("#phonenumber").val();
+                index = layer.load(0, {shade: false});
+                console.log(C_phone);
+                getData(C_phone)
+
+            }
+        }
+
+        /**
+         *
+         * @param C_phone 获取的手机号
+         */
+        // 获取数据
+        function getData(C_phone) {
+            $.ajax({
+                url: "/StaffCheckOutServlet",
+                type:'post',
+                data:{C_phone:C_phone},
+                dataType:'text',
+                success: function(data){
+                    var obj = JSON.parse(data);
+                    console.log(obj);
+                    // 后台查询失败
+                    if(data == "") {
+                        showResult("未查询出订单");
+                        return;
+                    } else{
+                        initialData(obj);
+                    }
+                },
+                error: function () {
+                    showResult("2出错，稍后重试！");
+                    window.history.back(-1);
+                    return;
+                }
+            });
+        }
+        // 数据初始化
+        function initialData(obj) {
+            var str = obj.checkintime.split(" ");
+            var checkintime = str[0] + str[1] + str[2];
+            str = obj.checkouttime.split(" ");
+            var checkouttime = str[0] + str[1] + str[2];
+            $("#order_number").text(obj.O_num);
+            $("#order_people").text(obj.C_name);
+            $("#people_number").text(obj.people);
+            $("#checkindate").text(checkintime);
+            $("#checkoutdate").text(checkouttime);
+            $("#phone_number").text(obj.C_phone);
+            $("#roomtype").text(obj.typename);
+            $("#area").text(obj.area);
+            $("#bedtype").text(obj.bedtype);
+            $("#bathroom").text(obj.bathroom);
+            $("#net").text(obj.wifi);
+            $("#window").text(obj.windows);
+            $("#somke").text(obj.smoke);
+            $("#facility").text(obj.facility);
+            $("#price").text(obj.price);
+            layer.close(index);
+        }
+        // 显示插入的结果
+        function showResult(content) {
+            layer.open({
+                content: content
+                ,btn: ['确定']
+                ,yes: function(index, layero){//删除
+                    layer.closeAll();
+                }
+                ,cancel: function(){
+                }
+            });
+        }
+        function checkout() {
+            var order_number = $("#order_number").html();
+            console.log(order_number);
+            layer.open({
+                content: '确定结算吗？'
+                ,btn: ['确定', '再想想']
+                ,yes: function(index, layero){//删除
+                    check(order_number);
+                    layer.closeAll();
+                }
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+                ,cancel: function(){
+                    //右上角关闭回调
+
+                    //return false 开启该代码可禁止点击该按钮关闭
+                }
+            });
+        }
+
+        function check(O_num) {
+            $.ajax({
+                url: "/StaffCheckOutChangeOrderServlet",
+                type:'post',
+                data:{O_num:O_num},
+                dataType:'text',
+                success: function(data){
+                    if(data == "结算成功") {
+                        showResult("正常退房");
+                        return;
+                    } else{
+                        showResult("退房失败");
+                    }
+                },
+                error: function () {
+                    showResult("2出错，稍后重试！");
+                    window.history.back(-1);
+                    return;
+                }
+            });
+        }
+    });
+
+</script>
+
 </body>
 
 </html>

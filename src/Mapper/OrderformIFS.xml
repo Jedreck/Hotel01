@@ -146,15 +146,94 @@
     <select id="SelectTotalRoomCanCheckInNum" resultType="int">
         select count(*)
         from roominfo
-        where (select R_type from orderform where O_num = #{O_num})
+        where R_roomtype = (select R_type from orderform where O_num = #{O_num})
          and (curdate() > roominfo.duetime or curdate() = duetime)
     </select>
 
     <!--选择房间入住-->
-    <!--利用R_num改变房间的duetime-->
+    <!--利用R_num改变房间的duetime和订单状态-->
     <update id="ChangeRoomstateForCheckIn">
         update roominfo r,orderform o
         set r.duetime = date(o.checkouttime),o.O_status = 3
         where o.O_num = #{O_num} and r.R_num = #{R_num}
     </update>
+
+    <!--查询主要的房间分类-->
+    <select id="SelectMainRtype" resultType="String">
+        select distinct typename
+        from roomtype
+    </select>
+    <!--查询主要的床型-->
+    <select id="SelectMainBtype" resultType="String">
+        select distinct bedtype
+        from roomtype
+    </select>
+
+
+    <!--前台查询可以入住的房间-->
+    <select id="StaffSelectRoomCanCheckIn" resultType="map">
+        select ri.R_num,ri.R_floor,rt.typename,rt.bedtype,rt.area
+        from roominfo ri,roomtype rt
+        where ri.R_roomtype = #{R_roomtype}
+        and rt.R_roomtype = #{R_roomtype}
+        and (curdate() > ri.duetime or curdate() = ri.duetime)
+        limit #{offset},10
+    </select>
+    <!--前台查询某个类型可以入住房间的总数-->
+    <select id="StaffSelectTotalRoomCanCheckInNum" resultType="int">
+        select count(*)
+        from roominfo
+        where R_roomtype = #{R_roomtype}
+        and (curdate() > roominfo.duetime or curdate() = duetime)
+    </select>
+
+
+
+    <!--办理入住成功进行的操作-->
+    <!--将获取到的客户信息插入订单表密码默认为“000000”-->
+    <insert id="StaffInsertCustomerN" parameterType="Bean.Customer">
+        insert into customer(C_ID, C_phone, C_password, C_name, C_sex)
+        values(#{C_ID},#{C_phone},#{C_password},#{C_name},#{C_sex})
+    </insert>
+
+    <!--生成新的订单-->
+    <insert id="StaffInsertOrderformN" parameterType="Bean.Orderform">
+        insert into orderform(O_num, createtime, receivetime,checkintime, checkouttime, R_type, R_num, C_ID, E_num, O_price, O_status)
+                        values(#{O_num},sysdate(),sysdate(),#{checkintime},#{checkouttime},#{R_type},#{R_num},#{C_ID},#{E_num},#{O_price} * (select price from roomtype where R_roomtype = #{R_type}),#{O_status})
+    </insert>
+    <!--利用R_num改变房间的duetime-->
+    <update id="StaffChangeRoomstateForCheckIn">
+        update roominfo r,orderform o
+        set r.duetime = date(o.checkouttime)
+        where o.R_num = #{R_num} and r.R_num = #{R_num}
+    </update>
+    <!--占用房间-->
+    <update id="StaffChangeRoomOrderForCheckIn" parameterType="Bean.Orderform">
+        update roomtypeordercheck
+        set ordernum = ordernum + 1
+        where R_roomtype = #{R_type} and optime between  date(#{checkintime})
+        and DATE_SUB(date( #{checkouttime} ),INTERVAL 1 DAY )
+    </update>
+
+
+    <!--通过手机号查询某个客户订单用来结算-->
+    <select id="StaffselectOrderformByCphone" parameterType="java.lang.String" resultType="map">
+        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,r.price
+        from orderform o,customer c,roomtype r
+        where c.C_phone = #{C_phone} and o.C_ID = c.C_ID and r.R_roomtype = o.R_type and o.O_status = 3
+    </select>
+
+    <!--结算改变订单状态填入结束时间-->
+    <update id="StaffCheckOut" parameterType="java.lang.String">
+        update orderform
+        set O_status = 4,finishtime = sysdate()
+        where O_num = #{O_num}
+    </update>
+
+
+    <select id="SelectCIDForCustomer" parameterType="java.lang.String" resultType="java.lang.String">
+        select C_ID
+        from customer
+        where C_phone = #{C_phone}
+    </select>
 </mapper>

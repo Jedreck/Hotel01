@@ -1,5 +1,6 @@
 package Mapper;
 
+import Bean.Customer;
 import Bean.Orderform;
 import org.apache.ibatis.annotations.Param;
 
@@ -76,4 +77,37 @@ public interface OrderformIFS {
 
     //改变房间占用时间，订单状态，办理入住
     public int ChangeRoomstateForCheckIn(@Param(value = "O_num")String O_num,@Param(value = "R_num")String R_num)throws IOException;
+
+
+    //查询主要的房间分类
+    public List<String> SelectMainRtype()throws IOException;
+    //查询主要的床型
+    public List<String>SelectMainBtype()throws  IOException;
+
+
+
+    //前台查询可以入住的房间
+    public List<Map<String,Object>>StaffSelectRoomCanCheckIn(@Param(value = "offset") int offset,@Param(value = "R_roomtype")String  R_roomtype)throws IOException;
+    //<!--前台查询某个类型可以入住房间类型的总数-->
+    public int StaffSelectTotalRoomCanCheckInNum(@Param(value = "R_roomtype")String R_roomtype)throws IOException;
+
+
+    //<!--办理入住成功进行的操作-->
+    //    <!--将获取到的客户信息插入订单表密码默认为“000000”-->
+    public void StaffInsertCustomerN(Customer customer)throws IOException;
+
+    //<!--生成新的订单-->
+    public void StaffInsertOrderformN(Orderform orderform)throws IOException;
+    //<!--利用R_num改变房间的duetime-->
+    public void StaffChangeRoomstateForCheckIn(@Param(value = "R_num")String R_num)throws IOException;
+    //<!--占用房间-->
+    public void StaffChangeRoomOrderForCheckIn(Orderform orderform)throws IOException;
+
+//    结算
+//    <!--通过手机号查询某个客户订单用来结算-->
+    public Map<String, Object> StaffselectOrderformByCphone(String C_phone) throws IOException;
+    //<!--结算改变订单状态填入结束时间-->
+    public void StaffCheckOut(String O_num)throws IOException;
+
+    public String SelectCIDForCustomer(String C_phone)throws IOException;
 }

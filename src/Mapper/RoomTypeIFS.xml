@@ -71,6 +71,13 @@
             <if test="windows != null and windows != ''">
                 and windows = #{windows}
             </if>
+
+            <if test="typename != null and typename != ''">
+                and typename = #{typename}
+            </if>
+            <if test="smoke != null">
+                and smoke = #{smoke}
+            </if>
         </where>
     </select>
 
