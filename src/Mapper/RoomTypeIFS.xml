@@ -13,7 +13,7 @@
         select * from roomtype
         <choose>
             <when test="typename == ''"></when>
-            <otherwise>(select where typename = #{typename})</otherwise>
+            <otherwise>where typename like '%${typename}%'</otherwise>
         </choose>
         limit #{offset},10
     </select>
@@ -32,7 +32,7 @@
                 select count(*) from roomtype
             </when>
             <otherwise>
-                select count(*) from (select R_typename where typename = #{typename})
+                select count(*) from (select R_typename where typename like '%${typename}%')
             </otherwise>
         </choose>
     </select>

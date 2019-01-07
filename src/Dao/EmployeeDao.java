@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 操作员工表
@@ -195,21 +196,7 @@ public class EmployeeDao {
     }
 
 
-    public static void main(String[] args) {
-        try {
-            EmployeeDao ed = new EmployeeDao();
-            //System.out.println(ed.SelectEmployeesByName(0,""));
-            //System.out.println("总数：" + ed.GetTotalDatas(""));
 
-            System.out.println(ed.SelectSOM(0,""));
-            System.out.println("总数：" + ed.GetTotalSOMDatas(""));
-
-            //System.out.println("数据：" + ed.SelectEmployeeByEN("101001"));
-            //System.out.println("更新：" + ed.UpdateEmployeeStatusByEN("101022", 0));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public static Employee Login(Employee employee) throws IOException {
         SqlSession session = getSqlSession.getSession().openSession();
@@ -221,5 +208,40 @@ public class EmployeeDao {
         session.close();
 
         return employee;
+    }
+
+    /**
+     * 获取所有员工男女比例
+     * @return
+     * @throws IOException
+     */
+    public List<Map<String,Object>> SelectEmployeeSexD() throws IOException{
+        session = getSqlSession.getSession().openSession();
+        employeeIFS = session.getMapper(EmployeeIFS.class);
+        List<Map<String,Object>> sexD = null;
+        try {
+            sexD =  employeeIFS.SelectEmployeeSexD();
+        } catch (Exception e){
+            System.out.println("异常：获取员工男女总数-->SelectEmployeeSexD-->EmployeeDao");
+            e.printStackTrace();
+        }
+        session.close();
+        return sexD;
+    }
+
+    public static void main(String[] args) {
+        try {
+            EmployeeDao ed = new EmployeeDao();
+            //System.out.println(ed.SelectEmployeesByName(0,""));
+            //System.out.println("总数：" + ed.GetTotalDatas(""));
+
+            //System.out.println(ed.SelectSOM(0,""));
+            System.out.println("总数：" + ed.SelectEmployeeSexD());
+
+            //System.out.println("数据：" + ed.SelectEmployeeByEN("101001"));
+            //System.out.println("更新：" + ed.UpdateEmployeeStatusByEN("101022", 0));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

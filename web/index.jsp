@@ -9,7 +9,7 @@
 <html>
   <head>
     <title>$Title$</title>
-    <a href="/SelectTNServlet">点击</a>
+    <a href="/SelectAllRoomTypeServlet">点击</a>
   </head>
   <body>
   hello
