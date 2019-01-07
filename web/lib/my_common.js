@@ -1,3 +1,6 @@
+// 移除footer
+$("footer").remove();
+
 /**
  * 显示加载过程
  * @param id 代表该加载过程显示的位置
@@ -69,20 +72,22 @@ function removeProcess2() {
  * 验证员工是否登录
  */
 function validateEmployee() {
-    //return true;
-    var cookies_En = cookie.get("E_num");
-    if (cookies_En == null) {
-        layui.use(['form', 'upload','layer'], function(){
-            var layer = layui.layer;
-            layer.alert('请登录后访问！', {
-                skin: 'layui-layer-molv' //样式类名
-                ,closeBtn: 0
-            }, function(){
-                top.location.href = "/html/common/login.html";
-            });
-        });
-        return false;
-    } else return true;
+    console.log("验证登录");
+    return true;
+    // var cookies_En = cookie.get("E_num");
+    // if (cookies_En == null) {
+    //     console.log("非法");
+    //     layui.use(['form', 'upload','layer'], function(){
+    //         var layer = layui.layer;
+    //         layer.alert('请登录后访问！', {
+    //             skin: 'layui-layer-molv' //样式类名
+    //             ,closeBtn: 0
+    //         }, function(){
+    //             top.location.href = "/html/common/login.html";
+    //         });
+    //     });
+    //     return false;
+    // } else return true;
 }
 
 //登出

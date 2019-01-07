@@ -103,4 +103,11 @@
         from employee
         where E_num = #{E_num} and E_password = #{E_password} and E_status = 1
     </select>
+
+    <select id="SelectEmployeeSexD" resultType="map">
+        select
+               COUNT(case when e.E_sex = '男' then E_sex end  ) as male,
+               COUNT(case when e.E_sex = '女' then E_sex end ) as female
+        from  employee as e;
+    </select>
 </mapper>
