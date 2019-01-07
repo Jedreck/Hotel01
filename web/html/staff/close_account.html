@@ -439,12 +439,14 @@
             dataType:'text',
             success: function(data){
                 var obj = JSON.parse(data);
-                console.log(obj);
+                //
                 // 后台查询失败
-                if(data == "") {
+                if(obj == null) {
+                    layer.close(index);
                     showResult("未查询出订单");
                     return;
                 } else{
+                    console.log(obj);
                     initialData(obj);
                 }
             },
