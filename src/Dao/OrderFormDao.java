@@ -511,7 +511,7 @@ public class OrderFormDao {
         Map<String,Object> orderform = null;
         try{
             orderform = orderformIFS.StaffselectOrderformByCphone(C_phone);
-            //System.out.println(orderform);
+            System.out.println(orderform);
         }catch (IOException e){
             System.out.println("查询客户订单信息出错 - orderformdao");
             e.printStackTrace();
@@ -562,6 +562,27 @@ public class OrderFormDao {
         return C_ID;
     }
 
+//    <!--查询现场入住的客户是否已经注册-->
+    public int CheckCustomerRegister(String C_ID)throws IOException{
+        //获取sqlSession对象
+        SqlSession session = getSqlSession.getSession().openSession();
+
+        //创建UserMapper对象，MyBatis自动生成mapper代理
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        //调用userMapper的方法
+       int total = -1;
+        try{
+            total = orderformIFS.CheckCustomerRegister(C_ID);
+            System.out.println(C_ID);
+        }catch (IOException e){
+            System.out.println("改变订单状态填入结束时间出错- orderformdao");
+            e.printStackTrace();
+        }
+        session.commit();
+        session.close();
+        return total;
+    }
+
     public static void main(String[] args){
         try{
             //OrderFormDao.selectOrderformByCID("145154199609093333");
@@ -584,7 +605,9 @@ public class OrderFormDao {
             //new OrderFormDao().StaffSelectRoomCanCheckIn(0,"25");
             //new OrderFormDao().StaffselectOrderformByCphone("18222222222");
             //new OrderFormDao().SelectCIDForCustomer("15888888888");
-            new OrderFormDao().ChangeRoomstateForCheckIn("15468473654301855","105");
+            //new OrderFormDao().ChangeRoomstateForCheckIn("15468473654301855","105");
+            //new OrderFormDao().StaffselectOrderformByCphone("15888888888");
+            //System.out.println(new OrderFormDao().CheckCustomerRegister("260563196409090507"));
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -470,10 +470,10 @@
         $("#roomtype").text(obj.typename);
         $("#area").text(obj.area);
         $("#bedtype").text(obj.bedtype);
-        $("#bathroom").text(obj.bathroom);
-        $("#net").text(obj.wifi);
-        $("#window").text(obj.windows);
-        $("#somke").text(obj.smoke);
+        $("#bathroom").text(obj.bathroom == 0?"没有":"有");
+        $("#net").text(obj.wifi == 0?"没有":"有");
+        $("#window").text(obj.windows == 0?"没有":"有");
+        $("#somke").text(obj.smoke == 0?"不可以":"可以");
         $("#facility").text(obj.facility);
         $("#price").text(obj.price);
         layer.close(index);

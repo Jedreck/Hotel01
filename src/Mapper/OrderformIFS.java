@@ -110,4 +110,7 @@ public interface OrderformIFS {
     public void StaffCheckOut(String O_num)throws IOException;
 
     public String SelectCIDForCustomer(String C_phone)throws IOException;
+
+//    <!--查询现场入住的客户是否已经注册-->
+    public int CheckCustomerRegister(String C_ID)throws IOException;
 }

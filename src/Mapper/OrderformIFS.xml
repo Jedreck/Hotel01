@@ -236,4 +236,14 @@
         from customer
         where C_phone = #{C_phone}
     </select>
+
+
+
+
+    <!--查询现场入住的客户是否已经注册-->
+    <select id="CheckCustomerRegister" parameterType="java.lang.String" resultType="int">
+        select count(*)
+        from customer
+        where C_ID = #{C_ID}
+    </select>
 </mapper>

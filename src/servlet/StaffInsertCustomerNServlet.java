@@ -89,12 +89,22 @@ public class StaffInsertCustomerNServlet extends HttpServlet {
         LogOut.Info("endDate", endDate);
         LogOut.Info("inLenth", inLenth);
 
+        int index = -1;
         Customer customer = new Customer();
         try {
             Gson gson = new GsonBuilder().create();
              customer = gson.fromJson(CustomerInfo, Customer.class);
+             LogOut.Info("customer : " + customer);
             //插入获取到的客户信息
-            //new OrderFormDao().StaffInsertCustomerN(customer);
+            index = new OrderFormDao().CheckCustomerRegister(customer.getCId());
+            if(index == 1){
+                LogOut.Info("客户已经存在不用插入");
+            }else if(index == 0){
+                new OrderFormDao().StaffInsertCustomerN(customer);
+            }else {
+                LogOut.Info("客户表重复出错");
+            }
+            //
         }catch (Exception e) {
             System.out.println("插入数据出现异常--StaffInsertCustomerNServlet");
             //e.printStackTrace();
