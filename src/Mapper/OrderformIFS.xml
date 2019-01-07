@@ -14,7 +14,7 @@
 
     <!--通过订单号查询某个客户订单-->
     <select id="selectOrderformByOnumber" parameterType="java.lang.String" resultType="map">
-        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,r.price
+        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,o.O_price
         from orderform o,customer c,roomtype r
         where o.O_num = #{O_num} and
         c.C_ID in (select cu.C_ID from customer cu,orderform ord where cu.C_ID = ord.C_ID and ord.O_num = #{O_num}) and
@@ -94,7 +94,7 @@
     <!--接受新的预订订单-->
     <update id="AcceptOrder">
         update orderform
-        set O_status = 1
+        set O_status = 1,receivetime = sysdate(),E_num = #{E_num}
         where O_num = #{O_num}
     </update>
 
@@ -154,7 +154,7 @@
     <!--利用R_num改变房间的duetime和订单状态-->
     <update id="ChangeRoomstateForCheckIn">
         update roominfo r,orderform o
-        set r.duetime = date(o.checkouttime),o.O_status = 3
+        set r.duetime = date(o.checkouttime),o.O_status = 3,o.R_num = #{R_num}
         where o.O_num = #{O_num} and r.R_num = #{R_num}
     </update>
 

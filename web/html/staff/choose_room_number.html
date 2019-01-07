@@ -339,8 +339,8 @@
             $("button[name='choose_room']").click(function () {
                 var O_num = sessionStorage.getItem("order_number");
                 var R_num = $($(this).parent().parent()).find("td[name='room_number']").html();
-                //Console.log(O_num);
-                //Console.log(R_num);
+                //console.log(O_num);
+                //console.log(R_num);
                 layer.open({
                     content: '确定预订该房间吗？'
                     ,btn: ['确定', '再想想']
@@ -380,7 +380,7 @@
                     }
                 },
                 error: function () {
-                    showInsertResult("2入住房间失败！");
+                    showInsertResult("2222入住房间失败！");
                 }
             });
         }

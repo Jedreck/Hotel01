@@ -254,6 +254,7 @@
             $.ajax({
                 url: "/SelectCIDForCustomerServlet",
                 type:'post',
+                async:false,
                 data:{C_phone:cookies_phone},
                 dataType:'text',
                 success: function(data){

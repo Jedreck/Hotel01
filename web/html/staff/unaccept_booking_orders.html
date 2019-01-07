@@ -339,12 +339,14 @@
             $("button[name='order']").click(function () {
                 //获取订单号
                 var order_number = $($(this).parent().parent()).find("td[name='order_number']").html();
+                var E_num = cookie.get("E_num");
+                console.log("order_number : " + order_number + "E_num : " +　E_num);
                 layer.open({
                     content: '确定接受预订吗？'
                     ,btn: ['接受', '再想想']
                     ,yes: function(index, layero){//删除
                         layer.closeAll();
-                        acceptOrder(order_number)
+                        acceptOrder(order_number,E_num)
                     }
                     ,btn2: function(index, layero){
                         //按钮【按钮二】的回调
@@ -409,11 +411,12 @@
         }
 
         // 根据订单编号接受相应的预订订单
-        function acceptOrder(order_num) {
+        function acceptOrder(order_num,E_num) {
+
             $.ajax({
                 url: "/StaffAcceptOrderServlet",
                 type:'post',
-                data:{O_num:order_num},
+                data:{O_num:order_num,E_num:E_num},
                 dataType:'text',
                 success: function(data){
                     // 后台删除失败

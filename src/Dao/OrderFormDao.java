@@ -220,14 +220,14 @@ public class OrderFormDao {
     }
 
     //接受新的订单
-    public void AcceptOrder(String O_num)throws IOException{
+    public void AcceptOrder(String O_num,String E_num)throws IOException{
         //获取sqlSession对象
         SqlSession session = getSqlSession.getSession().openSession();
 
         //创建UserMapper对象，MyBatis自动生成mapper代理
         OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
         try{
-             orderformIFS.AcceptOrder(O_num);
+             orderformIFS.AcceptOrder(O_num,E_num);
         }catch (Exception e){
             System.out.println("酒店管理人员接受预订->AcceptOrder");
         }
@@ -583,7 +583,8 @@ public class OrderFormDao {
             //new OrderFormDao().StaffSelectTotalRoomCanCheckInNum("25");
             //new OrderFormDao().StaffSelectRoomCanCheckIn(0,"25");
             //new OrderFormDao().StaffselectOrderformByCphone("18222222222");
-            new OrderFormDao().SelectCIDForCustomer("15888888888");
+            //new OrderFormDao().SelectCIDForCustomer("15888888888");
+            new OrderFormDao().ChangeRoomstateForCheckIn("15468473654301855","105");
         }catch (Exception e){
             e.printStackTrace();
         }
