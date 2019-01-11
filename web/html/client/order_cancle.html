@@ -347,7 +347,7 @@
                 html += obj[i].O_price;
                 html += "</td>\n" +
                     "             <td name=\"order_status\"><span class=\"label label-info label-mini\">";
-                html += obj[i].O_status;
+                html += State(obj[i].O_status);
                 html += "</span></td>\n" +
                     "            <td>\n" +
                     "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-check\"></i></button>\n" +
@@ -409,6 +409,24 @@
                     showInsertResult("2取消预订失败！");
                 }
             });
+        }
+
+        //获取订单状态
+        function State(num) {
+            switch (num){
+                case 0:
+                    return "未接受";
+                case 1:
+                    return "已接受";
+                case 2:
+                    return "已拒绝";
+                case 3:
+                    return "已入住";
+                case 4:
+                    return "已完成";
+                case 5:
+                    return "已取消";
+            }
         }
 
         // 显示删除的结果
