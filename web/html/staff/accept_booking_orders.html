@@ -308,7 +308,7 @@
                 var order_number = $($(this).parent().parent()).find("td[name='order_number']").html();
                 console.log(order_number);
                 sessionStorage.setItem("order_number",order_number.trim());//页面之间传递数据
-                window.open('./accept_booking_orders.html','_self');
+                window.open('../client/detail_booking_orders.html','_self');
             });
         }
 

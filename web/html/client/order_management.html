@@ -257,10 +257,10 @@
                 url: "/SelectCIDForCustomerServlet",
                 type:'post',
                 data:{C_phone:cookies_phone},
+                async:false,
                 dataType:'text',
                 success: function(data){
                     console.log(data);
-
                     CustomerID = data;
                     if(CustomerID == "") {
                         console.log("ERROR");

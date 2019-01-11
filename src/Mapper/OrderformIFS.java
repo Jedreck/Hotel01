@@ -47,7 +47,7 @@ public interface OrderformIFS {
     public int StaffGetTotalUnAcceptOrderNum() throws IOException;
 
     //接受未预定的订单
-    public void AcceptOrder(@Param(value = "O_num") String O_num) throws IOException;
+    public void AcceptOrder(@Param(value = "O_num") String O_num,@Param(value = "E_num")String E_num) throws IOException;
 
     //拒绝未接受的预订
     //解除房间的占用
@@ -110,4 +110,7 @@ public interface OrderformIFS {
     public void StaffCheckOut(String O_num)throws IOException;
 
     public String SelectCIDForCustomer(String C_phone)throws IOException;
+
+//    <!--查询现场入住的客户是否已经注册-->
+    public int CheckCustomerRegister(String C_ID)throws IOException;
 }

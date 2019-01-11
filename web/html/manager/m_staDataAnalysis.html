@@ -210,56 +210,84 @@
 <script src="../../lib/layui/layui.js"></script>
 
 <script>
-    var cgenderD;
-    var cageD;
-    window.load = getData()
-    // 从后台获取数据
-    function getData(){
-        cgenderD = {
-            female:50,
-            male:50
-        };
-        // 18-27 28-37 38-47 48-57 58-67 68-77
-        cageD = {
-            group1:100,
-            group2:100,
-            group3:100,
-            group4:100,
-            group5:100,
-            group6:100
-        };
-    }
+    $(function () {
+        layui.use(['laypage','form','layer'], function(){
+            form = layui.form;
+            laypage = layui.laypage;
+            layer = layui.layer;
+        });
+        var cgenderD;
+        var cageD;
+        getData();
+        // 从后台获取数据
+        function getData(){
+            cgenderD = {
+                female:50,
+                male:50
+            };
+            // 18-27 28-37 38-47 48-57 58-67 68-77
+            cageD = {
+                group1:100,
+                group2:100,
+                group3:100,
+                group4:100,
+                group5:100,
+                group6:100
+            };
+            //layer.load();
+            $.ajax({
+                url: "/SelectEmployeeSexD",
+                type:'post',
+                dataType:'text',
+                before:function(){
 
-    Morris.Donut({
-        element: 'cgenderD',
-        data: [
-            {label: 'male', value: 50},
-            {label: 'female', value: 50}
-        ],
-        colors: ['#3498db', '#2980b9', '#34495e'],
-        formatter: function (y) {
-            return y + "%"
+                },
+                success: function(data){
+                    console.log("dsfsd" + data);
+                    cgenderD = JSON.parse(data)[0];
+                    console.log("比例：" + (cgenderD.female/(cgenderD.female + cgenderD.male)) * 100);
+                    cgenderD.male = parseInt((cgenderD.male/(cgenderD.female + cgenderD.male)) * 100);
+                    cgenderD.female = 100 - cgenderD.male;
+                    console.log("比例：" + cgenderD.male + cgenderD.female);
+                    Morris.Donut({
+                        element: 'cgenderD',
+                        data: [
+                            {label: 'male', value: cgenderD.male},
+                            {label: 'female', value: cgenderD.female}
+                        ],
+                        colors: ['#3498db', '#2980b9', '#34495e'],
+                        formatter: function (y) {
+                            return y + "%"
+                        }
+                    });
+                },
+                error: function () {
+                    //layui.layer.msg("网络错误！");
+                    console.log("网络错误！");
+                }
+            });
+           // layui.layer.closeAll('loading');
         }
-    });
-    Morris.Bar({
-        element: 'cageD',
-        data: [
-            {age: '18-27岁', range: cageD.group1},
-            {age: '28-37岁', range: cageD.group2},
-            {age: '38-47岁', range: cageD.group3},
-            {age: '48-57岁', range: cageD.group4},
-            {age: '58-67岁', range: cageD.group5},
-            {age: '68-77岁', range: cageD.group6}
-        ],
-        xkey: 'age',
-        ykeys: ['range'],
-        labels: ['人数'],
-        barRatio: 0.4,
-        xLabelAngle: 35,
-        hideHover: 'auto',
-        barColors: ['#ac92ec']
-    });
+        Morris.Bar({
+            element: 'cageD',
+            data: [
+                {age: '18-27岁', range: cageD.group1},
+                {age: '28-37岁', range: cageD.group2},
+                {age: '38-47岁', range: cageD.group3},
+                {age: '48-57岁', range: cageD.group4},
+                {age: '58-67岁', range: cageD.group5},
+                {age: '68-77岁', range: cageD.group6}
+            ],
+            xkey: 'age',
+            ykeys: ['range'],
+            labels: ['人数'],
+            barRatio: 0.4,
+            xLabelAngle: 35,
+            hideHover: 'auto',
+            barColors: ['#ac92ec']
+        });
 
+    });
 </script>
 
 

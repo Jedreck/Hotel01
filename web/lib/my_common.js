@@ -1,3 +1,6 @@
+// 移除footer
+$("footer").remove();
+
 /**
  * 显示加载过程
  * @param id 代表该加载过程显示的位置
@@ -69,9 +72,11 @@ function removeProcess2() {
  * 验证员工是否登录
  */
 function validateEmployee() {
+    console.log("验证登录");
     return true;
     // var cookies_En = cookie.get("E_num");
     // if (cookies_En == null) {
+    //     console.log("非法");
     //     layui.use(['form', 'upload','layer'], function(){
     //         var layer = layui.layer;
     //         layer.alert('请登录后访问！', {

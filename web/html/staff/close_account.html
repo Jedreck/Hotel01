@@ -402,138 +402,140 @@
 <script>
     $(function () {
         if(!validateEmployee()) return;
-        var index = 0;
-        function checkphonenumber() {
-            var result = true;
-            var con;
-            // 验证手机号
-            var regPhone = /^1(3|4|5|7|8)\d{9}$/;
-            phone = $("#phonenumber").val();
-            result = regPhone.test(phone);
-            if (!result) {
-                layer.tips('请正确输入11位手机号', '#phonenumber', {
-                    tips: [2, '#cd2235'],
-                    time: 2000
-                });
-                return result;
-            }else{
-                var C_phone = $("#phonenumber").val();
-                index = layer.load(0, {shade: false});
-                console.log(C_phone);
-                getData(C_phone)
-
-            }
-        }
-
-        /**
-         *
-         * @param C_phone 获取的手机号
-         */
-        // 获取数据
-        function getData(C_phone) {
-            $.ajax({
-                url: "/StaffCheckOutServlet",
-                type:'post',
-                data:{C_phone:C_phone},
-                dataType:'text',
-                success: function(data){
-                    var obj = JSON.parse(data);
-                    console.log(obj);
-                    // 后台查询失败
-                    if(data == "") {
-                        showResult("未查询出订单");
-                        return;
-                    } else{
-                        initialData(obj);
-                    }
-                },
-                error: function () {
-                    showResult("2出错，稍后重试！");
-                    window.history.back(-1);
-                    return;
-                }
-            });
-        }
-        // 数据初始化
-        function initialData(obj) {
-            var str = obj.checkintime.split(" ");
-            var checkintime = str[0] + str[1] + str[2];
-            str = obj.checkouttime.split(" ");
-            var checkouttime = str[0] + str[1] + str[2];
-            $("#order_number").text(obj.O_num);
-            $("#order_people").text(obj.C_name);
-            $("#people_number").text(obj.people);
-            $("#checkindate").text(checkintime);
-            $("#checkoutdate").text(checkouttime);
-            $("#phone_number").text(obj.C_phone);
-            $("#roomtype").text(obj.typename);
-            $("#area").text(obj.area);
-            $("#bedtype").text(obj.bedtype);
-            $("#bathroom").text(obj.bathroom);
-            $("#net").text(obj.wifi);
-            $("#window").text(obj.windows);
-            $("#somke").text(obj.smoke);
-            $("#facility").text(obj.facility);
-            $("#price").text(obj.price);
-            layer.close(index);
-        }
-        // 显示插入的结果
-        function showResult(content) {
-            layer.open({
-                content: content
-                ,btn: ['确定']
-                ,yes: function(index, layero){//删除
-                    layer.closeAll();
-                }
-                ,cancel: function(){
-                }
-            });
-        }
-        function checkout() {
-            var order_number = $("#order_number").html();
-            console.log(order_number);
-            layer.open({
-                content: '确定结算吗？'
-                ,btn: ['确定', '再想想']
-                ,yes: function(index, layero){//删除
-                    check(order_number);
-                    layer.closeAll();
-                }
-                ,btn2: function(index, layero){
-                    //按钮【按钮二】的回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-                ,cancel: function(){
-                    //右上角关闭回调
-
-                    //return false 开启该代码可禁止点击该按钮关闭
-                }
-            });
-        }
-
-        function check(O_num) {
-            $.ajax({
-                url: "/StaffCheckOutChangeOrderServlet",
-                type:'post',
-                data:{O_num:O_num},
-                dataType:'text',
-                success: function(data){
-                    if(data == "结算成功") {
-                        showResult("正常退房");
-                        return;
-                    } else{
-                        showResult("退房失败");
-                    }
-                },
-                error: function () {
-                    showResult("2出错，稍后重试！");
-                    window.history.back(-1);
-                    return;
-                }
-            });
-        }
     });
+    var index = 0;
+    function checkphonenumber() {
+        var result = true;
+        var con;
+        // 验证手机号
+        var regPhone = /^1(3|4|5|7|8)\d{9}$/;
+        phone = $("#phonenumber").val();
+        result = regPhone.test(phone);
+        if (!result) {
+            layer.tips('请正确输入11位手机号', '#phonenumber', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return result;
+        }else{
+            var C_phone = $("#phonenumber").val();
+            index = layer.load(0, {shade: false});
+            console.log(C_phone);
+            getData(C_phone)
+
+        }
+    }
+
+    /**
+     *
+     * @param C_phone 获取的手机号
+     */
+    // 获取数据
+    function getData(C_phone) {
+        $.ajax({
+            url: "/StaffCheckOutServlet",
+            type:'post',
+            data:{C_phone:C_phone},
+            dataType:'text',
+            success: function(data){
+                var obj = JSON.parse(data);
+                //
+                // 后台查询失败
+                if(obj == null) {
+                    layer.close(index);
+                    showResult("未查询出订单");
+                    return;
+                } else{
+                    console.log(obj);
+                    initialData(obj);
+                }
+            },
+            error: function () {
+                showResult("2出错，稍后重试！");
+                window.history.back(-1);
+                return;
+            }
+        });
+    }
+    // 数据初始化
+    function initialData(obj) {
+        var str = obj.checkintime.split(" ");
+        var checkintime = str[0] + str[1] + str[2];
+        str = obj.checkouttime.split(" ");
+        var checkouttime = str[0] + str[1] + str[2];
+        $("#order_number").text(obj.O_num);
+        $("#order_people").text(obj.C_name);
+        $("#people_number").text(obj.people);
+        $("#checkindate").text(checkintime);
+        $("#checkoutdate").text(checkouttime);
+        $("#phone_number").text(obj.C_phone);
+        $("#roomtype").text(obj.typename);
+        $("#area").text(obj.area);
+        $("#bedtype").text(obj.bedtype);
+        $("#bathroom").text(obj.bathroom == 0?"没有":"有");
+        $("#net").text(obj.wifi == 0?"没有":"有");
+        $("#window").text(obj.windows == 0?"没有":"有");
+        $("#somke").text(obj.smoke == 0?"不可以":"可以");
+        $("#facility").text(obj.facility);
+        $("#price").text(obj.price);
+        layer.close(index);
+    }
+    // 显示插入的结果
+    function showResult(content) {
+        layer.open({
+            content: content
+            ,btn: ['确定']
+            ,yes: function(index, layero){//删除
+                layer.closeAll();
+            }
+            ,cancel: function(){
+            }
+        });
+    }
+    function checkout() {
+        var order_number = $("#order_number").html();
+        console.log(order_number);
+        layer.open({
+            content: '确定结算吗？'
+            ,btn: ['确定', '再想想']
+            ,yes: function(index, layero){//删除
+                check(order_number);
+                layer.closeAll();
+            }
+            ,btn2: function(index, layero){
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            ,cancel: function(){
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    }
+
+    function check(O_num) {
+        $.ajax({
+            url: "/StaffCheckOutChangeOrderServlet",
+            type:'post',
+            data:{O_num:O_num},
+            dataType:'text',
+            success: function(data){
+                if(data == "结算成功") {
+                    showResult("正常退房");
+                    return;
+                } else{
+                    showResult("退房失败");
+                }
+            },
+            error: function () {
+                showResult("2出错，稍后重试！");
+                window.history.back(-1);
+                return;
+            }
+        });
+    }
 
 </script>
 

@@ -1,10 +1,11 @@
 package Dao;
 
 import Bean.Roominfo;
-import Dao.Tools.getSqlSession;;
+import Dao.Tools.getSqlSession;
 import Mapper.RoominfoIFS;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+
 
 import java.io.File;
 import java.io.IOException;

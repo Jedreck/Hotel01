@@ -21,11 +21,13 @@ public class StaffAcceptOrderServlet extends HttpServlet {
         response.setCharacterEncoding("utf-8");
 
         String O_num = request.getParameter("O_num");
+        String E_num = request.getParameter("E_num");
+        System.out.println("O_num : " + O_num + "E_num : " + E_num);
 
         PrintWriter out = response.getWriter();
         OrderFormDao ofd = new OrderFormDao();
         try{
-            ofd.AcceptOrder(O_num);
+            ofd.AcceptOrder(O_num,E_num);
             out.print("接受预订成功");
         }catch(IOException e){
             System.out.println("接收订单出错 - StaffAcceptOrderServlet");

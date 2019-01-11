@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeIFS {
     public int GetTotalByPosition(String E_position) throws IOException;
@@ -26,4 +27,6 @@ public interface EmployeeIFS {
     public int GetTotalSOMDatas(@Param(value="name") String name)throws IOException;
 
     public Employee Login(Employee employee)throws IOException;
+
+    public List<Map<String,Object>> SelectEmployeeSexD() throws IOException;
 }
