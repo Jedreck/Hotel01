@@ -84,6 +84,7 @@ public class bookSearchServlet extends HttpServlet {
             roomType.setWindows(Integer.valueOf(window));
             LogOut.Info("window", roomType.getWindows());
         }
+        roomType.setSmoke(-1);
         LogOut.Info("roomtype info", roomType);
         int serLenth;
         String resultJson;

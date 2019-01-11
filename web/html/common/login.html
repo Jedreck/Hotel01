@@ -40,7 +40,7 @@
             <div class="login-wrap">
                 <input type="text" id="phone" name="phone" class="form-control" placeholder="输入手机号" autofocus>
                 <br>
-                <input type="password" name="password" class="form-control" placeholder="输入密码">
+                <input type="password" id="password" name="password" class="form-control" placeholder="输入密码">
                 <label class="checkbox" style="margin-left: 20px">
                     <span>
                         <input id="remenberMe" type="checkbox" value="remember-me"/> 记住这次登录
@@ -99,6 +99,7 @@
 <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
 <script type="text/javascript" src="../../lib/jquery.backstretch.min.js"></script>
 <script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script>
     $.backstretch("../../img/login-bg.jpg", {
         speed: 500
@@ -107,10 +108,27 @@
         var cookies_phone = cookie.get("phone");
         console.log("check cookies--" + cookies_phone);
         $('#phone').val(cookies_phone);
+        layui.use('layer', function () {
+            var layer = layui.layer;
+        });
     };
 
 
     function login() {
+        if($("#phone").val()==""){
+            layer.tips('输入账号', '#phone', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return 0;
+        }
+        if($("#password").val()==""){
+            layer.tips('输入6~20位密码', '#password', {
+                tips: [2, '#cd2235'],
+                time: 2000
+            });
+            return 0;
+        }
         var formData = $("#login-form").serializeArray();
         var formjson = transformToJson(formData);
         console.log(JSON.stringify(formjson));
