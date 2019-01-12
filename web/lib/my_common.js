@@ -1,3 +1,7 @@
+
+var cookies_En = cookie.get("E_num");
+$("h5").html("工号：" + cookies_En);
+
 // 移除footer
 $("footer").remove();
 
