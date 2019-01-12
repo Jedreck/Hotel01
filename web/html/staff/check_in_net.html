@@ -26,8 +26,7 @@
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="../../lib/jquery/jquery.js"></script>
-    <script src="../../lib/easyCookie.js"></script>
-    <script src="../../lib/my_common.js"></script>
+
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -47,7 +46,7 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
+        <a href="index.html" class="logo"><b>酒店<span>预订</span></b></a>
         <!--logo end-->
         <div class="nav notify-row" id="top_menu">
             <!--  notification start -->
@@ -254,6 +253,9 @@
         var layer = layui.layer,form = layui.form;
     }();
 </script>
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
+
 <script>
 
     layui.use('form', function () {
@@ -326,6 +328,24 @@
         });
     }
 
+    //获取订单状态
+    function State(num) {
+        switch (num){
+            case 0:
+                return "未接受";
+            case 1:
+                return "已接受";
+            case 2:
+                return "已拒绝";
+            case 3:
+                return "已入住";
+            case 4:
+                return "已完成";
+            case 5:
+                return "已取消";
+        }
+    }
+
     // 初始化表格
     function initialTable(obj) {
         var html = "";
@@ -350,7 +370,7 @@
             html += obj[i].C_phone;
             html += "</td>\n" +
                 "             <td name=\"order_status\"><span class=\"label label-info label-mini\">";
-            html += obj[i].O_status;
+            html += State(obj[i].O_status);
             html += "</span></td>\n" +
                 "            <td>\n" +
                 "             <button class=\"btn btn-success btn-xs\" name=\"detail\"><i class=\"fa fa-pencil\"></i></button>\n" +
@@ -374,68 +394,68 @@
 
 </script>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        var unique_id = $.gritter.add({
-            // (string | mandatory) the heading of the notification
-            title: 'Welcome to Dashio!',
-            // (string | mandatory) the text inside the notification
-            text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',
-            // (string | optional) the image to display on the left
-            image: 'img/ui-sam.jpg',
-            // (bool | optional) if you want it to fade out on its own or just sit there
-            sticky: false,
-            // (int | optional) the time you want it to be alive for before fading out
-            time: 8000,
-            // (string | optional) the class name you want to apply to that specific message
-            class_name: 'my-sticky-class'
-        });
+<!--<script type="text/javascript">-->
+    <!--$(document).ready(function() {-->
+        <!--var unique_id = $.gritter.add({-->
+            <!--// (string | mandatory) the heading of the notification-->
+            <!--title: 'Welcome to Dashio!',-->
+            <!--// (string | mandatory) the text inside the notification-->
+            <!--text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',-->
+            <!--// (string | optional) the image to display on the left-->
+            <!--image: 'img/ui-sam.jpg',-->
+            <!--// (bool | optional) if you want it to fade out on its own or just sit there-->
+            <!--sticky: false,-->
+            <!--// (int | optional) the time you want it to be alive for before fading out-->
+            <!--time: 8000,-->
+            <!--// (string | optional) the class name you want to apply to that specific message-->
+            <!--class_name: 'my-sticky-class'-->
+        <!--});-->
 
-        return false;
-    });
-</script>
-<script type="application/javascript">
-    $(document).ready(function() {
-        $("#date-popover").popover({
-            html: true,
-            trigger: "manual"
-        });
-        $("#date-popover").hide();
-        $("#date-popover").click(function(e) {
-            $(this).hide();
-        });
+        <!--return false;-->
+    <!--});-->
+<!--</script>-->
+<!--<script type="application/javascript">-->
+    <!--$(document).ready(function() {-->
+        <!--$("#date-popover").popover({-->
+            <!--html: true,-->
+            <!--trigger: "manual"-->
+        <!--});-->
+        <!--$("#date-popover").hide();-->
+        <!--$("#date-popover").click(function(e) {-->
+            <!--$(this).hide();-->
+        <!--});-->
 
-        $("#my-calendar").zabuto_calendar({
-            action: function() {
-                return myDateFunction(this.id, false);
-            },
-            action_nav: function() {
-                return myNavFunction(this.id);
-            },
-            ajax: {
-                url: "show_data.php?action=1",
-                modal: true
-            },
-            legend: [{
-                type: "text",
-                label: "Special event",
-                badge: "00"
-            },
-                {
-                    type: "block",
-                    label: "Regular event",
-                }
-            ]
-        });
-    });
+        <!--$("#my-calendar").zabuto_calendar({-->
+            <!--action: function() {-->
+                <!--return myDateFunction(this.id, false);-->
+            <!--},-->
+            <!--action_nav: function() {-->
+                <!--return myNavFunction(this.id);-->
+            <!--},-->
+            <!--ajax: {-->
+                <!--url: "show_data.php?action=1",-->
+                <!--modal: true-->
+            <!--},-->
+            <!--legend: [{-->
+                <!--type: "text",-->
+                <!--label: "Special event",-->
+                <!--badge: "00"-->
+            <!--},-->
+                <!--{-->
+                    <!--type: "block",-->
+                    <!--label: "Regular event",-->
+                <!--}-->
+            <!--]-->
+        <!--});-->
+    <!--});-->
 
-    function myNavFunction(id) {
-        $("#date-popover").hide();
-        var nav = $("#" + id).data("navigation");
-        var to = $("#" + id).data("to");
-        console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
-    }
-</script>
+    <!--function myNavFunction(id) {-->
+        <!--$("#date-popover").hide();-->
+        <!--var nav = $("#" + id).data("navigation");-->
+        <!--var to = $("#" + id).data("to");-->
+        <!--console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);-->
+    <!--}-->
+<!--</script>-->
 </body>
 
 </html>
