@@ -1,6 +1,7 @@
 package servlet;
 
 import Dao.OrderFormDao;
+import Dao.Tools.LogOut;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -22,6 +23,9 @@ public class ChangeRoomstateForCheckInServlet extends HttpServlet {
 
         String O_num = request.getParameter("O_num");
         String R_num = request.getParameter("R_num");
+
+        LogOut.Info("O_num" + O_num);
+        LogOut.Info("R_num" + R_num);
 
         int total = 0;//用来获取客户个人订单的总数
 

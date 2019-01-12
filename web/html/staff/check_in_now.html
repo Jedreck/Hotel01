@@ -315,7 +315,7 @@
         if(!validateEmployee()) return;
 
         //员工编号待获取
-        var E_num = cookie.get("E_num")
+        var E_num = cookie.get("E_num");
        // var E_num = "101001";
 
         var bookInfo = "";
@@ -326,7 +326,7 @@
             form.on('submit(submit)', function (data) {//提交表单
 
 
-                bookInfo += "{\"typename\":\"" +data.field.R_roomtype+"\"";
+                bookInfo = "{\"typename\":\"" +data.field.R_roomtype+"\"";
 
                 bookInfo += ",\"inDate\":\"" + data.field.inDate + "\"";
 

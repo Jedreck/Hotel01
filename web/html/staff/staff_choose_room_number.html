@@ -283,6 +283,7 @@
                     // 后台没有数据
                     if(obj.length == 0) {
                         $("#table_content").html("您没有可用的房间");
+                        layer.close(index);
                         return
                     }
                     // 后台有>=1条数据

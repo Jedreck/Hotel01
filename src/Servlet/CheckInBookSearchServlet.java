@@ -21,16 +21,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "bookSearchServlet", urlPatterns = "/bookSearchServlet")
-public class bookSearchServlet extends HttpServlet {
+@WebServlet(name = "CheckInBookSearchServlet",urlPatterns = "/CheckInBookSearchServlet")
+public class CheckInBookSearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LogOut.Info("in bookSearchServlet!!!");
+        LogOut.Info("in CheckInBookSearchServlet!!!");
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();
 
         //处理数据
-        String jsonStr = request.getParameter("jsondata");
+        String jsonStr = request.getParameter("roomInfo");
+        System.out.println(jsonStr);
         LogOut.Info("JsonStr", jsonStr);
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = jsonParser.parse(jsonStr).getAsJsonObject();
@@ -60,49 +61,61 @@ public class bookSearchServlet extends HttpServlet {
         //房间类型处理
         RoomType roomType = new RoomType();
 
-        roomType.setPeople(jsonObject.get("people").getAsInt());
-        LogOut.Info("people", roomType.getPeople());
+        //添加房间类型
+        roomType.setTypename(jsonObject.get("typename").getAsString());
+        LogOut.Info("typename",roomType.getR_roomtype());
+        //添加床型
+        roomType.setBedtype(jsonObject.get("bedtype").getAsString());
+        LogOut.Info("bedtype",roomType.getBedtype());
+        //添加无烟
+        roomType.setSmoke(jsonObject.get("smoke").getAsInt());
+        LogOut.Info("smoke",roomType.getSmoke());
 
-        String wifi = jsonObject.get("wifi").getAsString();
-        LogOut.Info("wifi", wifi);
-        if (!wifi.equals("")) {
-            roomType.setWifi(Integer.valueOf(wifi));
-            LogOut.Info("wifi", roomType.getWifi());
-        }
-        String wirednet = jsonObject.get("wirednet").getAsString();
-        if (!wirednet.equals("")) {
-            roomType.setWirednet(Integer.valueOf(wirednet));
-            LogOut.Info("wirednet", roomType.getWirednet());
-        }
-        String bedtype = jsonObject.get("bedtype").getAsString();
-        if (!bedtype.equals("")) {
-            roomType.setBedtype(bedtype);
-            LogOut.Info("bedtype", roomType.getBedtype());
-        }
-        String window = jsonObject.get("window").getAsString();
-        if (!window.equals("")) {
-            roomType.setWindows(Integer.valueOf(window));
-            LogOut.Info("window", roomType.getWindows());
-        }
-        roomType.setSmoke(-1);
-        LogOut.Info("roomtype info", roomType);
+        LogOut.Info("roomtype result",roomType);
+
+
+//        roomType.setPeople(jsonObject.get("people").getAsInt());
+//        LogOut.Info("people", roomType.getPeople());
+//
+//        String wifi = jsonObject.get("wifi").getAsString();
+//        LogOut.Info("wifi", wifi);
+//        if (!wifi.equals("")) {
+//            roomType.setWifi(Integer.valueOf(wifi));
+//            LogOut.Info("wifi", roomType.getWifi());
+//        }
+//        String wirednet = jsonObject.get("wirednet").getAsString();
+//        if (!wirednet.equals("")) {
+//            roomType.setWirednet(Integer.valueOf(wirednet));
+//            LogOut.Info("wirednet", roomType.getWirednet());
+//        }
+//        String bedtype = jsonObject.get("bedtype").getAsString();
+//        if (!bedtype.equals("")) {
+//            roomType.setBedtype(bedtype);
+//            LogOut.Info("bedtype", roomType.getBedtype());
+//        }
+//        String window = jsonObject.get("window").getAsString();
+//        if (!window.equals("")) {
+//            roomType.setWindows(Integer.valueOf(window));
+//            LogOut.Info("window", roomType.getWindows());
+//        }
+//        LogOut.Info("roomtype info", roomType);
         int serLenth;
         String resultJson;
 
         //查找房间类型
         List<RoomType> list = RoomTypeDao.bookInfoSearch(roomType);
         List<RoomType> resultlist = new ArrayList<RoomType>();
-        LogOut.Info("RoomType result", list);
+        //LogOut.Info("RoomType result", list);
 
         //检查房间类型
         for (RoomType rt : list) {
-            LogOut.Info("roomType now", rt.getR_roomtype());
+            //LogOut.Info("roomType now", rt.getR_roomtype());
             RoomtypeordercheckDao.checkMaxDate(rt.getR_roomtype(), endDateU);
             serLenth = RoomtypeordercheckDao.CheckRoomtypeAndDate(rt.getR_roomtype(), startDate, endDate);
-            LogOut.Info("inLenth", inLenth);
-            LogOut.Info("serlenth", serLenth);
+            //LogOut.Info("inLenth", inLenth);
+           // LogOut.Info("serlenth", serLenth);
             if (serLenth == inLenth) {
-                LogOut.Info("添加", rt.getR_roomtype());
+                //LogOut.Info("添加", rt.getR_roomtype());
                 resultlist.add(rt);
             }
         }
@@ -112,13 +125,13 @@ public class bookSearchServlet extends HttpServlet {
         Gson gson = new Gson();
         resultJson = gson.toJson(resultlist);
 
-        LogOut.Info("gsonAnrry", resultJson);
-//        LogOut.Info(gson.toJson(list));
+       // LogOut.Info("gsonAnrry", resultJson);
+        LogOut.Info(gson.toJson(list));
 
         out.print(resultJson);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
+        doPost(request,response);
     }
 }
