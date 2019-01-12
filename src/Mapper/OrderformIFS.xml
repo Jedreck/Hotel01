@@ -7,50 +7,81 @@
     <!--通过身份证号查询客户订单-->
     <select id="selectOrderformByCID" resultType="map">
         select orderform.*,customer.C_name
-        from orderform,customer
-        where orderform.C_ID = #{C_ID} and customer.C_ID = #{C_ID}
+        from orderform,
+             customer
+        where orderform.C_ID = #{C_ID}
+          and customer.C_ID = #{C_ID}
         limit #{offset},10
     </select>
 
     <!--通过订单号查询某个客户订单-->
     <select id="selectOrderformByOnumber" parameterType="java.lang.String" resultType="map">
-        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,o.O_price
-        from orderform o,customer c,roomtype r
-        where o.O_num = #{O_num} and
-        c.C_ID in (select cu.C_ID from customer cu,orderform ord where cu.C_ID = ord.C_ID and ord.O_num = #{O_num}) and
-        r.R_roomtype in (select ro.R_roomtype from roomtype ro,orderform ord where ro.R_roomtype = ord.R_type and ord.O_num = #{O_num})
+        select o.O_num,
+               c.C_name,
+               r.people,
+               o.checkintime,
+               o.checkouttime,
+               c.C_phone,
+               r.typename,
+               r.area,
+               r.bedtype,
+               r.bathroom,
+               r.wifi,
+               r.windows,
+               r.smoke,
+               r.facility,
+               o.O_price
+        from orderform o,
+             customer c,
+             roomtype r
+        where o.O_num = #{O_num}
+          and c.C_ID in (select cu.C_ID
+                         from customer cu,
+                              orderform ord
+                         where cu.C_ID = ord.C_ID
+                           and ord.O_num = #{O_num})
+          and r.R_roomtype in (select ro.R_roomtype
+                               from roomtype ro,
+                                    orderform ord
+                               where ro.R_roomtype = ord.R_type
+                                 and ord.O_num = #{O_num})
     </select>
     <!--获取个人订单总数-->
     <select id="GetTotalDatas" parameterType="java.lang.String" resultType="int">
-       select count(*)
-       from orderform
-       where C_ID = #{C_ID}
+        select count(*)
+        from orderform
+        where C_ID = #{C_ID}
     </select>
 
-<!--获取可以取消的订单,已接收状态，未接受状态-->
+    <!--获取可以取消的订单,已接收状态，未接受状态-->
     <select id="selectOrderCanCancelByCID" resultType="map">
         select orderform.*,customer.C_name
-        from orderform,customer
-        where orderform.C_ID = #{C_ID} and customer.C_ID = #{C_ID} and (orderform.O_status = 1 or orderform.O_status = 0)
+        from orderform,
+             customer
+        where orderform.C_ID = #{C_ID}
+          and customer.C_ID = #{C_ID}
+          and (orderform.O_status = 1 or orderform.O_status = 0)
         limit #{offset},10
     </select>
     <!--获取个人可以取消订单总数-->
     <select id="GetTotalCancelDatas" parameterType="java.lang.String" resultType="int">
         select count(*)
         from orderform
-        where C_ID = #{C_ID} and customer.C_ID = #{C_ID} and (orderform.O_status = 1 or orderform.O_status = 0)
+        where C_ID = #{C_ID}
+          and customer.C_ID = #{C_ID}
+          and (orderform.O_status = 1 or orderform.O_status = 0)
     </select>
 
     <!--删除预订 -->
-<!--解除预定房间-->
+    <!--解除预定房间-->
     <update id="CancleOrderByOnumberRTOC" parameterType="java.lang.String">
         update roomtypeordercheck
         set ordernum = ordernum - 1
         where R_roomtype in (select R_type from orderform where O_num = #{O_num})
-        and optime between date((select checkintime from orderform where O_num = #{O_num}))
-        and DATE_SUB(date((select checkouttime from orderform where O_num = #{O_num})),INTERVAL 1 DAY )
+          and optime between date((select checkintime from orderform where O_num = #{O_num}))
+            and DATE_SUB(date((select checkouttime from orderform where O_num = #{O_num})), INTERVAL 1 DAY)
     </update>
-<!--改变订单状态-->
+    <!--改变订单状态-->
     <update id="CancleOrderByOnumberOF" parameterType="java.lang.String">
         update orderform
         set O_status = 5
@@ -60,10 +91,12 @@
     <!--前台获取所有已接受订单-->
     <select id="SelectAllAcceptedOrder" resultType="map">
         select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
-        from orderform o,customer c, roomtype r
+        from orderform o,
+             customer c,
+             roomtype r
         where o.O_num in (select O_num from orderform where O_status = 1)
-        and o.C_ID = c.C_ID
-        and r.R_roomtype = o.R_type
+          and o.C_ID = c.C_ID
+          and r.R_roomtype = o.R_type
         order by o.checkintime
         limit #{offset},10
     </select>
@@ -77,10 +110,13 @@
     <!--前台获取所有未接受订单-->
     <select id="SelectAllUnAcceptedOrder" resultType="map">
         select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
-        from orderform o,customer c, roomtype r
+        from orderform o,
+             customer c,
+             roomtype r
         where o.O_num in (select O_num from orderform where O_status = 0)
-        and o.C_ID = c.C_ID
-        and r.R_roomtype = o.R_type and checkouttime >  current_date()
+          and o.C_ID = c.C_ID
+          and r.R_roomtype = o.R_type
+          and checkouttime > current_date()
         order by o.checkintime
         limit #{offset},10
     </select>
@@ -88,13 +124,16 @@
     <select id="StaffGetTotalUnAcceptOrderNum" resultType="int">
         select count(*)
         from orderform o
-        where o.O_status = 0 and checkouttime >  current_date()
+        where o.O_status = 0
+          and checkouttime > current_date()
     </select>
 
     <!--接受新的预订订单-->
     <update id="AcceptOrder">
         update orderform
-        set O_status = 1,receivetime = sysdate(),E_num = #{E_num}
+        set O_status    = 1,
+            receivetime = sysdate(),
+            E_num       = #{E_num}
         where O_num = #{O_num}
     </update>
 
@@ -104,8 +143,8 @@
         update roomtypeordercheck
         set ordernum = ordernum - 1
         where R_roomtype in (select R_type from orderform where O_num = #{O_num})
-        and optime between date((select checkintime from orderform where O_num = #{O_num}))
-        and DATE_SUB(date((select checkouttime from orderform where O_num = #{O_num})),INTERVAL 1 DAY )
+          and optime between date((select checkintime from orderform where O_num = #{O_num}))
+            and DATE_SUB(date((select checkouttime from orderform where O_num = #{O_num})), INTERVAL 1 DAY)
     </update>
     <!--改变订单状态-->
     <update id="RejectionOfOrderStatus" parameterType="java.lang.String">
@@ -115,10 +154,10 @@
     </update>
     <!--新增订单-->
     <insert id="insertOrder">
-        insert into orderform (O_num,createtime,checkintime,checkouttime,R_type,C_ID,O_price,O_status)
-        values ('${O_num}',current_time,'${checkintime}','${checkouttime}','${R_type}',(select customer.C_ID from customer where C_phone='${phone}'),'${O_price}',0)
+        insert into orderform (O_num, createtime, checkintime, checkouttime, R_type, C_ID, O_price, O_status)
+        values ('${O_num}', current_time, '${checkintime}', '${checkouttime}', '${R_type}',
+                (select customer.C_ID from customer where C_phone = '${phone}'), '${O_price}', 0)
     </insert>
-
 
 
     <!--办理入住-->
@@ -127,19 +166,23 @@
     <!--查询可以入住的订单-->
     <select id="SelectOrderCanCheckIn" parameterType="java.lang.String" resultType="map">
         select o.O_num,c.C_name,r.typename,o.checkintime,c.C_phone,o.O_status
-        from orderform o,customer c, roomtype r
+        from orderform o,
+             customer c,
+             roomtype r
         where c.C_phone = #{C_phone}
-              and o.C_ID = c.C_ID
-              and r.R_roomtype = o.R_type and (o.O_status = 0 or o.O_status = 1)
+          and o.C_ID = c.C_ID
+          and r.R_roomtype = o.R_type
+          and (o.O_status = 0 or o.O_status = 1)
         order by o.checkintime
     </select>
     <!--查询可以入住的房间-->
     <select id="SelectRoomCanCheckIn" resultType="map">
         select ri.R_num,ri.R_floor,rt.typename,rt.bedtype,rt.area
-        from roominfo ri,roomtype rt
+        from roominfo ri,
+             roomtype rt
         where ri.R_roomtype = (select R_type from orderform where O_num = #{O_num})
-              and rt.R_roomtype = (select R_type from orderform where O_num = #{O_num})
-              and (curdate() > ri.duetime or curdate() = ri.duetime)
+          and rt.R_roomtype = (select R_type from orderform where O_num = #{O_num})
+          and (curdate() > ri.duetime or curdate() = ri.duetime)
         limit #{offset},10
     </select>
     <!--查询某个类型可以入住房间的总数-->
@@ -147,15 +190,18 @@
         select count(*)
         from roominfo
         where R_roomtype = (select R_type from orderform where O_num = #{O_num})
-         and (curdate() > roominfo.duetime or curdate() = duetime)
+          and (curdate() > roominfo.duetime or curdate() = duetime)
     </select>
 
     <!--选择房间入住-->
     <!--利用R_num改变房间的duetime和订单状态-->
     <update id="ChangeRoomstateForCheckIn">
         update roominfo r,orderform o
-        set r.duetime = date(o.checkouttime),o.O_status = 3,o.R_num = #{R_num}
-        where o.O_num = #{O_num} and r.R_num = #{R_num}
+        set r.duetime  = date(o.checkouttime),
+            o.O_status = 3,
+            o.R_num    = #{R_num}
+        where o.O_num = #{O_num}
+          and r.R_num = #{R_num}
     </update>
 
     <!--查询主要的房间分类-->
@@ -173,10 +219,11 @@
     <!--前台查询可以入住的房间-->
     <select id="StaffSelectRoomCanCheckIn" resultType="map">
         select ri.R_num,ri.R_floor,rt.typename,rt.bedtype,rt.area
-        from roominfo ri,roomtype rt
+        from roominfo ri,
+             roomtype rt
         where ri.R_roomtype = #{R_roomtype}
-        and rt.R_roomtype = #{R_roomtype}
-        and (curdate() > ri.duetime or curdate() = ri.duetime)
+          and rt.R_roomtype = #{R_roomtype}
+          and (curdate() > ri.duetime or curdate() = ri.duetime)
         limit #{offset},10
     </select>
     <!--前台查询某个类型可以入住房间的总数-->
@@ -184,52 +231,74 @@
         select count(*)
         from roominfo
         where R_roomtype = #{R_roomtype}
-        and (curdate() > roominfo.duetime or curdate() = duetime)
+          and (curdate() > roominfo.duetime or curdate() = duetime)
     </select>
-
 
 
     <!--办理入住成功进行的操作-->
     <!--将获取到的客户信息插入订单表密码默认为“000000”-->
     <insert id="StaffInsertCustomerN" parameterType="Bean.Customer">
         insert into customer(C_ID, C_phone, C_password, C_name, C_sex)
-        values(#{C_ID},#{C_phone},#{C_password},#{C_name},#{C_sex})
+        values (#{C_ID}, #{C_phone}, #{C_password}, #{C_name}, #{C_sex})
     </insert>
 
     <!--生成新的订单-->
     <insert id="StaffInsertOrderformN" parameterType="Bean.Orderform">
-        insert into orderform(O_num, createtime, receivetime,checkintime, checkouttime, R_type, R_num, C_ID, E_num, O_price, O_status)
-                        values(#{O_num},sysdate(),sysdate(),#{checkintime},#{checkouttime},#{R_type},#{R_num},#{C_ID},#{E_num},#{O_price} * (select price from roomtype where R_roomtype = #{R_type}),#{O_status})
+        insert into orderform(O_num, createtime, receivetime, checkintime, checkouttime, R_type, R_num, C_ID, E_num,
+                              O_price, O_status)
+        values (#{O_num}, sysdate(), sysdate(), #{checkintime}, #{checkouttime}, #{R_type}, #{R_num}, #{C_ID}, #{E_num},
+                #{O_price} * (select price from roomtype where R_roomtype = #{R_type}), #{O_status})
     </insert>
     <!--利用R_num改变房间的duetime-->
     <update id="StaffChangeRoomstateForCheckIn">
         update roominfo r,orderform o
         set r.duetime = date(o.checkouttime)
-        where o.R_num = #{R_num} and r.R_num = #{R_num}
+        where o.R_num = #{R_num}
+          and r.R_num = #{R_num}
     </update>
     <!--占用房间-->
     <update id="StaffChangeRoomOrderForCheckIn" parameterType="Bean.Orderform">
         update roomtypeordercheck
         set ordernum = ordernum + 1
-        where R_roomtype = #{R_type} and optime between  date(#{checkintime})
-        and DATE_SUB(date( #{checkouttime} ),INTERVAL 1 DAY )
+        where R_roomtype = #{R_type}
+          and optime between date(#{checkintime})
+            and DATE_SUB(date(#{checkouttime}), INTERVAL 1 DAY)
     </update>
 
 
     <!--通过手机号查询某个客户订单用来结算-->
     <select id="StaffselectOrderformByCphone" parameterType="java.lang.String" resultType="map">
-        select o.O_num,c.C_name,r.people,o.checkintime,o.checkouttime,c.C_phone,r.typename,r.area,r.bedtype,r.bathroom,r.wifi,r.windows,r.smoke,r.facility,r.price
-        from orderform o,customer c,roomtype r
-        where c.C_phone = #{C_phone} and o.C_ID = c.C_ID and r.R_roomtype = o.R_type and o.O_status = 3
+        select o.O_num,
+               c.C_name,
+               r.people,
+               o.checkintime,
+               o.checkouttime,
+               c.C_phone,
+               r.typename,
+               r.area,
+               r.bedtype,
+               r.bathroom,
+               r.wifi,
+               r.windows,
+               r.smoke,
+               r.facility,
+               r.price
+        from orderform o,
+             customer c,
+             roomtype r
+        where c.C_phone = #{C_phone}
+          and o.C_ID = c.C_ID
+          and r.R_roomtype = o.R_type
+          and o.O_status = 3
     </select>
 
     <!--结算改变订单状态填入结束时间-->
     <update id="StaffCheckOut" parameterType="java.lang.String">
         update orderform
-        set O_status = 4,finishtime = sysdate()
+        set O_status   = 4,
+            finishtime = sysdate()
         where O_num = #{O_num}
     </update>
-
 
     <select id="SelectCIDForCustomer" parameterType="java.lang.String" resultType="java.lang.String">
         select C_ID
@@ -237,13 +306,20 @@
         where C_phone = #{C_phone}
     </select>
 
-
-
-
     <!--查询现场入住的客户是否已经注册-->
     <select id="CheckCustomerRegister" parameterType="java.lang.String" resultType="int">
         select count(*)
         from customer
         where C_ID = #{C_ID}
+    </select>
+
+    <!--客户使用电话查询未接受订单-->
+    <select id="selectCustomerUnacceptOrderByPhone" parameterType="java.lang.String" resultType="int">
+        select count(*)
+        from orderform,
+             customer
+        where C_phone = #{value}
+          and customer.C_ID = orderform.C_ID
+          and orderform.O_status = 0
     </select>
 </mapper>
