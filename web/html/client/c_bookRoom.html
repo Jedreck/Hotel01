@@ -36,7 +36,7 @@
     <!--layUI-->
     <link rel="stylesheet" href="../../lib/layui/css/layui.css" media="all">
     <style type="text/css">
-        .pic{
+        .pic {
             width: 100%;
             height: 100%;
         }
@@ -61,9 +61,11 @@
             <ul class="nav top-menu">
                 <!-- settings start -->
                 <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="c_main.html#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">4</span>
+                        <div id="red_num">
+                            <span class="badge bg-theme">0</span>
+                        </div>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
@@ -71,7 +73,7 @@
                             <p class="green">你有待接收的预定</p>
                         </li>
                         <li class="external">
-                            <a href="#">查看详情</a>
+                            <a href="/html/client/order_management.html">查看详情</a>
                         </li>
                     </ul>
                 </li>
@@ -93,8 +95,8 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
-                                                                width="80"></a></p>
+                <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
+                                                                  width="80"></a></p>
                 <h5 id="phone" class="centered"></h5>
 
                 <li class="mt">
@@ -169,7 +171,7 @@
                             <label class="labelFont">网络:</label>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="wifi" value="1" title="WIFI" checked>
+                            <input type="checkbox" name="wifi" value="1" title="WIFI" >
                         </td>
                         <td style="padding: 5px">
                             <input type="checkbox" name="wirednet" value="1" title="有线">
@@ -180,7 +182,7 @@
                             <label class="labelFont">床型:</label>
                         </td>
                         <td style="padding: 5px">
-                            <input type="checkbox" name="bed_M" value="1" title="标准" checked>
+                            <input type="checkbox" name="bed_M" value="1" title="标准" >
                         </td>
                         <td style="padding: 5px">
                             <input type="checkbox" name="bed_L" value="1" title="大床">
@@ -204,23 +206,31 @@
                 <div id="resultPanel" class="row mt">
                     <!--panel-->
                     <div class="col-md-4 col-sm-4 mb">
-                        <div class="grey-panel pn donut-chart roomresult_panel">
+                        <div class="grey-panel pn donut-chart roomresult_panel" style="height: 300px;">
                             <div class="grey-header">
                                 <h3>样板间</h3>
                             </div>
                             <div style="height: 50%;width:200px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto">
                                 <img src="../../img/404.png" alt="图片加载失败" name="pic" class="pic"/>
                             </div>
-                            <table border="0" style="margin:auto;width: 90%;font-size: 16px">
+                            <table border="0" style="margin:auto;width: 90%;font-size: 25px">
                                 <tr>
                                     <td width="20">大床</td>
                                     <td width="20">有线，WIFI</td>
                                     <td width="20">有窗</td>
                                 </tr>
                             </table>
-                            <!--<button class="layui-btn" style="margin-top: 5px">查看详情</button>-->
-                            <button class="layui-btn" style="margin-top: 5px">查看详情/预订</button>
-                            <!--</di/v>-->
+                            <table border="0" style="margin:auto;">
+                                <tr>
+                                    <td>
+                                        <button class="layui-btn" style="margin: 5px">查看详情/预订</button>
+                                    </td>
+                                    <td>
+                                        <h2 style="color:#cd2235;margin-left: 8px">￥123</h2>
+                                    </td>
+                                    <td><h3 style="margin-top: 10px">/天</h3></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                     <!--end panel-->
@@ -272,9 +282,14 @@
 <script src="../../lib/my_common.js"></script>
 
 <script>
-    var picUrl;
+    //用户小红点、用户身份
     console.log("check cookies--" + cookies_phone);
+    console.log("status_val--" + status_val);
     $('#phone').text(cookies_phone);
+    window.onload = function () {
+        getUnreadNum();
+    };
+    var picUrl;
     var bookInfo = cookie.get("bookInfo");
     console.log("bookInfo--" + bookInfo);
     var jsons = cookie.get("roomtypeJsons");
@@ -296,7 +311,7 @@
             url: "/bookSearchServlet",
             data: {jsondata: jsonStr},
             type: "post",
-            before:function(){
+            before: function () {
                 layer.load(2);
             },
             success: function (flag) {
@@ -311,7 +326,7 @@
             error: function () {
                 alert("网络错误。。。");
             },
-            done:function () {
+            done: function () {
             }
         });
     }
@@ -321,45 +336,41 @@
         cookie.setTemp("roomtypeJsons", jsons);
         var json = JSON.parse(jsons);
         var itemStr = "";
-        if(json.length===0){
-            itemStr+="搜索无结果。。。"
-        }else {
+        if (json.length === 0) {
+            itemStr += "搜索无结果。。。"
+        } else {
             for (var i = 0; i < json.length; i++) {
                 getPicUrl(json[i].R_roomtype);
                 itemStr += "<div class=\"col-md-4 col-sm-4 mb\">\n" +
-                    "                        <div class=\"grey-panel pn donut-chart roomresult_panel\">\n" +
-                    "                            <div class=\"grey-header\">\n" +
-                    "                                <h3>" + json[i].typename + "</h3>\n" +
-                    "                            </div>\n" +
-                    "                            <div style=\"height: 50%;width:200px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto\">\n" +
+                    "<div class=\"grey-panel pn donut-chart roomresult_panel\"  style=\"height: 300px;\">\n" +
+                    "<div class=\"grey-header\">\n" +
+                    "<h3>" + json[i].typename + "</h3>\n" +
+                    "</div>\n" +
+                    "<div style=\"height: 50%;width:200px;background-color: #9ecdca;margin-bottom: 10px;margin-left: auto;margin-right: auto\">\n" +
                     "<img alt=\"图片加载失败\" class='pic' name=\"pic\" src='"
                     + picUrl
-                    + "'/>" +
-                    "                            </div>\n" +
-                    "                            <table border=\"0\" style=\"margin:auto;width: 90%;font-size: 16px\">\n" +
-                    "                                <tr>\n" +
-                    "                                    <td width=\"20\">";
+                    + "'/>" + "</div>\n" + "<table border=\"0\" style=\"margin:auto;width: 90%;font-size: 25px\">\n" + "<tr>\n" + "<td width=\"20\">";
                 // if(json[i].bedtype==="大床房"){itemStr+=""}
                 itemStr += json[i].bedtype;
                 itemStr += "</td>\n" +
-                    "                                    <td width=\"20\">";
+                    "<td width=\"20\">";
                 if (json[i].wifi === 1)
                     itemStr += " WIFI ";
                 if (json[i].wirednet === 1)
                     itemStr += " 有线宽带 ";
                 itemStr += "</td>\n" +
-                    "                                    <td width=\"20\">";
+                    "<td width=\"20\">";
                 if (json[i].windows === 1)
                     itemStr += "有窗";
-                itemStr += "</td>\n" +
-                    "                                </tr>\n" +
-                    "                            </table>\n" +
-                    "                            <button class=\"layui-btn\" style=\"margin-top: 5px\" onclick='InfoDetail(";
+                itemStr += "</td>\n" + "</tr>\n" + "</table>\n" +
+                    "<table border=\"0\" style=\"margin:auto;\">\n" + "<tr>\n" + "<td>\n" + "<button class=\"layui-btn\" style=\"margin: 5px\" onclick='InfoDetail(";
                 itemStr += i;
                 itemStr += ")'>查看详情/预订</button>\n" +
-                    "                            <!--</di/v>-->\n" +
-                    "                        </div>\n" +
-                    "                    </div>";
+                    "</td>\n" +
+                    "<td>\n" +
+                    "<h2 style=\"color:#cd2235;margin-left: 8px\">￥";
+                itemStr += json[i].price + "</h2>\n" +
+                    "</td><td><h3 style=\"margin-top: 10px\">/天</h3></td>" + "</tr>\n" + "</table>\n" + "</div>\n" + "</div>";
             }
         }
         $('#resultPanel').html(itemStr);
@@ -368,7 +379,7 @@
     }
 
     function setUrl(url) {
-        console.log("======++++"  + url);
+        console.log("======++++" + url);
         picUrl = url;
     }
 
@@ -379,11 +390,11 @@
             url: "/SelectPicByRT",
             data: {R_roomtype: R_roomtype},
             type: "post",
-            async:false,
+            async: false,
             success: function (data) {
                 var obj = $.parseJSON(data);
                 console.log("jsonsjon:" + obj[0]);
-                if(obj.length > 0){
+                if (obj.length > 0) {
                     setUrl(obj[0]);
                 }
             },
@@ -415,7 +426,7 @@
             return 0;
         }
         console.log("date:" + date);
-        cookie.setTemp("orderDate",date);
+        cookie.setTemp("orderDate", date);
         bookInfo += "{\"inDate\":\"" + date + "\"";
 
         var people = $('input:radio[name="people"]:checked').val();

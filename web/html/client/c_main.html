@@ -239,11 +239,13 @@
 <script src="../../lib/my_common.js"></script>
 
 <script>
+    //用户小红点、用户身份
     console.log("check cookies--" + cookies_phone);
     console.log("status_val--" + status_val);
     $('#phone').text(cookies_phone);
-
-
+    window.onload=function(){
+        getUnreadNum();
+    };
 </script>
 
 <script>
@@ -264,27 +266,6 @@
         console.log(bookInfo);
         cookie.setTemp("bookInfo", bookInfo);
         top.location.href = "/html/client/c_bookRoom.html";
-    }
-</script>
-
-<script>
-    setInterval(getUnreadNum, 10000);
-
-    //用户小红点
-    function getUnreadNum() {
-        var num = 0;
-        $.ajax({
-            url: "/GetClientUnreadNumServlet",
-            data: {jsondata: cookies_phone},
-            type: "post",
-            success: function (flag) {
-                console.log("小红点--" + flag);
-                $('#red_num').html("<span class=\"badge bg-theme\">" + flag + "</span>")
-            },
-            error: function () {
-                alert("无法获取小红点。。。");
-            }
-        });
     }
 </script>
 

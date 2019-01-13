@@ -100,24 +100,24 @@ function logout() {
         top.location.href = "/html/common/index.html"
 }
 
-/**
- * 获取未处理的订单数量用于显示在酒店前台左上角
- */
-function getUnhandledOrderNum() {
-    setInterval(function(){
-        $.ajax({
-            url: "/SelectAllAcceptedOrderServlet",
-            type:'post',
-            data:{page:page},
-            dataType:'text',
-            success: function(data){
-                var str = data.split("!");
-                var total = parseInt(str[1]);
-                $("p[class='green']").html("有" + total + "个订单尚待被接受");
-            },
-            error:  function () {
-
-            }
-        });
-    },2000);
+//客户小红点
+function getUnreadNum(){
+    getUnreadNumFunc();
+    setInterval(getUnreadNumFunc, 10000);
+}
+function getUnreadNumFunc() {
+    var num = 0;
+    $.ajax({
+        url: "/GetClientUnreadNumServlet",
+        data: {jsondata: cookies_phone},
+        type: "post",
+        success: function (flag) {
+            console.log("小红点--" + flag);
+            $('#red_num').html("<span class=\"badge bg-theme\">" + flag + "</span>")
+        },
+        error: function () {
+            alert("无法获取小红点。。。");
+        }
+    });
+    layer.closeAll('loading');
 }

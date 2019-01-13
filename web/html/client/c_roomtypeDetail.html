@@ -95,7 +95,7 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
+                <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
                                                                 width="80"></a></p>
                 <h5 id="phone" class="centered"></h5>
 
@@ -107,7 +107,7 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a class="active" href="#">
+                    <a class="active" href="c_bookRoom.html">
                         <i class="glyphicon glyphicon-edit"></i>
                         <span>预订房间</span>
                     </a>
@@ -143,8 +143,8 @@
                             <div class="layui-form-item">
                                 <label class="layui-form-label">客房类型</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="typename" lay-verify="required" placeholder="请输入客房类型名称"
-                                           autocomplete="off" class="layui-input">
+                                    <input type="text" name="typename" lay-verify="required"
+                                           autocomplete="off" class="layui-input" readonly>
                                 </div>
                             </div>
 
@@ -152,7 +152,7 @@
                                 <label class="layui-form-label">床型</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="bedtype" autocomplete="off" class="layui-input"
-                                           lay-verify="required" placeholder="请输入床型">
+                                           lay-verify="required" readonly>
                                 </div>
                             </div>
 
@@ -160,34 +160,25 @@
                                 <label class="layui-form-label">价格</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="price" autocomplete="off" class="layui-input"
-                                           placeholder="￥" lay-verify="required|number">
+                                           placeholder="￥" lay-verify="required|number" readonly>
                                 </div>
                             </div>
 
                             <div class="layui-form-item">
                                 <label class="layui-form-label">人数</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="people" placeholder="请输入人数" autocomplete="off"
-                                           class="layui-input" lay-verify="required|number">
+                                    <input type="text" name="people" autocomplete="off"
+                                           class="layui-input" lay-verify="required|number" readonly>
                                 </div>
                             </div>
 
                             <div class="layui-form-item">
                                 <label class="layui-form-label">建筑面积</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="area" placeholder="请输入面积" autocomplete="off"
-                                           class="layui-input" lay-verify="required|number">
+                                    <input type="text" name="area" autocomplete="off"
+                                           class="layui-input" lay-verify="required|number" readonly>
                                 </div>
                             </div>
-
-                            <!--<div class="layui-form-item">-->
-                            <!--<label class="layui-form-label">楼层</label>-->
-                            <!--<div class="layui-input-block">-->
-                            <!--<input type="text" name="R_story" placeholder="请填写楼层" autocomplete="off"-->
-                            <!--class="layui-input" lay-verify="required|number">-->
-                            <!--</div>-->
-                            <!--</div>-->
-
 
                             <div class="layui-form-item" pane="">
                                 <label class="layui-form-label">无限网络</label>
@@ -224,24 +215,24 @@
                             <div class="layui-form-item" pane="">
                                 <label class="layui-form-label">吸烟</label>
                                 <div class="layui-input-block">
-                                    <input type="radio" name="smoke" value="允许" title="允许">
-                                    <input type="radio" name="smoke" value="禁止" title="禁止">
+                                    <input type="radio" name="smoke" value="允许" title="允许" readonly>
+                                    <input type="radio" name="smoke" value="禁止" title="禁止" readonly>
                                 </div>
                             </div>
 
                             <div class="layui-form-item layui-form-text">
                                 <label class="layui-form-label">便利设施</label>
                                 <div class="layui-input-block">
-                                    <textarea placeholder="请输入便利设施内容" class="layui-textarea" name="facility"
-                                              lay-verify="required"></textarea>
+                                    <textarea class="layui-textarea" name="facility"
+                                              lay-verify="required" readonly></textarea>
                                 </div>
                             </div>
 
                             <div class="layui-form-item layui-form-text">
                                 <label class="layui-form-label">其他</label>
                                 <div class="layui-input-block">
-                                    <textarea name="other" placeholder="其他" class="layui-textarea"
-                                              lay-verify="required"></textarea>
+                                    <textarea name="other" class="layui-textarea"
+                                              lay-verify="required" readonly></textarea>
                                 </div>
                             </div>
                             <!--<div class="layui-form-item">-->
@@ -275,21 +266,7 @@
         <!-- /wrapper -->
     </section>
     <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-        <div class="text-center">
-            <p>
-                &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
-            </p>
-            <div class="credits">
-                Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
-            </div>
-            <a href="#" class="go-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-        </div>
-    </footer>
-    <!--footer end-->
+
 </section>
 <!-- js placed at the end of the document so the pages load faster -->
 <script src="../../lib/jquery/jquery.min.js"></script>
