@@ -382,7 +382,8 @@
                     } else {
                         showInsertResult("入住房间成功！");
                         getData(pageNow-1,O_num);// 重新获取数据
-                        window.open('./check_in_net.html','_self');
+                        setTimeout(function(){window.open('./check_in_net.html','_self');},5000);
+                        //window.open('./check_in_net.html','_self');
                     }
                 },
                 error: function () {
