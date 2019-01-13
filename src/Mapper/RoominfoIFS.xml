@@ -47,6 +47,9 @@
         SET foreign_key_checks = 1;
     </delete>
 
-
+    <!--获取当天房间的使用数量-->
+    <select id="SelectRoomOp" resultType="int" parameterType="String">
+        select count(*) as op from roominfo n where duetime >= #{cTime}
+    </select>
 
 </mapper>

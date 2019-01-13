@@ -113,15 +113,9 @@
                     </a>
                     <ul class="sub">
                         <li><a href="m_cdataAnalysis.html">顾客的数据详情</a></li>
-                        <li><a href="m_addRoomType.html">员工的数据详情</a></li>
+                        <li><a href="m_staDataAnalysis.html">员工的数据详情</a></li>
+                        <li><a href="m_hotelDataAnalysis.html">运营的数据详情</a></li>
                     </ul>
-                </li>
-
-                <li class="sub-menu">
-                    <a class="" href="#">
-                        <i class="glyphicon glyphicon-time"></i>
-                        <span>预订客房管理</span>
-                    </a>
                 </li>
             </ul>
             <!-- sidebar menu end-->
@@ -133,24 +127,31 @@
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper">
+        <section class="wrapper" style="overflow: hidden">
             <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 员工的数据分布</h3>
-
-
             <div id="morris">
-                <!--性别-->
                 <div class="row mt">
                     <div class="col-lg-6">
                         <div class="content-panel">
-                            <h4><i class="fa fa-angle-right"></i> 顾客性别比例</h4>
+                            <h4><i class="fa fa-angle-right"></i> 员工性别比例</h4>
                             <div class="panel-body">
                                 <div id="cgenderD" class="graph"></div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-6">
                         <div class="content-panel">
-                            <h4><i class="fa fa-angle-right"></i> 员工年龄比例</h4>
+                            <h4><i class="fa fa-angle-right"></i> 今日入住率</h4>
+                            <div class="panel-body text-center">
+                                <canvas id="pie" height="300" width="400"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="content-panel">
+                            <h4><i class="fa fa-angle-right"></i> 最近7天入住率</h4>
                             <div class="panel-body">
                                 <div id="cageD" class="graph"></div>
                             </div>
@@ -196,57 +197,75 @@
 <script src="../../lib/jquery.sparkline.js"></script>
 <!--common script for all pages-->
 <script src="../../lib/common-scripts.js"></script>
-<script type="text/javascript" src="../../lib/gritter/js/jquery.gritter.js"></script>
-<script type="text/javascript" src="../../lib/gritter-conf.js"></script>
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
 
 <script src="../../lib/raphael/raphael.min.js"></script>
 <script src="../../lib/morris/morris.min.js"></script>
-<!--common script for all pages-->
-<script src="../../lib/common-scripts.js"></script>
 
 <script src="../../lib/layui/layui.js"></script>
+<script src="../../lib/chart-master/Chart.js"></script>
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
 
 <script>
     $(function () {
-        layui.use(['laypage','form','layer'], function(){
+        layui.use(['laypage', 'form', 'layer', 'element'], function () {
             form = layui.form;
             laypage = layui.laypage;
             layer = layui.layer;
+            element = layui.element;
         });
         var cgenderD;
         var cageD;
+        var pieData;
         getData();
+
         // 从后台获取数据
-        function getData(){
+        function getData() {
+            pieData = [
+                {
+                    value: 100,
+                    color: "#5af74d",
+                    highlight: "#FF5A5E",
+                    label: "Red"
+                },
+                {
+                    value: 50,
+                    color: "#46BFBD",
+                    highlight: "#5AD3D1",
+                    label: "blue"
+                }
+            ];
+            new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
             cgenderD = {
-                female:50,
-                male:50
+                female: 50,
+                male: 50
             };
             // 18-27 28-37 38-47 48-57 58-67 68-77
             cageD = {
-                group1:100,
-                group2:100,
-                group3:100,
-                group4:100,
-                group5:100,
-                group6:100
+                group1: 100,
+                group2: 100,
+                group3: 100,
+                group4: 100,
+                group5: 100,
+                group6: 100,
+                group7: 100
             };
             //layer.load();
             $.ajax({
                 url: "/SelectEmployeeSexD",
-                type:'post',
-                dataType:'text',
-                before:function(){
+                type: 'post',
+                dataType: 'text',
+                before: function () {
 
                 },
-                success: function(data){
+                success: function (data) {
                     console.log("dsfsd" + data);
                     cgenderD = JSON.parse(data)[0];
-                    console.log("比例：" + (cgenderD.female/(cgenderD.female + cgenderD.male)) * 100);
-                    cgenderD.male = parseInt((cgenderD.male/(cgenderD.female + cgenderD.male)) * 100);
+                    console.log("比例：" + (cgenderD.female / (cgenderD.female + cgenderD.male)) * 100);
+                    cgenderD.male = parseInt((cgenderD.male / (cgenderD.female + cgenderD.male)) * 100);
                     cgenderD.female = 100 - cgenderD.male;
                     console.log("比例：" + cgenderD.male + cgenderD.female);
                     Morris.Donut({
@@ -266,8 +285,9 @@
                     console.log("网络错误！");
                 }
             });
-           // layui.layer.closeAll('loading');
+            // layui.layer.closeAll('loading');
         }
+
         Morris.Bar({
             element: 'cageD',
             data: [
@@ -276,7 +296,8 @@
                 {age: '38-47岁', range: cageD.group3},
                 {age: '48-57岁', range: cageD.group4},
                 {age: '58-67岁', range: cageD.group5},
-                {age: '68-77岁', range: cageD.group6}
+                {age: '68-77岁', range: cageD.group6},
+                {age: '68-77岁', range: cageD.group7}
             ],
             xkey: 'age',
             ykeys: ['range'],

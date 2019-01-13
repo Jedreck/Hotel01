@@ -80,7 +80,7 @@ public class RoomTypeDao {
             session.commit();
         } catch (Exception e){
             System.out.println("删除出错--DeleteRoomType--RoomTypeDao");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         session.close();
         return result;

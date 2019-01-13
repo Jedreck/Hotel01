@@ -121,16 +121,11 @@
                     </a>
                     <ul class="sub">
                         <li><a href="m_cdataAnalysis.html">顾客的数据详情</a></li>
-                        <li><a href="m_addRoomType.html">员工的数据详情</a></li>
+                        <li><a href="m_staDataAnalysis.html">员工的数据详情</a></li>
+                        <li><a href="m_hotelDataAnalysis.html">运营的数据详情</a></li>
                     </ul>
                 </li>
 
-                <li class="sub-menu">
-                    <a class="" href="#">
-                        <i class="glyphicon glyphicon-time"></i>
-                        <span>预订客房管理</span>
-                    </a>
-                </li>
             </ul>
             <!-- sidebar menu end-->
         </div>
@@ -421,12 +416,12 @@
                 data:{R_roomtype:R_roomtype},
                 dataType:'text',
                 success: function(data){
-                    // 后台删除失败
-                    if(data != 1) {
-                        showInsertResult("1删除失败！");
-                    } else {
-                        showInsertResult("删除成功！");
-                    }
+                    // if(data != 1) {
+                    //     showInsertResult("1删除失败！");
+                    // } else {
+                    //     showInsertResult("删除成功！");
+                    // }
+                    showInsertResult("删除成功！");
                 },
                 error: function () {
                     showInsertResult("2删除失败！");
