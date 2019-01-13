@@ -55,7 +55,10 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">4</span>
+                        <div id="red_num">
+                            <span class="badge bg-theme"></span>
+                        </div>
+
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
@@ -63,7 +66,7 @@
                             <p class="green">你有待接收的预定</p>
                         </li>
                         <li class="external">
-                            <a href="#">查看详情</a>
+                            <a href="/html/staff/unaccept_booking_orders.html">查看详情</a>
                         </li>
                     </ul>
                 </li>
@@ -244,6 +247,11 @@
     });
 </script>
 <script type="application/javascript">
+
+    window.onload = function () {
+        getUnreadNumStaff();
+    };
+
     $(function() {
         if(!validateEmployee()) return;
         var index = 0;
