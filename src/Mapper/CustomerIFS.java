@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerIFS {
     public Customer selectCustomerByID(String id)throws IOException;
@@ -24,5 +25,7 @@ public interface CustomerIFS {
     public int GetTotalDatas(@Param(value="name") String name)throws IOException;
 
     public Customer SelectCustomerByID(String C_ID) throws IOException;
+
+    public List<Map<String,Object>> SelectClientSexD() throws IOException;
 
 }

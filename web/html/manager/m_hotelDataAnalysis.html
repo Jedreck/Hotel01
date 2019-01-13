@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>添加客房类型</title>
+    <title>房间占用率</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -107,7 +107,7 @@
                 </li>
 
                 <li class="sub-menu">
-                    <a class="active" href="#">
+                    <a class="active" href="javascript:;">
                         <i class="fa fa-edit"></i>
                         <span>数据详情</span>
                     </a>
@@ -127,18 +127,15 @@
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper" style="background-color: #f6fff1">
-            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 顾客的数据分布</h3>
-
-
+        <section class="wrapper" style="overflow: hidden">
+            <h3 style="margin-top: 10px"><i class="fa fa-angle-right"></i> 房间数据分布</h3>
             <div id="morris">
-                <!--性别-->
                 <div class="row mt">
                     <div class="col-lg-6">
                         <div class="content-panel">
-                            <h4><i class="fa fa-angle-right"></i> 员工性别比例</h4>
+                            <h4><i class="fa fa-angle-right"></i> 今天的房间占用比例</h4>
                             <div class="panel-body">
-                                <div id="cgenderD" class="graph"></div>
+                                <div id="opR" class="graph"></div>
                             </div>
                         </div>
                     </div>
@@ -182,76 +179,81 @@
 <script src="../../lib/jquery.sparkline.js"></script>
 <!--common script for all pages-->
 <script src="../../lib/common-scripts.js"></script>
-<script type="text/javascript" src="../../lib/gritter/js/jquery.gritter.js"></script>
-<script type="text/javascript" src="../../lib/gritter-conf.js"></script>
 <!--script for this page-->
 <script src="../../lib/sparkline-chart.js"></script>
 <script src="../../lib/zabuto_calendar.js"></script>
+
 <script src="../../lib/raphael/raphael.min.js"></script>
 <script src="../../lib/morris/morris.min.js"></script>
+
+<script src="../../lib/layui/layui.js"></script>
 <script src="../../lib/chart-master/Chart.js"></script>
 <script src="../../lib/easyCookie.js"></script>
 <script src="../../lib/my_common.js"></script>
 
-
-<script src="../../lib/layui/layui.js"></script>
-
 <script>
-  $(function () {
-      if(!validateEmployee()) return;
-      var cgenderD;
-      var cageD;
-      getData();
-      // 从后台获取数据
-      function getData(){
-          cgenderD = {
-              female:50,
-              male:50
-          };
-          // 18-27 28-37 38-47 48-57 58-67 68-77
-          cageD = {
-              group1:100,
-              group2:100,
-              group3:100,
-              group4:100,
-              group5:100,
-              group6:100
-          };
+    $(function () {
+        layui.use(['laypage', 'form', 'layer', 'element'], function () {
+            form = layui.form;
+            laypage = layui.laypage;
+            layer = layui.layer;
+            element = layui.element;
+        });
+        var cgenderD;
+        var cageD;
+        var pieData;
+        getData();
 
-          $.ajax({
-              url: "/SelectClientSexD",
-              type:'post',
-              dataType:'text',
-              before:function(){
+        // 从后台获取数据
+        function getData() {
+            cgenderD = {
+                op: 50,
+                total: 50
+            };
+            // 18-27 28-37 38-47 48-57 58-67 68-77
+            cageD = {
+                group1: 100,
+                group2: 100,
+                group3: 100,
+                group4: 100,
+                group5: 100,
+                group6: 100,
+                group7: 100
+            };
+            //layer.load();
+            $.ajax({
+                url: "/SelectRoomOpRatio",
+                type: 'post',
+                dataType: 'text',
+                before: function () {
 
-              },
-              success: function(data){
-                  console.log("dsfsd" + data);
-                  cgenderD = JSON.parse(data)[0];
-                  console.log("比例：" + (cgenderD.female/(cgenderD.female + cgenderD.male)) * 100);
-                  cgenderD.male = parseInt((cgenderD.male/(cgenderD.female + cgenderD.male)) * 100);
-                  cgenderD.female = 100 - cgenderD.male;
-                  console.log("比例：" + cgenderD.male + cgenderD.female);
-                  Morris.Donut({
-                      element: 'cgenderD',
-                      data: [
-                          {label: 'male', value: cgenderD.male},
-                          {label: 'female', value: cgenderD.female}
-                      ],
-                      colors: ['#3498db', '#2980b9', '#34495e'],
-                      formatter: function (y) {
-                          return y + "%"
-                      }
-                  });
-              },
-              error: function () {
-                  //layui.layer.msg("网络错误！");
-                  console.log("网络错误！");
-              }
-          });
-      }
+                },
+                success: function (data) {
+                    cgenderD = JSON.parse(data);
+                    console.log("比例：" + (cgenderD.op / cgenderD.total) * 100);
+                    cgenderD.op = parseInt((cgenderD.op / cgenderD.total) * 100);
+                    cgenderD.unOp = 100 - cgenderD.op;
+                    Morris.Donut({
+                        element: 'opR',
+                        data: [
+                            {label: '占用', value: cgenderD.op},
+                            {label: '未占用', value: cgenderD.unOp}
+                        ],
+                        colors: ['#3498db', '#2980b9', '#34495e'],
+                        formatter: function (y) {
+                            return y + "%"
+                        }
+                    });
+                },
+                error: function () {
+                    //layui.layer.msg("网络错误！");
+                    console.log("网络错误！");
+                }
+            });
+            //layer.closeAll('loading');
+        }
 
-  })
+    });
 </script>
 
 

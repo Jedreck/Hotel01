@@ -29,9 +29,8 @@ public class SelectAllRoomTypeServlet extends HttpServlet {
         int total = 0;
         try {
             RoomTypeDao rtd = new RoomTypeDao();
-            System.out.println("typename1" + typename);
+            System.out.println("typename" + typename);
             roomTypes = rtd.selectAllRoomType(page * 10, typename);
-            System.out.println("数据:" + roomTypes.toString());
             total = rtd.GetTotalDatas(typename);
         }catch (Exception e) {
             System.out.println("查询数据出现异常--SelectAllRoomTypeServlet");

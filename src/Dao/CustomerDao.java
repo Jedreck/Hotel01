@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class CustomerDao {
     private SqlSession session;
@@ -132,6 +133,25 @@ public class CustomerDao {
         return customer;
     }
 
+    /**
+     * 获取所有客户男女比例
+     * @return
+     * @throws IOException
+     */
+    public List<Map<String,Object>> SelectClientSexD() throws IOException{
+        session = getSqlSession.getSession().openSession();
+        customerIFS = session.getMapper(CustomerIFS.class);
+        List<Map<String,Object>> sexD = null;
+        try {
+            sexD =  customerIFS.SelectClientSexD();
+        } catch (Exception e){
+            System.out.println("异常：获取客户男女总数-->SelectClientSexD-->CustomerDao");
+            e.printStackTrace();
+        }
+        session.close();
+        return sexD;
+    }
+
     public static void main(String[] args) {
         try {
             //测试1
@@ -141,7 +161,7 @@ public class CustomerDao {
 
             //测试2
             CustomerDao cd = new CustomerDao();
-            System.out.println(cd.SelectCustomerByID("145154199609093333").toString());
+            System.out.println(cd.SelectClientSexD().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

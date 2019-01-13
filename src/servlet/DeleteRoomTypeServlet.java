@@ -15,6 +15,7 @@ public class DeleteRoomTypeServlet extends javax.servlet.http.HttpServlet {
         int result = 0;
         try {
             result = new RoomTypeDao().DeleteRoomType(R_roomtype);
+            System.out.println(result + "111");
         }catch (Exception e) {
             System.out.println("删除数据出现异常--DeleteRoomTypeServlet");
             //e.printStackTrace();

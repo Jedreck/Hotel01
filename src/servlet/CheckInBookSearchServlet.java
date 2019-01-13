@@ -24,7 +24,7 @@ import java.util.List;
 @WebServlet(name = "CheckInBookSearchServlet",urlPatterns = "/CheckInBookSearchServlet")
 public class CheckInBookSearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LogOut.Info("in bookSearchServlet!!!");
+        LogOut.Info("in CheckInBookSearchServlet!!!");
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
         PrintWriter out = response.getWriter();

@@ -14,4 +14,6 @@ public interface RoominfoIFS {
     public int DeleteRoomByNum(String R_num)throws IOException;
     public Roominfo SelectRoomByNum(String R_num)throws IOException;
     public int GetTotalDatas(@Param(value="typename") String typename)throws IOException;
+
+    public int SelectRoomOp(@Param(value="cTime") String cTime) throws IOException;
 }
