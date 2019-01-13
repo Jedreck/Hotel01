@@ -99,3 +99,25 @@ function logout() {
         cookie.setTemp("status", 0);
         top.location.href = "/html/common/index.html"
 }
+
+/**
+ * 获取未处理的订单数量用于显示在酒店前台左上角
+ */
+function getUnhandledOrderNum() {
+    setInterval(function(){
+        $.ajax({
+            url: "/SelectAllAcceptedOrderServlet",
+            type:'post',
+            data:{page:page},
+            dataType:'text',
+            success: function(data){
+                var str = data.split("!");
+                var total = parseInt(str[1]);
+                $("p[class='green']").html("有" + total + "个订单尚待被接受");
+            },
+            error:  function () {
+
+            }
+        });
+    },2000);
+}
