@@ -56,7 +56,9 @@
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">4</span>
+                        <div id="red_num">
+                            <span class="badge bg-theme">0</span>
+                        </div>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
@@ -89,7 +91,7 @@
             <ul class="sidebar-menu" id="nav-accordion">
                 <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
                                                                   width="80"></a></p>
-                <h5 class="centered">Sam Soffes</h5>
+                <h5 id="phoneHead" class="centered"></h5>
 
                 <li class="mt">
                     <a class="active" href="#">
@@ -271,7 +273,7 @@
                 -->
                 Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
             </div>
-            <a href="index.html#" class="go-top">
+            <a href="#" class="go-top">
                 <i class="fa fa-angle-up"></i>
             </a>
         </div>
@@ -302,74 +304,18 @@
 <script src="../../lib/my_common.js"></script>
 
 <script>
-    ;!function () {
+    //用户小红点、用户身份
+    console.log("check cookies--" + cookies_phone);
+    console.log("status_val--" + status_val);
+    $('#phone').text(cookies_phone);
+    window.onload=function(){
+        getUnreadNum();
+    };
+    !function () {
         var layer = layui.layer, form = layui.form;
     }();
 </script>
 
-
-<!--<script type="text/javascript">-->
-    <!--$(document).ready(function () {-->
-        <!--var unique_id = $.gritter.add({-->
-            <!--// (string | mandatory) the heading of the notification-->
-            <!--title: 'Welcome to Dashio!',-->
-            <!--// (string | mandatory) the text inside the notification-->
-            <!--text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo.',-->
-            <!--// (string | optional) the image to display on the left-->
-            <!--image: 'img/ui-sam.jpg',-->
-            <!--// (bool | optional) if you want it to fade out on its own or just sit there-->
-            <!--sticky: false,-->
-            <!--// (int | optional) the time you want it to be alive for before fading out-->
-            <!--time: 8000,-->
-            <!--// (string | optional) the class name you want to apply to that specific message-->
-            <!--class_name: 'my-sticky-class'-->
-        <!--});-->
-
-        <!--return false;-->
-    <!--});-->
-<!--</script>-->
-<!--<script type="application/javascript">-->
-    <!--$(document).ready(function () {-->
-        <!--$("#date-popover").popover({-->
-            <!--html: true,-->
-            <!--trigger: "manual"-->
-        <!--});-->
-        <!--$("#date-popover").hide();-->
-        <!--$("#date-popover").click(function (e) {-->
-            <!--$(this).hide();-->
-        <!--});-->
-
-        <!--$("#my-calendar").zabuto_calendar({-->
-            <!--action: function () {-->
-                <!--return myDateFunction(this.id, false);-->
-            <!--},-->
-            <!--action_nav: function () {-->
-                <!--return myNavFunction(this.id);-->
-            <!--},-->
-            <!--ajax: {-->
-                <!--url: "show_data.php?action=1",-->
-                <!--modal: true-->
-            <!--},-->
-            <!--legend: [{-->
-                <!--type: "text",-->
-                <!--label: "Special event",-->
-                <!--badge: "00"-->
-            <!--},-->
-                <!--{-->
-                    <!--type: "block",-->
-                    <!--label: "Regular event",-->
-                <!--}-->
-            <!--]-->
-        <!--});-->
-    <!--});-->
-
-    <!--function myNavFunction(id) {-->
-        <!--$("#date-popover").hide();-->
-        <!--var nav = $("#" + id).data("navigation");-->
-        <!--var to = $("#" + id).data("to");-->
-        <!--console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);-->
-    <!--}-->
-<!--</script>-->
 
 <script type="application/javascript">
     $(function () {

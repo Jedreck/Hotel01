@@ -61,9 +61,11 @@
             <ul class="nav top-menu">
                 <!-- settings start -->
                 <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="c_main.html#">
                         <i class="fa fa-tasks"></i>
-                        <span class="badge bg-theme">4</span>
+                        <div id="red_num">
+                            <span class="badge bg-theme">0</span>
+                        </div>
                     </a>
                     <ul class="dropdown-menu extended tasks-bar">
                         <div class="notify-arrow notify-arrow-green"></div>
@@ -71,7 +73,7 @@
                             <p class="green">你有待接收的预定</p>
                         </li>
                         <li class="external">
-                            <a href="#">查看详情</a>
+                            <a href="/html/client/order_management.html">查看详情</a>
                         </li>
                     </ul>
                 </li>
@@ -93,7 +95,7 @@
         <div id="sidebar" class="nav-collapse ">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <p class="centered"><a href="profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
+                <p class="centered"><a href="c_profile.html"><img src="../../img/ui-sam.jpg" class="img-circle"
                                                                 width="80"></a></p>
                 <h5 id="phone" class="centered"></h5>
 
@@ -272,9 +274,14 @@
 <script src="../../lib/my_common.js"></script>
 
 <script>
-    var picUrl;
+    //用户小红点、用户身份
     console.log("check cookies--" + cookies_phone);
+    console.log("status_val--" + status_val);
     $('#phone').text(cookies_phone);
+    window.onload=function(){
+        getUnreadNum();
+    };
+    var picUrl;
     var bookInfo = cookie.get("bookInfo");
     console.log("bookInfo--" + bookInfo);
     var jsons = cookie.get("roomtypeJsons");

@@ -100,3 +100,24 @@ function logout() {
         top.location.href = "/html/common/index.html"
 }
 
+//小红点
+function getUnreadNum(){
+    getUnreadNumFunc();
+    setInterval(getUnreadNumFunc, 10000);
+}
+function getUnreadNumFunc() {
+    var num = 0;
+    $.ajax({
+        url: "/GetClientUnreadNumServlet",
+        data: {jsondata: cookies_phone},
+        type: "post",
+        success: function (flag) {
+            console.log("小红点--" + flag);
+            $('#red_num').html("<span class=\"badge bg-theme\">" + flag + "</span>")
+        },
+        error: function () {
+            alert("无法获取小红点。。。");
+        }
+    });
+}
+
