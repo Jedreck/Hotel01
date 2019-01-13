@@ -119,4 +119,5 @@ function getUnreadNumFunc() {
             alert("无法获取小红点。。。");
         }
     });
+    layer.closeAll('loading');
 }
