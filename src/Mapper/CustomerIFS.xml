@@ -92,4 +92,12 @@
         set C_phone = '${C_phone}', C_name = '${C_name}', C_sex = '${C_sex}', C_password = '${C_password}'
         where C_ID='${C_ID}'
     </update>
+
+    <!--获取所有客户男性和女性的比例-->
+    <select id="SelectClientSexD" resultType="map">
+        select
+               COUNT(case when c.C_sex = '男' then C_sex end  ) as male,
+               COUNT(case when c.C_sex = '女' then C_sex end ) as female
+        from  customer as c;
+    </select>
 </mapper>

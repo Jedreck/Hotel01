@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +147,25 @@ public class RoomInfoDao {
         return total;
     }
 
+    /**
+     * 获取当天房间的使用比例
+     * @return
+     * @throws IOException
+     */
+    public int SelectRoomOp(String date) throws IOException{
+        session = getSqlSession.getSession().openSession();
+        roominfoIFS = session.getMapper(RoominfoIFS.class);
+        int opRatio = 0;
+        try {
+            opRatio =  roominfoIFS.SelectRoomOp(date);
+        } catch (Exception e){
+            System.out.println("异常：获取客户男女总数-->SelectClientSexD-->CustomerDao");
+            e.printStackTrace();
+        }
+        session.close();
+        return opRatio;
+    }
+
 
     public static void main(String[] args) {
         try {
@@ -161,11 +181,15 @@ public class RoomInfoDao {
               //System.out.println("jjjjj" + rid.GetTotalDatas("单人间"));
             //System.out.println(rid.SelectRoomByNum("101"));
 
-            File file=new File("./web/img/myImage/25");
-            if(!file.exists()){//如果文件夹不存在
-                System.out.println(file.getAbsolutePath());
-                file.mkdir();
-            }
+//            File file=new File("./web/img/myImage/25");
+//            if(!file.exists()){//如果文件夹不存在
+//                System.out.println(file.getAbsolutePath());
+//                file.mkdir();
+//            }
+
+            Date time = new Date(System.currentTimeMillis());
+            System.out.println(rid.SelectRoomOp(time.toString()));
+            System.out.println(rid.GetTotalDatas(""));
 
         } catch (Exception e) {
             e.printStackTrace();

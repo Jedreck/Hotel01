@@ -20,9 +20,11 @@
     </select>
 
     <delete id="deleteRoomType" parameterType="int">
+        SET foreign_key_checks = 0;
         delete
         from roomtype
-        where R_roomtype = #{R_roomtype}
+        where R_roomtype = #{R_roomtype};
+        SET foreign_key_checks = 1;
     </delete>
 
     <select id="SelectRoomTypeByTB" parameterType="int" resultType="Bean.RoomType">
