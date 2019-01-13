@@ -26,8 +26,7 @@
     <script type="text/javascript" src="../../lib/layui/layui.all.js"></script>
     <link href="../../lib/layui/css/layui.css" rel="stylesheet" type="text/css"/>
     <script src="../../lib/jquery/jquery.js"></script>
-    <script src="../../lib/easyCookie.js"></script>
-    <script src="../../lib/my_common.js"></script>
+
     <!-- =======================================================
       Template Name: Dashio
       Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -47,7 +46,7 @@
             <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
         </div>
         <!--logo start-->
-        <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
+        <a href="index.html" class="logo"><b>酒店<span>预订</span></b></a>
         <!--logo end-->
         <div class="nav notify-row" id="top_menu">
             <!--  notification start -->
@@ -229,6 +228,9 @@
 
 <script src="../../lib/layui/layui.js"></script>
 
+<script src="../../lib/easyCookie.js"></script>
+<script src="../../lib/my_common.js"></script>
+
 <!--接受预订-->
 <script type="application/javascript">
     $(function () {
@@ -314,7 +316,7 @@
                 html += obj[i].C_phone;
                 html += "</td>\n" +
                     "             <td name=\"order_status\"><span class=\"label label-info label-mini\">";
-                html += obj[i].O_status;
+                html += State(obj[i].O_status);
                 html += "</span></td>\n" +
                     "            <td>\n" +
                     "             <button class=\"btn btn-success btn-xs\" name=\"order\"><i class=\"fa fa-check\"></i></button>\n" +
@@ -361,6 +363,8 @@
                 });
             });
 
+
+
             //拒绝预订
             $("button[name = 'deny']").click(function () {
                 //获取订单号
@@ -386,6 +390,24 @@
             })
 
 
+        }
+
+        //获取订单状态
+        function State(num) {
+            switch (num){
+                case 0:
+                    return "未接受";
+                case 1:
+                    return "已接受";
+                case 2:
+                    return "已拒绝";
+                case 3:
+                    return "已入住";
+                case 4:
+                    return "已完成";
+                case 5:
+                    return "已取消";
+            }
         }
 
         // 根据订单编号取消相应的预订订单

@@ -113,4 +113,7 @@ public interface OrderformIFS {
 
 //    <!--查询现场入住的客户是否已经注册-->
     public int CheckCustomerRegister(String C_ID)throws IOException;
+
+    //客户使用电话查询未接受订单
+    public int selectCustomerUnacceptOrderByPhone(String phone)throws IOException;
 }

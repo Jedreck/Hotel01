@@ -626,5 +626,14 @@ public class OrderFormDao {
         session.commit();
         session.close();
         return success;
-    };
+    }
+
+    public static int selectCustomerUnacceptOrderByPhone(String phone) throws IOException {
+        SqlSession session = getSqlSession.getSession().openSession();
+        OrderformIFS orderformIFS = session.getMapper(OrderformIFS.class);
+        int num = orderformIFS.selectCustomerUnacceptOrderByPhone(phone);
+        session.commit();
+        session.close();
+        return num;
+    }
 }
