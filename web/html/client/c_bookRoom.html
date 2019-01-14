@@ -204,7 +204,7 @@
                 <div id="resultPanel" class="row mt">
                     <!--panel-->
                     <div class="col-md-4 col-sm-4 mb">
-                        <div class="grey-panel pn donut-chart roomresult_panel" style="height: 300px;">
+                        <div class="grey-panel pn donut-chart roomresult_panel" style="height: 300px;min-width: 350px;">
                             <div class="grey-header">
                                 <h3>样板间</h3>
                             </div>
@@ -273,12 +273,10 @@
     if (jsons != null) {
         json2Div(jsons);
     } else if (bookInfo != null) {
+        $('#inDate').text(cookie.get("orderDate"));
         console.log("submit info");
         submitInfo(bookInfo);
     }
-
-    //json2Div("123");
-
 
     function submitInfo(jsonStr) {
         $(document).ajaxStart(function () {
@@ -319,7 +317,7 @@
             for (var i = 0; i < json.length; i++) {
                 getPicUrl(json[i].R_roomtype);
                 itemStr += "<div class=\"col-md-4 col-sm-4 mb\">\n" +
-                    "<div class=\"grey-panel pn donut-chart roomresult_panel\"  style=\"height: 300px;\">\n" +
+                    "<div class=\"grey-panel pn donut-chart roomresult_panel\"  style=\"height: 300px;min-width: 350px;\">\n" +
                     "<div class=\"grey-header\">\n" +
                     "<h3>" + json[i].typename + "</h3>\n" +
                     "</div>\n" +
@@ -479,7 +477,9 @@
             , calendar: true
             , min: 0
             , max: 60
+            , value:cookie.get("orderDate").toString()
         });
+
     });
 </script>
 
