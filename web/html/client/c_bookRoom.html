@@ -477,7 +477,7 @@
             , calendar: true
             , min: 0
             , max: 60
-            , value:cookie.get("orderDate").toString()
+            , value:cookie.get("orderDate").substring(0,10)+" - "+cookie.get("orderDate").substring(11,23)
         });
 
     });
