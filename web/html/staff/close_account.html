@@ -401,8 +401,8 @@
                 }
             },
             error: function () {
-                showResult("2出错，稍后重试！");
-                window.history.back(-1);
+                showResult("查询订单出错，稍后重试！");
+                //window.history.back(-1);
                 return;
             }
         });
@@ -427,7 +427,7 @@
         $("#window").text(obj.windows == 0?"没有":"有");
         $("#somke").text(obj.smoke == 0?"不可以":"可以");
         $("#facility").text(obj.facility);
-        $("#price").text(obj.price);
+        $("#price").text(obj.O_price);
         layer.close(index);
     }
     // 显示插入的结果

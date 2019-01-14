@@ -342,8 +342,8 @@
                 //获取订单号
                 var order_number = $($(this).parent().parent()).find("td[name='order_number']").html();
                 console.log(order_number);
-                sessionStorage.setItem("order_number",order_number.trim());//页面之间传递数据
-                window.open('../client/detail_booking_orders.html','_self');
+                sessionStorage.setItem("order_number1",order_number.trim());//页面之间传递数据
+                window.open('./detail_booking_orders.html','_self');
             });
             //接受预订
             $("button[name='order']").click(function () {

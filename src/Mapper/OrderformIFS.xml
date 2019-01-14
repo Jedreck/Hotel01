@@ -282,7 +282,8 @@
                r.windows,
                r.smoke,
                r.facility,
-               r.price
+               r.price,
+               o.O_price
         from orderform o,
              customer c,
              roomtype r
