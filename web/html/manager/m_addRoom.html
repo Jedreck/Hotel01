@@ -226,9 +226,7 @@
                 data.field.R_floor = parseInt(data.field.R_floor);
                 data.field.duetime = "1970-08-31";
                 var json = JSON.stringify(data.field);
-                $(document).ajaxStart(function () {
-                    layer.load();
-                });
+                layer.load();
                 $.ajax({
                     url: "/AddRoomServlet",
                     type:'post',
@@ -248,9 +246,7 @@
         initialData();
         // 初始化下拉框的值
         function initialData() {
-            $(document).ajaxStart(function () {
-                showProcess2($("div[class='col-lg-12']"));
-            });
+            showProcess2($("div[class='col-lg-12']"));
             $.ajax({
                 url: "/SelectTNServlet",
                 type:'post',

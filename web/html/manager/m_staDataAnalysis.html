@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
-    <title>添加客房类型</title>
+    <title>员工数据统计</title>
 
     <!-- Favicons -->
     <link href="../../img/favicon.png" rel="icon">
@@ -139,24 +139,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-6">
-                        <div class="content-panel">
-                            <h4><i class="fa fa-angle-right"></i> 今日入住率</h4>
-                            <div class="panel-body text-center">
-                                <canvas id="pie" height="300" width="400"></canvas>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <div class="content-panel">
-                            <h4><i class="fa fa-angle-right"></i> 最近7天入住率</h4>
-                            <div class="panel-body">
-                                <div id="cageD" class="graph"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -224,34 +206,9 @@
 
         // 从后台获取数据
         function getData() {
-            pieData = [
-                {
-                    value: 100,
-                    color: "#5af74d",
-                    highlight: "#FF5A5E",
-                    label: "Red"
-                },
-                {
-                    value: 50,
-                    color: "#46BFBD",
-                    highlight: "#5AD3D1",
-                    label: "blue"
-                }
-            ];
-            new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
             cgenderD = {
                 female: 50,
                 male: 50
-            };
-            // 18-27 28-37 38-47 48-57 58-67 68-77
-            cageD = {
-                group1: 100,
-                group2: 100,
-                group3: 100,
-                group4: 100,
-                group5: 100,
-                group6: 100,
-                group7: 100
             };
             //layer.load();
             $.ajax({
@@ -287,26 +244,6 @@
             });
             // layui.layer.closeAll('loading');
         }
-
-        Morris.Bar({
-            element: 'cageD',
-            data: [
-                {age: '18-27岁', range: cageD.group1},
-                {age: '28-37岁', range: cageD.group2},
-                {age: '38-47岁', range: cageD.group3},
-                {age: '48-57岁', range: cageD.group4},
-                {age: '58-67岁', range: cageD.group5},
-                {age: '68-77岁', range: cageD.group6},
-                {age: '68-77岁', range: cageD.group7}
-            ],
-            xkey: 'age',
-            ykeys: ['range'],
-            labels: ['人数'],
-            barRatio: 0.4,
-            xLabelAngle: 35,
-            hideHover: 'auto',
-            barColors: ['#ac92ec']
-        });
 
     });
 </script>

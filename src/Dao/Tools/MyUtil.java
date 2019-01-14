@@ -27,16 +27,16 @@ public class MyUtil {
         int total = 0;
         switch (E_position) {
             case "酒店前台":
-                E_num += "101";
+                E_num += "1001";
                 break;
             case "经理":
-                E_num += "102";
+                E_num += "1002";
                 break;
             case "管理员":
-                E_num += "103";
+                E_num += "1003";
                 break;
             case "超级管理员": default:
-                E_num += "104";
+                E_num += "1004";
                 break;
         }
         try {
