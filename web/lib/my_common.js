@@ -121,3 +121,25 @@ function getUnreadNumFunc() {
     });
     layer.closeAll('loading');
 }
+
+//员工的小红点
+function getUnreadNumStaff(){
+    getUnreadNumFuncStaff();
+    setInterval(getUnreadNumFuncStaff, 5000);//10秒刷新
+}
+function getUnreadNumFuncStaff() {
+    var num = 0;
+    $.ajax({
+        url: "/StaffGetTotalUnAcceptOrderNumServlet",
+        //data: {jsondata: cookies_phone},
+        type: "post",
+        success: function (total) {
+            console.log("小红点--" + total);
+            $('#red_num').html("<span class=\"badge bg-theme\">" + total + "</span>")
+        },
+        error: function () {
+            alert("无法获取小红点。。。");
+        }
+    });
+    layer.closeAll('loading');
+}
